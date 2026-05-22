@@ -1,4 +1,6 @@
 @import "tailwindcss";
+@variant dark (&:where(.dark, .dark *));
+
 
 :root {
   --background: #ffffff;
@@ -19,8 +21,64 @@
   }
 }
 
+   /* lekin agar globals mein chahiye toh:  */
+   
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  @apply  bg-[#e8eaf6] dark:bg-[#03010a] transition-colors duration-500;
+}
+ 
+/* Three.js canvas ko clicks block nahi karne dena */
+canvas {
+  @apply pointer-events-none;
+}
+
+
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+        @keyframes s3d-orb1 {
+          0%   { transform: rotate(0deg) scaleY(0.30); }
+          50%  { transform: rotate(160deg)  scaleY(0.38); }
+          100% { transform: rotate(360deg) scaleY(0.28); }
+        }
+        @keyframes s3d-orb2 {
+          0%   { transform: rotate(85deg)  scaleY(0.32); }
+          50%  { transform: rotate(335deg)  scaleY(0.42); }
+          100% { transform: rotate(105deg)  scaleY(0.30); }
+        }
+        @keyframes s3d-orb3 {
+          0%   { transform: rotate(10deg) scaleY(0.35); }
+          50%  { transform: rotate(315deg) scaleY(0.45); }
+          100% { transform: rotate(95deg)  scaleY(0.33); }
+        }
+        @keyframes s3d-gpulse {
+          0%,100% { opacity: 0.8; transform: scale(1); }
+          50%     { opacity: 1; transform: scale(1.4); }
+        }
+        @keyframes float {
+          0%,100% { transform: translateY(0px); }
+          50%     { transform: translateY(-4px); }
+        }
+        .s3d-o1 { animation: s3d-orb1 18s ease-in-out infinite alternate; }
+        .s3d-o2 { animation: s3d-orb2 12.5s ease-in-out infinite alternate; }
+        .s3d-o3 { animation: s3d-orb3 16s ease-in-out infinite alternate; }
+        .s3d-glow { animation: s3d-gpulse 4s ease-in-out infinite; }
+        .float-animation { animation: float 3s ease-in-out infinite; }
+
+
+        @keyframes shimmer {
+  0% {
+    transform: translateX(-140%);
+  }
+  100% {
+    transform: translateX(170%);
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 3.5s infinite;
 }
