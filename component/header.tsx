@@ -21,12 +21,9 @@ const navLinks = [
 ];
 
 export default function Header() {
-  const { theme, setTheme } = useTheme();
-  const isDark = theme === "dark";
-
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [visible, setVisible] = useState(true);
+  const { resolvedTheme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
+  const [visible, setVisible] = useState(true);
 
   const lastScrollY = useRef(0);
   const pathname = usePathname();
@@ -37,7 +34,7 @@ export default function Header() {
     const onScroll = () => {
       const y = window.scrollY;
       if (y < 50) setVisible(true);
-      else if (y > lastScrollY.current + 8) { setVisible(false); setMenuOpen(false); }
+      else if (y > lastScrollY.current + 8) { setVisible(false); }
       else if (y < lastScrollY.current - 8) setVisible(true);
       lastScrollY.current = y;
     };
@@ -45,10 +42,12 @@ export default function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  if (!mounted) return <div className="h-20" />;
+
+  const isDark = resolvedTheme === "dark";
+
   const isActive = (href: string) =>
     href === "/" ? pathname === "/" : pathname.startsWith(href);
-
-  if (!mounted) return <div className="h-20" />;
 
   const dockItems = navLinks.map((link) => ({
     title: link.label,
@@ -59,8 +58,7 @@ export default function Header() {
 
   return (
     <>
-     
-
+      {/* Top Main Header Block */}
       <header
         style={{
           transform: visible ? "translateY(0)" : "translateY(-110%)",
@@ -70,138 +68,88 @@ export default function Header() {
       >
         <div className="max-w-7xl mx-auto p-5 sm:px-8 h-20 flex items-center justify-between">
           {/* Logo */}
-<Link 
-  href="/" 
-  aria-label="S3D Web Solutions" 
-  className={`
-    transition-all duration-300
-    ${visible ? "backdrop-blur-sm p-2 pb-5" : ""}
-  `}
-  style={{
-    // Is polygon clip-path se bottom center me solid arrow triangle point banega
-    clipPath: "polygon(0% 0%, 100% 0%, 100% 80%, 50% 100%, 0% 80%)"
-  }}
->            <Logo isDark={isDark} size="sm" />
+          <Link 
+            href="/" 
+            aria-label="S3D Web Solutions" 
+            className={`transition-all duration-300 ${visible ? "backdrop-blur-sm p-2 pb-5" : ""}`}
+            style={{
+              clipPath: "polygon(0% 0%, 100% 0%, 100% 80%, 50% 100%, 0% 80%)"
+            }}
+          >            
+            <Logo isDark={isDark} size="sm" />
           </Link>
 
-          {/* Desktop nav */}
-          <nav>
+          {/* Desktop Nav: Mobile screen par hidden (`hidden md:block`) */}
+          <nav className="hidden md:block">
             <FloatingNavDock items={dockItems} isDark={isDark} />
           </nav>
 
-          {/* Right controls */}
+          {/* Right Controls */}
           <div className="flex items-center gap-3">
-            {/* Theme toggle */}
+            {/* Theme Toggle */}
             <button
               onClick={() => setTheme(isDark ? "light" : "dark")}
               aria-label="Toggle theme"
-              className={`
-                w-11 h-11 rounded-xl flex items-center justify-center border
+              className="w-11 h-11 rounded-xl flex items-center justify-center border
                 transition-all duration-300 hover:scale-110 backdrop-blur-sm
-                ${isDark
-                  ? "border-amber-400/40 bg-white/5 hover:bg-white/10"
-                  : "border-indigo-500/40 bg-black/5 hover:bg-black/8"}
-              `}
+                border-indigo-500/40 bg-black/5 hover:bg-black/8
+                dark:border-amber-400/40 dark:bg-white/5 dark:hover:bg-white/10"
             >
               {isDark
                 ? <FaSun size={14} className="text-amber-400" />
                 : <FaMoon size={14} className="text-indigo-500" />}
             </button>
 
-                               <Headbutton isDarks={isDark} />
-
-
-            {/* Hamburger */}
-            <button
-              onClick={() => setMenuOpen(!menuOpen)}
-              aria-label="Toggle menu"
-              className="md:hidden w-9 h-9 flex flex-col items-center justify-center gap-[5px]"
-            >
-              <span className={`block h-px w-5 rounded-full transition-all duration-300 ${isDark ? "bg-white" : "bg-black"} ${menuOpen ? "translate-y-[6px] rotate-45" : ""}`} />
-              <span className={`block h-px rounded-full transition-all duration-300 ${isDark ? "bg-white" : "bg-black"} ${menuOpen ? "opacity-0 w-0" : "w-4"}`} />
-              <span className={`block h-px w-5 rounded-full transition-all duration-300 ${isDark ? "bg-white" : "bg-black"} ${menuOpen ? "-translate-y-[6px] -rotate-45" : ""}`} />
-            </button>
+            {/* Custom CTA Action Button */}
+            <Headbutton />
           </div>
         </div>
-
-        {/* Mobile menu */}
-        {/* <div className={`
-          md:hidden overflow-hidden transition-all duration-300 ease-in-out
-          border-t border-white/[0.07] backdrop-blur-xl
-          ${menuOpen ? "max-h-130" : "max-h-0 border-transparent"}
-        `}>
-          <nav className="px-5 py-5 flex flex-col gap-1">
-            {navLinks.map((link, idx) => {
-              const Icon = link.icon;
-              const active = isActive(link.href);
-              return (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setMenuOpen(false)}
-                  className="mobile-link flex items-center gap-4 py-3 px-4 rounded-xl transition-all duration-200"
-                  style={{
-                    background: active ? "rgba(74,222,128,0.08)" : "transparent",
-                    border: `1px solid ${active ? "rgba(74,222,128,0.3)" : "transparent"}`,
-                    color: active ? "#4ade80" : isDark ? "rgba(255,255,255,0.7)" : "rgba(0,0,0,0.65)",
-                  }}
-                >
-                  <div
-                    className="w-9 h-9 rounded-full flex items-center justify-center border"
-                    style={{
-                      borderColor: active ? "#4ade80" : isDark ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.1)",
-                    }}
-                  >
-                    <Icon size={16} style={{ color: active ? "#4ade80" : isDark ? "rgba(255,255,255,0.6)" : "rgba(0,0,0,0.5)" }} />
-                  </div>
-                  <span className="text-sm font-medium">{link.label}</span>
-                  {active && <span className="ml-auto w-1.5 h-1.5 rounded-full bg-green-400" />}
-                </Link>
-              );
-            })}
-
-                       <Headbutton isDarks={isDark} />
-
-          </nav>
-        </div>  */}
       </header>
+
+      {/* Mobile Sticky Dock: Sirf mobile screens par bottom center mein dikhega */}
+      <div 
+        className="fixed bottom-6 left-0 w-full md:hidden z-50"
+      
+      >
+        <nav className="mx-auto w-max shadow-xl">
+          <FloatingNavDock items={dockItems} isDark={isDark} />
+        </nav>
+      </div>
     </>
   );
 }
 
-
-
-function Headbutton({isDarks}: { isDarks: boolean }){
-  return(
-  <Link
-  href="/contact"
-  className={`
-    hidden md:inline-flex items-center gap-2.5 px-7 py-3 rounded-xl
-    text-sm font-semibold bg-linear-to-r tracking-wide transition-all duration-300 group
-    relative overflow-hidden
-    ${isDarks
-      ? " from-violet-600 via-blue-600 to-purple-600 shadow-violet-500/30 text-white"
-      : " from-zinc-800 to-zinc-900 hover:from-orange-500 hover:to-red-500 shadow-zinc-200/30 text-zinc-100"
-    }
-     shadow-sm hover:shadow-lg hover:scale-105 active:scale-95
-  `}
->
-  {/* Shimmer animation */}
-  <span className="absolute inset-0 -translate-x-full animate-shimmer bg-linear-to-r from-transparent via-white/30 to-transparent" />
-  
-  {/* Hover glow */}
-  <span className={`
-    absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500
-    ${isDarks ? "bg-white/10" : "bg-white/20"}
-    blur-sm
-  `} />
-  
-  <span className="relative z-10">✨ Start a project</span>
-  
-  <FaArrowRight
-    size={12}
-    className="relative z-10 transition-all duration-300 group-hover:translate-x-1 group-hover:-translate-y-0.5"
-  />
-</Link>
-)
+/* ==========================================================================
+   Headbutton UI (Pure Tailwind Structure, No Hydration Flips)
+   ========================================================================== */
+function Headbutton() {
+  return (
+    <Link
+      href="/contact"
+      className="
+        hidden md:inline-flex items-center gap-2.5 px-7 py-3 rounded-xl
+        text-sm font-semibold tracking-wide transition-all duration-300 group
+        relative overflow-hidden shadow-sm hover:shadow-lg hover:scale-105 active:scale-95
+        
+        /* Light Mode Styling Classes */
+        from-zinc-800 to-zinc-900 hover:from-orange-500 hover:to-red-500 shadow-zinc-200/30 text-zinc-100 bg-gradient-to-r
+        
+        /* Dark Mode Styling Classes */
+        dark:from-violet-600 dark:via-blue-600 dark:to-purple-600 dark:shadow-violet-500/30 dark:text-white
+      "
+    >
+      {/* Shimmer animation */}
+      <span className="absolute inset-0 -translate-x-full animate-shimmer bg-linear-to-r from-transparent via-white/30 to-transparent" />
+      
+      {/* Hover glow */}
+      <span className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-white/25 blur-sm dark:bg-white/10" />
+      
+      <span className="relative z-10">✨ Start a project</span>
+      
+      <FaArrowRight
+        size={12}
+        className="relative z-10 transition-all duration-300 group-hover:translate-x-1 group-hover:-translate-y-0.5"
+      />
+    </Link>
+  );
 }
