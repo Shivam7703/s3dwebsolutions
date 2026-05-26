@@ -83,7 +83,7 @@ export default function AboutSection() {
             style={{ opacity: paraOpacity, y: paraY }}
             className="max-w-xl text-balance"
           >
-            <p className="text-lg leading-relaxed md:mt-5 text-zinc-700 dark:text-zinc-100">
+            <p className="text-lg leading-relaxed md:mt-5 text-zinc-950 dark:text-zinc-50">
               We are a collective of forward-thinking designers and engineers dedicated to crafting high-performance digital products. We don't just build websites; we create premium interactive ecosystems that elevate brands and deliver measurable business acceleration.
             </p>
           </motion.div>

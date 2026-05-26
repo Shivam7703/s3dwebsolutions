@@ -124,7 +124,7 @@ export default function ProcessSection() {
         <div ref={containerRef} className="relative mt-auto mb-12 md:mb-16 w-full">
           
           {/* Canvas Component Base */}
-          <motion.div style={{ x }} className="absolute top-1/2 -translate-y-1/2 left-0 pointer-events-none z-0 w-1300">
+          <motion.div style={{ x }} className="max-sm:hidden absolute top-1/2 -translate-y-1/2 left-0 pointer-events-none z-0 w-1300">
             <canvas ref={canvasRef} className="w-full h-100" />
           </motion.div>
 

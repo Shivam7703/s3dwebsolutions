@@ -25,20 +25,20 @@ function makeCircleTexture(size = 64): THREE.Texture {
 }
 
 // ── Palettes ───────────────────────────────────────────────────────────────
-// Light: black, zinc-500, gray-700, orange
+// Light: black, zinc-500, gray-700, orange, red , yellow 
 const DARK_COLORS = [
-  0x000000, // black
+  0x27272a, // zinc-800
   0x71717a, // zinc-500
-  0x3f3f46, // zinc-700
+  0x9a3412, // orange-800
   0x374151, // gray-700
   0x1f2937, // gray-800
   0xf97316, // orange-500
   0xea580c, // orange-600
   0xfb923c, // orange-400
   0xc2410c, // orange-700
-]
+];
 
-// Dark: violet, white, blue, rose, purple
+// Dark: violet, white, blue, rose, purple, pink
 const LIGHT_COLORS = [
   0x8b5cf6, // violet-500
   0xa78bfa, // violet-400
@@ -53,7 +53,7 @@ const LIGHT_COLORS = [
   0xd946ef, // fuchsia-500
 ]
 
-const COUNT = 100_000
+const COUNT = 60_000
 
 // ── SHAPE BUILDERS ─────────────────────────────────────────────────────────
 
@@ -93,10 +93,10 @@ function buildSphere(): Float32Array {
     const i3 = i * 3
     const theta = Math.random() * Math.PI * 2
     const phi = Math.acos(2 * Math.random() - 1)
-    // multiple concentric shells
     const shellRand = Math.random()
-    const r = shellRand < 0.6 ? 2.4 : shellRand < 0.85 ? 1.6 : 3.0
-    const noise = (Math.random() - 0.5) * 0.08
+    // 30% reduce: 2.4→1.68, 1.6→1.12, 3.0→2.1, noise 0.08→0.056
+    const r = shellRand < 0.6 ? 1.68 : shellRand < 0.85 ? 1.12 : 2.1
+    const noise = (Math.random() - 0.5) * 0.056
     pos[i3]     = (r + noise) * Math.sin(phi) * Math.cos(theta)
     pos[i3 + 1] = (r + noise) * Math.sin(phi) * Math.sin(theta)
     pos[i3 + 2] = (r + noise) * Math.cos(phi)

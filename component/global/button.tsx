@@ -6,7 +6,7 @@ import { FaArrowRight } from "react-icons/fa";
 function Buttonmain({
   href,
   text,
-  variant = "primary",
+  variant ,
 }: {
   href: string;
   text: string;
@@ -52,14 +52,14 @@ function Button({ text11 }: { text11: string }) {
         relative overflow-hidden shadow-sm hover:shadow-lg
         
         /* Light Mode Styles */
-        from-orange-500 to-red-600 bg-gradient-to-r text-zinc-100 hover:from-zinc-800 hover:to-zinc-900 shadow-zinc-200/30
+        from-orange-500 to-red-600 bg-linear-to-r text-zinc-100 hover:from-zinc-800 hover:to-zinc-900 shadow-zinc-200/30
         
         /* Dark Mode Styles */
         dark:from-violet-600 dark:via-blue-600 dark:to-purple-600 dark:text-white dark:shadow-violet-500/30
       "
     >
       {/* Shimmer animation */}
-      <span className="absolute inset-0 -translate-x-full animate-shimmer bg-gradient-to-r from-transparent via-white/30 to-transparent" />
+      <span className="absolute inset-0 -translate-x-full animate-shimmer bg-linear-to-r from-transparent via-white/30 to-transparent" />
 
       {/* Hover glow */}
       <span className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-white/25 blur-sm" />
@@ -88,11 +88,7 @@ function ButtonSecondary({
     inline-flex items-center gap-2.5 px-7 py-4 rounded-xl
     text-sm font-semibold tracking-wide transition-all duration-300 group
     relative overflow-hidden border-2 backdrop-blur-sm shadow-sm hover:shadow-lg 
-    
-    /* Light Mode Borders & Text */
-    border-zinc-800 text-zinc-800 hover:text-white
-    
-    /* Dark Mode Borders & Text (Ab yeh invisible nahi hoga!) */
+        border-zinc-800 text-zinc-800 hover:text-white
     dark:border-zinc-50 dark:text-zinc-50 dark:hover:text-zinc-900
   `;
 
@@ -104,16 +100,12 @@ function ButtonSecondary({
           absolute inset-0 translate-y-full group-hover:translate-y-0
           transition-transform duration-300 ease-in-out -z-10
           
-          /* Light Mode Hover Fill Color */
           bg-zinc-800
           
-          /* Dark Mode Hover Fill Color (Text white hone par bg black/dark karega) */
           dark:bg-white
         "
       />
 
-      {/* Shimmer */}
-      <span className="absolute inset-0 -translate-x-full animate-shimmer bg-gradient-to-r from-transparent via-white/20 to-transparent" />
 
       <span className="relative z-10">{text11}</span>
 

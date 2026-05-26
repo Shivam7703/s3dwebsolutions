@@ -10,14 +10,14 @@ export default function HeroBanner() {
       {/* Main Heading — Direct Tailwind classes for theme */}
       <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold text-center max-w-5xl leading-tight text-zinc-900 dark:text-white">
         We Build{" "}
-        <span className="bg-gradient-to-r from-orange-500 to-red-600 dark:from-violet-600 dark:via-indigo-500 dark:to-purple-600 bg-clip-text text-transparent">
+        <span className="bg-linear-to-r from-orange-500 to-red-600 dark:from-violet-600 dark:via-indigo-500 dark:to-purple-600 bg-clip-text text-transparent">
           Digital
         </span>{" "}
         Experiences
       </h1>
 
       {/* Paragraph — Direct Tailwind classes for theme */}
-      <p className="mt-6 text-center max-w-2xl text-base font-semibold md:text-lg text-zinc-600 dark:text-zinc-300">
+      <p className="mt-6 text-center max-w-2xl text-base font-semibold md:text-lg text-black dark:text-white">
         From concept to code — we craft blazing-fast websites, apps, and brand
         identities that convert visitors into loyal customers.
       </p>

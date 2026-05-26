@@ -111,7 +111,7 @@ export default function Header() {
         className="fixed bottom-6 left-0 w-full md:hidden z-50"
       
       >
-        <nav className="mx-auto w-max shadow-xl">
+        <nav className="mx-auto w-max shadow-xl rounded-full">
           <FloatingNavDock items={dockItems} isDark={isDark} />
         </nav>
       </div>
@@ -132,10 +132,10 @@ function Headbutton() {
         relative overflow-hidden shadow-sm hover:shadow-lg hover:scale-105 active:scale-95
         
         /* Light Mode Styling Classes */
-        from-zinc-800 to-zinc-900 hover:from-orange-500 hover:to-red-500 shadow-zinc-200/30 text-zinc-100 bg-gradient-to-r
+        from-zinc-800 to-zinc-900 hover:from-orange-500 hover:to-red-500 shadow-zinc-200/30 text-zinc-100 bg-linear-to-r
         
         /* Dark Mode Styling Classes */
-        dark:from-violet-600 dark:via-blue-600 dark:to-purple-600 dark:shadow-violet-500/30 dark:text-white
+        dark:from-violet-600 dark:via-blue-600 dark:hover:from-rose-500 dark:hover:to-indigo-500  dark:to-purple-600 dark:shadow-violet-500/30 dark:text-white
       "
     >
       {/* Shimmer animation */}
