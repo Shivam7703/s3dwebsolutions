@@ -7,7 +7,7 @@ import ServicesSection from "@/component/services/ServicesSection";
 // Page component receives isDark as parameter
 export default function Home() {
   return (
-    <main className="space-y-96 ">
+    <main className="">
       {/* Hero */}
 
      <HeroBanner />

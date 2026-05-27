@@ -11,7 +11,7 @@ export default function ProcessSection() {
   const [mounted, setMounted] = useState(false);
 
   const targetRef = useRef<HTMLDivElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null); // Track elements to get exact max width
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const { scrollYProgress } = useScroll({
@@ -21,7 +21,6 @@ export default function ProcessSection() {
   const x = useTransform(scrollYProgress, [0, 1], ["0%", "-81%"]);
   const opacity = useTransform(scrollYProgress, [0, 0.05, 0.92, 1], [0, 1, 1, 0]);
 
-  // Server vs Client ka mismatch handle karne ke liye
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -38,7 +37,7 @@ export default function ProcessSection() {
   ];
 
   useEffect(() => {
-    if (!mounted) return; // Canvas tabhi chalega jab client load ho chuka ho
+    if (!mounted) return;
 
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -46,11 +45,14 @@ export default function ProcessSection() {
     if (!ctx) return;
 
     const resizeCanvas = () => {
-      canvas.width = containerRef.current?.offsetWidth || 6000;
-      canvas.height = 400; 
+      // FIXED: Track the real scrollable max width of the sliding track instead of container bounds
+      canvas.width = trackRef.current?.scrollWidth || 6000;
+      canvas.height = 360; 
     };
     
     resizeCanvas();
+    // Safety timeout for loading transitions
+    const timeoutId = setTimeout(resizeCanvas, 100);
     window.addEventListener("resize", resizeCanvas);
 
     const render = () => {
@@ -59,17 +61,18 @@ export default function ProcessSection() {
       const currentProgress = scrollYProgress.get();
       const totalWidth = canvas.width;
       const startX = 0; 
+      // Calculate dynamic current position
       const endX = currentProgress * totalWidth;
 
       if (endX > startX) {
         ctx.beginPath();
         
         const centerY = canvas.height / 2;
-        const amplitude = 130;    
-        const wavelength = 260;  
+        const amplitude = 90;    
+        const wavelength = 340;  
 
-        for (let currentX = startX; currentX <= endX; currentX += 8) {
-          const currentY = centerY + Math.sin((currentX / wavelength) * Math.PI * 3) * amplitude;
+        for (let currentX = startX; currentX <= endX; currentX += 6) {
+          const currentY = centerY + Math.sin((currentX / wavelength) * Math.PI * 2) * amplitude;
 
           if (currentX === startX) {
             ctx.moveTo(currentX, currentY);
@@ -78,11 +81,12 @@ export default function ProcessSection() {
           }
         }
 
+        // Clean sharp look without heavy shadows slowing rendering nodes
         ctx.shadowBlur = 0; 
         ctx.shadowColor = "transparent";
         
-        // IsDark true fallback ke sath, refresh par hamesha sahi color dega
-        ctx.strokeStyle = isDark ? "white" : "#fb923c";
+        // Accurate theme mapping values
+        ctx.strokeStyle = isDark ? "#ffffff" : "#fb923c";
         ctx.lineWidth = 4; 
         ctx.lineCap = "round";
         ctx.lineJoin = "round";
@@ -95,6 +99,7 @@ export default function ProcessSection() {
     const animId = requestAnimationFrame(render);
 
     return () => {
+      clearTimeout(timeoutId);
       window.removeEventListener("resize", resizeCanvas);
       cancelAnimationFrame(animId);
     };
@@ -121,15 +126,19 @@ export default function ProcessSection() {
         </motion.div>
 
         {/* Moving Slider Zone Container */}
-        <div ref={containerRef} className="relative mt-auto mb-12 md:mb-16 w-full">
+        <div className="relative mt-auto mb-12 md:mb-16 w-full overflow-visible">
           
-          {/* Canvas Component Base */}
-          <motion.div style={{ x }} className="max-sm:hidden absolute top-1/2 -translate-y-1/2 left-0 pointer-events-none z-0 w-1300">
-            <canvas ref={canvasRef} className="w-full h-100" />
+          {/* FIXED: Canvas element style track mapping matched with 100% width of sliding zone */}
+          <motion.div 
+            style={{ x }} 
+            className="max-sm:hidden absolute top-1/2 -translate-y-1/2 left-0 pointer-events-none z-0"
+          >
+            <canvas ref={canvasRef} className="h-[360px] block" />
           </motion.div>
 
           {/* Cards Track Array Grid */}
           <motion.div 
+            ref={trackRef}
             style={{ x }} 
             className="flex items-center gap-32 md:gap-48 pl-6 md:pl-20 pr-[45vw] w-max relative z-10 py-10"
           >
@@ -150,9 +159,10 @@ export default function ProcessSection() {
                     <span className="text-5xl font-black tracking-tighter text-zinc-500 dark:text-white/40">
                       {step.num}
                     </span>
+                    {/* FIXED: Dynamic theme compliant background contrast for icons wrapper */}
                     <div className="w-12 h-12 rounded-2xl flex items-center justify-center border transition-transform duration-500 group-hover:scale-110
-                      bg-zinc-50 border-zinc-700 text-orange-500
-                      dark:bg-zinc-200 dark:border-zinc-700/80 dark:text-violet-600"
+                      bg-zinc-100/80 border-zinc-200 text-orange-500
+                      dark:bg-zinc-900/80 dark:border-zinc-800 dark:text-violet-400"
                     >
                       {step.icon}
                     </div>

@@ -53,7 +53,7 @@ const LIGHT_COLORS = [
   0xd946ef, // fuchsia-500
 ]
 
-const COUNT = 60_000
+const COUNT = 65_000
 
 // ── SHAPE BUILDERS ─────────────────────────────────────────────────────────
 
