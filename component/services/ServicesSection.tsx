@@ -6,31 +6,56 @@ import { Text, Billboard } from "@react-three/drei";
 import { useTheme } from "next-themes";
 import * as THREE from "three";
 
-/* ─────────────── SERVICES DATA ─────────────── */
+/* ─────────────── EXTENDED SERVICES DATA ─────────────── */
 const servicesData = [
   {
-    tag: "UI / UX",
-    title: "User Experience & Digital Interfaces.",
-    desc: "We design high-fidelity, pixel-perfect interfaces driven by user psychology. Turning complex application workflows into natural, beautiful interactive products.",
+    tag: "UI / UX DESIGN",
+    title: "Premium Interfaces & Design Systems.",
+    desc: "Custom Website Design, Redesign, Responsive Mobile layouts, and conversion-focused Landing Page Structures built to capture intent.",
   },
   {
-    tag: "OPTIMIZE WEBSITE",
-    title: "Blazing Fast Performance. Built to Scale.",
-    desc: "Obsessive speed and performance tuning using cutting-edge edge rendering networks. We make your digital presence convert visitors into buyers.",
+    tag: "WEB DEVELOPMENT",
+    title: "Corporate & Business Scale Platforms.",
+    desc: "End-to-end Enterprise Solutions, Custom Portfolios, Blogs, and production-grade Business Web Hubs engineered with pure clean architecture.",
   },
   {
-    tag: "GRAPHIC DESIGN",
-    title: "Visual Identity & Scroll-Stopping Assets.",
-    desc: "Striking graphics designed with high craft and intention. From premium pitch decks to digital campaigns that define your brand voice.",
+    tag: "E-COMMERCE",
+    title: "High-Converting Digital Stores.",
+    desc: "Scalable E-Commerce Storefronts, fluid payment gateways, multi-vendor asset management dashboards, and robust checkout optimization nodes.",
   },
   {
-    tag: "SEO",
-    title: "Dominate Search Engine Visibility.",
-    desc: "Technical SEO strategies coupled with content intelligence that consistently secure top organic rankings and sustainable pipeline growth.",
+    tag: "MODERN TECH STACK",
+    title: "React.js & Next.js Core Engineering.",
+    desc: "Cutting-edge Frontend Systems, Node/Next Backend frameworks, complex API Integrations, and low-latency SSR application networks.",
   },
+  {
+    tag: "SPEED & OPTIMIZATION",
+    title: "Performance Audits & Core Web Vitals.",
+    desc: "Obsessive Speed Tuning, Database Queries minimization, SEO-Friendly rendering pipelines, and premium cloud edge caching setups.",
+  },
+  {
+    tag: "MAINTENANCE & INFRA",
+    title: "Secure Cloud DevOps & Support.",
+    desc: "Bulletproof Website Security, automated regular Backups, Domain orchestration, Hosting Provisioning, and zero-downtime Server Migration loops.",
+  },
+  {
+    tag: "BRAND IDENTITY",
+    title: "Logo Architecture & Guidelines.",
+    desc: "High-fidelity Logo Designs, complete Corporate Brand books, typography rules, color science systems, and professional corporate guidelines.",
+  },
+  {
+    tag: "DIGITAL MARKETING",
+    title: "Scroll-Stopping Visual Creatives.",
+    desc: "Social Media Post designs, high-impact Display Banners, YouTube Thumbnails, ad campaign creatives, and tailored Canva Workspace assets.",
+  },
+  {
+    tag: "PRINT & MOTION",
+    title: "Corporate Collaterals & Animations.",
+    desc: "Premium Brochures, Flyers, Business Cards, Packaging skins, Custom Illustrations, multi-tier Presentations, and high-end Motion Graphics animations.",
+  }
 ];
 
-/* ─────────────── COLOR ARRAYS ─────────────── */
+/* ─────────────── COLOR PALETTES ─────────────── */
 const LIGHT_COLORS = [
   0x27272a, 0x71717a, 0x9a3412, 0x374151, 0x1f2937, 0xf97316, 0xea580c, 0xfb923c, 0xc2410c,
 ];
@@ -72,17 +97,14 @@ function RotatingScene({
 
   useFrame((state, delta) => {
     if (shapeRef.current) {
-      shapeRef.current.rotation.y += delta * 0.15;
-      shapeRef.current.rotation.x += delta * 0.08;
+      shapeRef.current.rotation.y += delta * 0.12;
+      shapeRef.current.rotation.x += delta * 0.06;
     }
 
     if (ringGroupRef.current) {
       const progress = scrollProgressRef.current;
-      
-      // Dynamic Z-rotation mapping with scroll tracking
       ringGroupRef.current.rotation.z = -progress * Math.PI * 2;
 
-      // Parabola to perfect circle transition alignment
       ringGroupRef.current.rotation.x = THREE.MathUtils.lerp(ringGroupRef.current.rotation.x, (1 - progress) * (Math.PI / 3.5), 0.1);
       ringGroupRef.current.rotation.y = THREE.MathUtils.lerp(ringGroupRef.current.rotation.y, (1 - progress) * (-Math.PI / 5), 0.1);
     }
@@ -109,11 +131,11 @@ function RotatingScene({
 
         <group ref={ringGroupRef}>
           <mesh>
-            <ringGeometry args={[2.0, 2.015, 64]} />
+            <ringGeometry args={[2.0, 2.015, 128]} />
             <meshBasicMaterial 
               color={isDarkMode ? "#52525b" : "#a78bfa"} 
               transparent 
-              opacity={0.4} 
+              opacity={0.35} 
               side={THREE.DoubleSide} 
             />
           </mesh>
@@ -121,7 +143,9 @@ function RotatingScene({
           {servicesData.map((svc, i) => {
             const angle = (i / servicesData.length) * Math.PI * 2;
             const ringRadius = 2.0; 
-            const textRadius = 2.75; 
+            
+            // CHANGED: Shrunk from 2.9 to 2.45 to bring labels ultra-close to the ring
+            const textRadius = 2.45; 
 
             const dotX = Math.cos(angle) * ringRadius;
             const dotY = Math.sin(angle) * ringRadius;
@@ -132,20 +156,20 @@ function RotatingScene({
             return (
               <group key={i}>
                 <mesh position={[dotX, dotY, 0]}>
-                  <circleGeometry args={[0.045, 16]} />
+                  <circleGeometry args={[0.04, 16]} />
                   <meshBasicMaterial color={isDarkMode ? "#f97316" : "#8b5cf6"} /> 
                 </mesh>
 
                 <group position={[textX, textY, 0]}>
                   <Billboard>
                     <Text
-                      fontSize={0.15}
-                      color={isDarkMode ? "#ffffff" : "#000000"} 
-                      fontWeight="bold"
+                      fontSize={0.13}
+                      color={isDarkMode ? "#ffffff" : "#18181b"} 
+                      fontWeight={900} // CHANGED: Set to maximum numeric weight for extra boldness
                       font="https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hjQ.ttf"
                       anchorX="center"
                       anchorY="middle"
-                      letterSpacing={0.06}
+                      letterSpacing={0.07}
                     >
                       {svc.tag}
                     </Text>
@@ -160,7 +184,7 @@ function RotatingScene({
   );
 }
 
-/* ─────────────── MAIN EXPORT COMPONENT ─────────────── */
+/* ─────────────── MAIN INTERACTIVE LAYOUT ─────────────── */
 export default function Interactive3DSection() {
   const containerRef = useRef<HTMLDivElement>(null);
   const scrollProgressRef = useRef(0);
@@ -180,10 +204,8 @@ export default function Interactive3DSection() {
   });
 
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
-    // 1. Core animation values updated instantly on change trigger
     scrollProgressRef.current = latest;
     
-    // 2. Strict index calculation based on layout heights
     const totalItems = servicesData.length;
     const computedIndex = Math.min(
       Math.floor(latest * totalItems),
@@ -196,43 +218,58 @@ export default function Interactive3DSection() {
   });
 
   return (
-    <section ref={containerRef} className="relative w-full h-[400vh] bg-transparent">
-      <div className="sticky top-0 w-full h-screen flex flex-col lg:flex-row items-center max-w-7xl mx-auto px-6 md:px-12">
+    <section ref={containerRef} className="relative w-full h-[650vh] bg-transparent">
+      <div className="sticky top-0 w-full h-screen flex flex-col lg:flex-row items-center max-w-7xl mx-auto px-6 md:px-12 overflow-visible">
         
-        {/* ── LEFT TEXT CONTENT PANEL ── */}
-        <div className="w-full lg:w-1/2 flex flex-col justify-center z-10 pt-20 lg:pt-0">
-          <div className="relative h-[220px] sm:h-[260px]">
+        {/* ── LEFT TEXT ENGINE PANEL ── */}
+        <div className="w-full lg:w-1/2 flex flex-col justify-center z-10 pt-24 lg:pt-0">
+          
+          {/* FLOATING TOP BRANDING HEADER */}
+          <div className="mb-6 lg:mb-10">
+            
+            <h3 className="text-2xl md:text-3xl font-black tracking-tight text-zinc-700 dark:text-zinc-300 uppercase">
+              Our Services
+            </h3>
+          </div>
+
+          {/* DYNAMIC DESCRIPTION BOARD */}
+          <div className="relative h-60 sm:h-70">
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeIndex}
-                initial={{ opacity: 0, y: 25 }}
+                initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -25 }}
+                exit={{ opacity: 0, y: -30 }}
                 transition={{ duration: 0.35, ease: "easeOut" }}
                 className="absolute inset-0 flex flex-col justify-start"
               >
-                <h2 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight mb-5 text-zinc-950 dark:text-zinc-50 leading-tight">
+                {/* CHANGED: Replaced 'CATEGORY (1...)' text with active dynamic service name */}
+                <div className="text-xs font-extrabold text-orange-500 dark:text-violet-400 tracking-widest uppercase mb-2">
+                  {servicesData[activeIndex].tag} Hub
+                </div>
+                
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-black tracking-tight mb-5 text-zinc-950 dark:text-zinc-50 leading-tight">
                   {servicesData[activeIndex].title}
                 </h2>
-                <p className="text-base md:text-lg text-zinc-600 dark:text-zinc-400 max-w-md leading-relaxed">
+                <p className="text-base md:text-lg text-zinc-800 dark:text-zinc-100 max-w-md leading-relaxed font-medium">
                   {servicesData[activeIndex].desc}
                 </p>
               </motion.div>
             </AnimatePresence>
           </div>
 
-          <div className="mt-8 flex items-center gap-6">
-            <button className="px-6 py-3 rounded-full border border-zinc-950 dark:border-zinc-200 text-sm font-bold tracking-wide text-zinc-950 dark:text-zinc-50 hover:bg-zinc-950 hover:text-white dark:hover:bg-white dark:hover:text-black transition-all duration-300">
+          <div className="mt-5 flex items-center gap-6">
+            <button className="px-6 py-3 rounded-full border border-zinc-950 dark:border-zinc-200 text-sm font-bold tracking-wide text-zinc-950 dark:text-zinc-50 hover:bg-zinc-950 hover:text-white dark:hover:bg-white dark:hover:text-black transition-all duration-300 shadow-sm">
               Book a consultation
             </button>
             <button className="text-sm font-bold tracking-wide text-zinc-950 dark:text-zinc-50 hover:text-orange-500 dark:hover:text-orange-400 transition-colors group flex items-center gap-1.5">
-              Explore our services 
+              View Strategy Deck 
               <span className="group-hover:translate-x-1 transition-transform duration-200">›</span>
             </button>
           </div>
         </div>
 
-        {/* ── RIGHT CANVAS (HYDRATION CONFINED INSIDE CANVAS DOM GRID) ── */}
+        {/* ── RIGHT CANVAS AREA ── */}
         <div className="relative w-full lg:w-1/2 h-full z-0 flex items-center justify-center">
           {mounted ? (
             <Canvas
@@ -243,7 +280,6 @@ export default function Interactive3DSection() {
               <RotatingScene scrollProgressRef={scrollProgressRef} isDarkMode={isDarkMode} />
             </Canvas>
           ) : (
-            // Solid layout placeholder during server preload phase
             <div className="w-full h-full bg-transparent" />
           )}
         </div>

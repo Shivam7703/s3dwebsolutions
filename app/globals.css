@@ -24,7 +24,7 @@
    /* lekin agar globals mein chahiye toh:  */
    
 body {
-  @apply  bg-white dark:bg-[#03010a] transition-colors duration-500;
+  @apply  bg-zinc-100 dark:bg-[#050507] transition-colors duration-500;
 }
  
 /* Three.js canvas ko clicks block nahi karne dena */

@@ -1,6 +1,3 @@
-
-
-
 'use client'
 
 import { useEffect, useRef } from 'react'
@@ -25,20 +22,25 @@ function makeCircleTexture(size = 64): THREE.Texture {
 }
 
 // ── Palettes ───────────────────────────────────────────────────────────────
-// Light: black, zinc-500, gray-700, orange, red , yellow 
+// Light: black, zinc-500, gray-700, orange, red , yellow
+
 const DARK_COLORS = [
-  0x27272a, // zinc-800
-  0x71717a, // zinc-500
-  0x9a3412, // orange-800
-  0x374151, // gray-700
+  0x18181b, // zinc-900
+  0x404040, // zinc-700
+  0x71717a, // zinc-500   (True Tailwind zinc-500)
+  0xca8a04, // yellow-600 (True Tailwind yellow-600)
+  0x7c2d12, // orange-900
+  0xfb923c, // orange-400
   0x1f2937, // gray-800
   0xf97316, // orange-500
   0xea580c, // orange-600
-  0xfb923c, // orange-400
   0xc2410c, // orange-700
+  0x9a3412, // orange-800
 ];
 
+
 // Dark: violet, white, blue, rose, purple, pink
+
 const LIGHT_COLORS = [
   0x8b5cf6, // violet-500
   0xa78bfa, // violet-400
@@ -53,10 +55,9 @@ const LIGHT_COLORS = [
   0xd946ef, // fuchsia-500
 ]
 
-const COUNT = 65_000
+const COUNT = 80_000
 
 // ── SHAPE BUILDERS ─────────────────────────────────────────────────────────
-
 function buildGalaxy(): Float32Array {
   const pos = new Float32Array(COUNT * 3)
   for (let i = 0; i < COUNT; i++) {
@@ -94,7 +95,6 @@ function buildSphere(): Float32Array {
     const theta = Math.random() * Math.PI * 2
     const phi = Math.acos(2 * Math.random() - 1)
     const shellRand = Math.random()
-    // 30% reduce: 2.4→1.68, 1.6→1.12, 3.0→2.1, noise 0.08→0.056
     const r = shellRand < 0.6 ? 1.68 : shellRand < 0.85 ? 1.12 : 2.1
     const noise = (Math.random() - 0.5) * 0.056
     pos[i3]     = (r + noise) * Math.sin(phi) * Math.cos(theta)
@@ -124,7 +124,6 @@ function buildRing(): Float32Array {
   for (let i = 0; i < COUNT; i++) {
     const i3 = i * 3
     const angle = Math.random() * Math.PI * 2
-    // Saturn-like multi-rings
     const ringRand = Math.random()
     const r = ringRand < 0.33 ? 1.8 + Math.random() * 0.4
             : ringRand < 0.66 ? 2.5 + Math.random() * 0.35
@@ -146,7 +145,6 @@ function buildCube(): Float32Array {
     const u = (Math.random() - 0.5) * size
     const v = (Math.random() - 0.5) * size
     const h = size / 2
-    // edge density bonus
     const edgeFactor = Math.random() < 0.25 ? 1 : 0
     const eu = edgeFactor ? (Math.random() < 0.5 ? h : -h) : u
     if      (face === 0) { pos[i3]=h;  pos[i3+1]=eu; pos[i3+2]=v }
@@ -252,11 +250,8 @@ function buildInfinityKnot(): Float32Array {
   return pos
 }
 
-// ── Complex new shapes ──────────────────────────────────────────────────────
-
 function buildHypercube(): Float32Array {
   const pos = new Float32Array(COUNT * 3)
-  // 4D hypercube projected to 3D — 32 edges of a tesseract
   const verts4D: number[][] = []
   for (let b = 0; b < 16; b++) {
     verts4D.push([b&1?1:-1, b&2?1:-1, b&4?1:-1, b&8?1:-1])
@@ -270,7 +265,7 @@ function buildHypercube(): Float32Array {
     }
   const perEdge = Math.floor(COUNT / edges.length)
   let idx = 0
-  const w = 2.5 // 4th dimension viewing distance
+  const w = 2.5
   for (const [a, b] of edges) {
     for (let k = 0; k < perEdge; k++) {
       const t = k / perEdge
@@ -283,7 +278,6 @@ function buildHypercube(): Float32Array {
       idx++
     }
   }
-  // fill remainder
   while (idx < COUNT) {
     const i3 = idx * 3
     pos[i3] = (Math.random()-0.5)*3; pos[i3+1] = (Math.random()-0.5)*3; pos[i3+2] = (Math.random()-0.5)*3
@@ -294,7 +288,6 @@ function buildHypercube(): Float32Array {
 
 function buildStrangeAttractor(): Float32Array {
   const pos = new Float32Array(COUNT * 3)
-  // Lorenz attractor
   let x = 0.1, y = 0, z = 0
   const sigma = 10, rho = 28, beta = 8/3, dt = 0.005
   const scale = 0.08
@@ -314,14 +307,12 @@ function buildStrangeAttractor(): Float32Array {
 function buildIcosphere(): Float32Array {
   const pos = new Float32Array(COUNT * 3)
   const phi = (1 + Math.sqrt(5)) / 2
-  // icosahedron base verts
   const raw = [
     [-1,phi,0],[1,phi,0],[-1,-phi,0],[1,-phi,0],
     [0,-1,phi],[0,1,phi],[0,-1,-phi],[0,1,-phi],
     [phi,0,-1],[phi,0,1],[-phi,0,-1],[-phi,0,1]
   ]
   const norm = raw.map(v => { const l = Math.hypot(v[0],v[1],v[2]); return [v[0]/l,v[1]/l,v[2]/l] })
-  // Use multiple radii for complexity
   const radii = [2.5, 1.8, 3.1]
   for (let i = 0; i < COUNT; i++) {
     const i3 = i * 3
@@ -336,7 +327,6 @@ function buildIcosphere(): Float32Array {
   return pos
 }
 
-// ── S3D text shape ─────────────────────────────────────────────────────────
 function buildS3D(): Float32Array {
   const pos = new Float32Array(COUNT * 3)
   const W = 900, H = 280
@@ -373,27 +363,12 @@ function buildS3D(): Float32Array {
   return pos
 }
 
-// ── Shape list ─────────────────────────────────────────────────────────────
 const SHAPE_BUILDERS = [
-  buildGalaxy,
-  buildHelix,
-  buildSphere,
-  buildTorusKnot,
-  buildRing,
-  buildCube,
-  buildPyramid,
-  buildWave,
-  buildButterfly,
-  buildBlackHole,
-  buildMobius,
-  buildInfinityKnot,
-  buildHypercube,
-  buildStrangeAttractor,
-  buildIcosphere,
-  buildS3D,
+  buildGalaxy, buildHelix, buildSphere, buildTorusKnot, buildRing, buildCube,
+  buildPyramid, buildWave, buildButterfly, buildBlackHole, buildMobius,
+  buildInfinityKnot, buildHypercube, buildStrangeAttractor, buildIcosphere, buildS3D,
 ]
 
-// ── Rotation per shape ──────────────────────────────────────────────────────
 const ROTATIONS: ((e: number, p: THREE.Points) => void)[] = [
   (e,p)=>{ p.rotation.y=e*0.08; p.rotation.x=Math.sin(e*0.04)*0.15 },
   (e,p)=>{ p.rotation.y=e*0.15; p.rotation.z=e*0.05 },
@@ -413,10 +388,6 @@ const ROTATIONS: ((e: number, p: THREE.Points) => void)[] = [
   (e,p)=>{ p.rotation.y=e*0.06; p.rotation.x=Math.sin(e*0.03)*0.05 },
 ]
 
-// ── Scatter / Reform phases ────────────────────────────────────────────────
-// t: 0→1 over full scroll section
-// Phase 1 (0..0.4): particles scatter outward
-// Phase 2 (0.4..1): particles reform into next shape
 function computeTransition(
   from: Float32Array,
   to: Float32Array,
@@ -425,7 +396,6 @@ function computeTransition(
   out: Float32Array
 ) {
   if (t < 0.4) {
-    // scatter phase: lerp from→scatter
     const s = easeInOutCubic(t / 0.4)
     for (let i = 0; i < COUNT; i++) {
       const i3 = i * 3
@@ -434,7 +404,6 @@ function computeTransition(
       out[i3 + 2] = from[i3 + 2] + (scatter[i3 + 2] - from[i3 + 2]) * s
     }
   } else {
-    // reform phase: lerp scatter→to
     const s = easeInOutCubic((t - 0.4) / 0.6)
     for (let i = 0; i < COUNT; i++) {
       const i3 = i * 3
@@ -449,7 +418,6 @@ function buildScatter(): Float32Array {
   const pos = new Float32Array(COUNT * 3)
   for (let i = 0; i < COUNT; i++) {
     const i3 = i * 3
-    // random points on a large sphere shell — simulates full-screen fill
     const theta = Math.random() * Math.PI * 2
     const phi = Math.acos(2 * Math.random() - 1)
     const r = 4.5 + Math.random() * 3.5
@@ -472,10 +440,11 @@ export default function GalaxyBackground() {
     const palette = isDark ? LIGHT_COLORS :  DARK_COLORS
     const sprite  = makeCircleTexture(64)
 
-    // ── Scene ──────────────────────────────────────────────────────
     const scene  = new THREE.Scene()
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
-    camera.position.z = 3.5
+    
+    // CHANGED: Camera moved backward from 3.5 to 4.0 to stop particles from getting too big when close
+    camera.position.z = 4.0
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
     renderer.setSize(window.innerWidth, window.innerHeight)
@@ -483,12 +452,10 @@ export default function GalaxyBackground() {
     renderer.setClearColor(0x000000, 0)
     mountRef.current.appendChild(renderer.domElement)
 
-    // ── Build all shapes ───────────────────────────────────────────
     const shapes = SHAPE_BUILDERS.map(fn => fn())
     const scatter = buildScatter()
     const N = shapes.length
 
-    // ── Colors ─────────────────────────────────────────────────────
     const colorsBuf = new Float32Array(COUNT * 3)
     for (let i = 0; i < COUNT; i++) {
       const col = new THREE.Color(palette[Math.floor(Math.random() * palette.length)])
@@ -497,34 +464,31 @@ export default function GalaxyBackground() {
       colorsBuf[i*3 + 2] = col.b
     }
 
-    // ── Geometry ───────────────────────────────────────────────────
     const geo     = new THREE.BufferGeometry()
     const livePos = new Float32Array(shapes[0])
     geo.setAttribute('position', new THREE.BufferAttribute(livePos, 3))
     geo.setAttribute('color',    new THREE.BufferAttribute(colorsBuf, 3))
 
+    // CHANGED: Base size decreased from 0.018 to 0.012 to make close particles smaller & crisper
     const mat = new THREE.PointsMaterial({
-      size: 0.018,
+      size: 0.012,
       map: sprite,
       vertexColors: true,
       transparent: true,
-      opacity: 0.92,
+      opacity: 0.9,
       depthWrite: false,
       sizeAttenuation: true,
-      alphaTest: 0.005,
+      alphaTest: 0.001,
       blending: THREE.AdditiveBlending,
     })
 
     const points = new THREE.Points(geo, mat)
     scene.add(points)
 
-    // ── Scroll ─────────────────────────────────────────────────────
     let rawScroll = 0
-
     const onScroll = () => { rawScroll = window.scrollY }
     window.addEventListener('scroll', onScroll, { passive: true })
 
-    // ── Animation ──────────────────────────────────────────────────
     let animId: number
     const clock = new THREE.Clock()
 
@@ -533,7 +497,9 @@ export default function GalaxyBackground() {
       const elapsed = clock.getElapsedTime()
 
       const vh      = window.innerHeight
-      const section = rawScroll / vh
+      
+      // CHANGED: Added vh * 1.6 factor to slow down form transitions significantly while scrolling
+      const section = rawScroll / (vh * 1.6)
       const fromIdx = Math.floor(section) % N
       const toIdx   = (fromIdx + 1) % N
       const t       = section - Math.floor(section)
@@ -545,7 +511,6 @@ export default function GalaxyBackground() {
       computeTransition(from, to, scatter, t, pos)
       geo.attributes.position.needsUpdate = true
 
-      // blend rotations
       const rotFrom = ROTATIONS[fromIdx]
       const rotTo   = ROTATIONS[toIdx % ROTATIONS.length]
       rotFrom(elapsed, points)
@@ -559,7 +524,6 @@ export default function GalaxyBackground() {
     }
     animate()
 
-    // ── Resize ─────────────────────────────────────────────────────
     const onResize = () => {
       camera.aspect = window.innerWidth / window.innerHeight
       camera.updateProjectionMatrix()

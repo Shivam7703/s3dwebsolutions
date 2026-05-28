@@ -114,10 +114,10 @@ export default function ProcessSection() {
           style={{ opacity }}
           className="px-6 md:px-20 max-w-xl z-20"
         >
-          <span className="text-xs font-bold tracking-widest uppercase text-orange-500 dark:text-violet-500">
+          <span className="text-xs font-extrabold tracking-widest uppercase text-orange-500 dark:text-violet-500">
             How We Execute
           </span>
-          <h2 className="mt-2 mb-5 text-4xl md:text-5xl font-bold tracking-tight text-zinc-800 dark:text-white">
+          <h2 className="mt-2 mb-5 text-4xl md:text-5xl font-black leading-tight tracking-tight text-zinc-800 dark:text-white">
             Our Work Process
           </h2>
           <div className="h-12">

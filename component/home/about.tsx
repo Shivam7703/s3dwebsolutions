@@ -63,18 +63,18 @@ export default function AboutSection() {
       <div className="max-w-6xl w-full flex flex-col gap-16 md:gap-24">
         
         {/* Top Header Block */}
-        <div className="flex flex-col md:flex-row items-start justify-between gap-8 md:gap-16">
+        <div className="flex flex-col md:flex-row items-start justify-between gap-8 md:gap-12">
           
           {/* Animated Heading Left Side */}
           <motion.div 
             style={{ opacity: headingOpacity, y: headingY }}
             className="max-w-md"
           >
-            <span className="text-xs font-bold tracking-widest uppercase text-orange-500 dark:text-violet-500">
+            <span className="text-xs font-extrabold text-orange-500 dark:text-violet-400 tracking-widest uppercase">
               Who We Are
             </span>
-            <h2 className="mt-3 text-4xl md:text-5xl font-bold tracking-tight text-zinc-800 dark:text-white">
-              East Or West, We Are The Best For Whole Web Solutions
+            <h2 className="mt-3 text-4xl md:text-5xl leading-tight font-black tracking-tight text-zinc-800 dark:text-white">
+              East Or West, We Are The Best For All <span className="bg-linear-to-r from-orange-500 to-red-600 dark:from-violet-600 dark:via-indigo-500 dark:to-purple-600 bg-clip-text text-transparent"> Web Solutions</span>
             </h2>
           </motion.div>
 
