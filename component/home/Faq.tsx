@@ -79,13 +79,7 @@ function TiltImage() {
         style={{ rotateX: sRotX, rotateY: sRotY, transformStyle: "preserve-3d" }}
         className="relative w-85 h-90 sm:w-100 sm:h-120 p-4"
       >
-        {/* Glow shadow */}
-        <motion.div
-          style={{ rotateX: sRotX, rotateY: sRotY }}
-          className="absolute inset-0 rounded-3xl blur-3xl opacity-30
-                     bg-orange-400/40 dark:bg-violet-500/40 z-20"
-          style={{ transform: "translateZ(0px) scale(0.85)" }}
-        />
+ 
 
 
         {/* Main image */}
