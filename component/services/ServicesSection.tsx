@@ -244,7 +244,7 @@ export default function Interactive3DSection() {
                 className="absolute inset-0 flex flex-col justify-start"
               >
                 {/* CHANGED: Replaced 'CATEGORY (1...)' text with active dynamic service name */}
-                <div className="text-xs font-extrabold text-orange-500 dark:text-violet-400 tracking-widest uppercase mb-2">
+                <div className="text-xs font-extrabold text-orange-500 dark:text-violet-500 tracking-widest uppercase mb-2">
                   {servicesData[activeIndex].tag} Hub
                 </div>
                 

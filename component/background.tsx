@@ -22,45 +22,20 @@ function makeCircleTexture(size = 64): THREE.Texture {
 }
 
 // ── Palettes ───────────────────────────────────────────────────────────────
-// Light: black, zinc-500, gray-700, orange, red , yellow
-
 const DARK_COLORS = [
-  0x18181b, // zinc-900
-  0x404040, // zinc-700
-  0x71717a, // zinc-500   (True Tailwind zinc-500)
-  0xca8a04, // yellow-600 (True Tailwind yellow-600)
-  0x7c2d12, // orange-900
-  0xfb923c, // orange-400
-  0x1f2937, // gray-800
-  0xf97316, // orange-500
-  0xea580c, // orange-600
-  0xc2410c, // orange-700
-  0x9a3412, // orange-800
+  0x18181b, 0x404040, 0x71717a, 0xca8a04, 0x7c2d12, 
+  0xfb923c, 0x1f2937, 0xf97316, 0xea580c, 0xc2410c, 0x9a3412
 ];
 
-
-// Dark: violet, white, blue, rose, purple, pink
-
 const LIGHT_COLORS = [
-  0x8b5cf6, // violet-500
-  0xa78bfa, // violet-400
-  0xc4b5fd, // violet-300
-  0xffffff, // white
-  0xf0f0ff, // near-white
-  0x3b82f6, // blue-500
-  0x60a5fa, // blue-400
-  0xf43f5e, // rose-500
-  0xfb7185, // rose-400
-  0xa855f7, // purple-500
-  0xd946ef, // fuchsia-500
+  0x8b5cf6, 0xa78bfa, 0xc4b5fd, 0xffffff, 0xf0f0ff, 
+  0x3b82f6, 0x60a5fa, 0xf43f5e, 0xfb7185, 0xa855f7, 0xd946ef
 ]
 
-const COUNT = 80_000
-
-// ── SHAPE BUILDERS ─────────────────────────────────────────────────────────
-function buildGalaxy(): Float32Array {
-  const pos = new Float32Array(COUNT * 3)
-  for (let i = 0; i < COUNT; i++) {
+// ── DYNAMIC SHAPE BUILDERS (Accepting variable dynamic count) ───────────────────────
+function buildGalaxy(count: number): Float32Array {
+  const pos = new Float32Array(count * 3)
+  for (let i = 0; i < count; i++) {
     const i3 = i * 3
     const arm = Math.floor(Math.random() * 5)
     const radius = Math.pow(Math.random(), 0.45) * 4.5
@@ -73,12 +48,12 @@ function buildGalaxy(): Float32Array {
   return pos
 }
 
-function buildHelix(): Float32Array {
-  const pos = new Float32Array(COUNT * 3)
-  for (let i = 0; i < COUNT; i++) {
+function buildHelix(count: number): Float32Array {
+  const pos = new Float32Array(count * 3)
+  for (let i = 0; i < count; i++) {
     const i3 = i * 3
     const strand = i % 3
-    const t = (i / COUNT) * Math.PI * 28 - Math.PI * 14
+    const t = (i / count) * Math.PI * 28 - Math.PI * 14
     const phase = strand * (Math.PI * 2 / 3)
     const r = 1.5 + (Math.random() - 0.5) * 0.05
     pos[i3]     = Math.cos(t + phase) * r + (Math.random() - 0.5) * 0.025
@@ -88,9 +63,9 @@ function buildHelix(): Float32Array {
   return pos
 }
 
-function buildSphere(): Float32Array {
-  const pos = new Float32Array(COUNT * 3)
-  for (let i = 0; i < COUNT; i++) {
+function buildSphere(count: number): Float32Array {
+  const pos = new Float32Array(count * 3)
+  for (let i = 0; i < count; i++) {
     const i3 = i * 3
     const theta = Math.random() * Math.PI * 2
     const phi = Math.acos(2 * Math.random() - 1)
@@ -104,12 +79,12 @@ function buildSphere(): Float32Array {
   return pos
 }
 
-function buildTorusKnot(): Float32Array {
-  const pos = new Float32Array(COUNT * 3)
+function buildTorusKnot(count: number): Float32Array {
+  const pos = new Float32Array(count * 3)
   const p = 5, q = 7
-  for (let i = 0; i < COUNT; i++) {
+  for (let i = 0; i < count; i++) {
     const i3 = i * 3
-    const t = (i / COUNT) * Math.PI * 2 * p * 12
+    const t = (i / count) * Math.PI * 2 * p * 12
     const r = Math.cos(q * t / p) + 2.4
     const noise = (Math.random() - 0.5) * 0.05
     pos[i3]     = r * Math.cos(t) + noise
@@ -119,9 +94,9 @@ function buildTorusKnot(): Float32Array {
   return pos
 }
 
-function buildRing(): Float32Array {
-  const pos = new Float32Array(COUNT * 3)
-  for (let i = 0; i < COUNT; i++) {
+function buildRing(count: number): Float32Array {
+  const pos = new Float32Array(count * 3)
+  for (let i = 0; i < count; i++) {
     const i3 = i * 3
     const angle = Math.random() * Math.PI * 2
     const ringRand = Math.random()
@@ -136,10 +111,10 @@ function buildRing(): Float32Array {
   return pos
 }
 
-function buildCube(): Float32Array {
-  const pos = new Float32Array(COUNT * 3)
+function buildCube(count: number): Float32Array {
+  const pos = new Float32Array(count * 3)
   const size = 2.4
-  for (let i = 0; i < COUNT; i++) {
+  for (let i = 0; i < count; i++) {
     const i3 = i * 3
     const face = Math.floor(Math.random() * 6)
     const u = (Math.random() - 0.5) * size
@@ -157,10 +132,10 @@ function buildCube(): Float32Array {
   return pos
 }
 
-function buildPyramid(): Float32Array {
-  const pos = new Float32Array(COUNT * 3)
+function buildPyramid(count: number): Float32Array {
+  const pos = new Float32Array(count * 3)
   const H = 3.6, R = 2.2
-  for (let i = 0; i < COUNT; i++) {
+  for (let i = 0; i < count; i++) {
     const i3 = i * 3
     const face = Math.floor(Math.random() * 4)
     const y = Math.random() * H - H / 2
@@ -173,10 +148,10 @@ function buildPyramid(): Float32Array {
   return pos
 }
 
-function buildWave(): Float32Array {
-  const pos = new Float32Array(COUNT * 3)
+function buildWave(count: number): Float32Array {
+  const pos = new Float32Array(count * 3)
   const W = 6, D = 6
-  for (let i = 0; i < COUNT; i++) {
+  for (let i = 0; i < count; i++) {
     const i3 = i * 3
     const x = (Math.random() - 0.5) * W
     const z = (Math.random() - 0.5) * D
@@ -192,11 +167,11 @@ function buildWave(): Float32Array {
   return pos
 }
 
-function buildButterfly(): Float32Array {
-  const pos = new Float32Array(COUNT * 3)
-  for (let i = 0; i < COUNT; i++) {
+function buildButterfly(count: number): Float32Array {
+  const pos = new Float32Array(count * 3)
+  for (let i = 0; i < count; i++) {
     const i3 = i * 3
-    const t = (i / COUNT) * Math.PI * 32
+    const t = (i / count) * Math.PI * 32
     const r = Math.exp(Math.cos(t)) - 2.2 * Math.cos(4 * t) + Math.pow(Math.sin(t / 12), 5)
     const scale = 1.05
     pos[i3]     = r * Math.cos(t) * scale + (Math.random() - 0.5) * 0.035
@@ -206,9 +181,9 @@ function buildButterfly(): Float32Array {
   return pos
 }
 
-function buildBlackHole(): Float32Array {
-  const pos = new Float32Array(COUNT * 3)
-  for (let i = 0; i < COUNT; i++) {
+function buildBlackHole(count: number): Float32Array {
+  const pos = new Float32Array(count * 3)
+  for (let i = 0; i < count; i++) {
     const i3 = i * 3
     const angle = Math.random() * Math.PI * 2
     const r = 0.7 + Math.pow(Math.random(), 0.35) * 3.2
@@ -223,11 +198,11 @@ function buildBlackHole(): Float32Array {
   return pos
 }
 
-function buildMobius(): Float32Array {
-  const pos = new Float32Array(COUNT * 3)
-  for (let i = 0; i < COUNT; i++) {
+function buildMobius(count: number): Float32Array {
+  const pos = new Float32Array(count * 3)
+  for (let i = 0; i < count; i++) {
     const i3 = i * 3
-    const u = (i / COUNT) * Math.PI * 2
+    const u = (i / count) * Math.PI * 2
     const v = (Math.random() - 0.5) * 1.4
     const R = 2.2
     pos[i3]     = (R + v * Math.cos(u / 2)) * Math.cos(u) + (Math.random()-0.5)*0.025
@@ -237,11 +212,11 @@ function buildMobius(): Float32Array {
   return pos
 }
 
-function buildInfinityKnot(): Float32Array {
-  const pos = new Float32Array(COUNT * 3)
-  for (let i = 0; i < COUNT; i++) {
+function buildInfinityKnot(count: number): Float32Array {
+  const pos = new Float32Array(count * 3)
+  for (let i = 0; i < count; i++) {
     const i3 = i * 3
-    const t = (i / COUNT) * Math.PI * 2 * 10
+    const t = (i / count) * Math.PI * 2 * 10
     const scale = 1.9
     pos[i3]     = scale * (Math.cos(t) + 2 * Math.cos(2 * t)) / 3 + (Math.random()-0.5)*0.04
     pos[i3 + 1] = scale * (Math.sin(t) - 2 * Math.sin(2 * t)) / 3 + (Math.random()-0.5)*0.04
@@ -250,8 +225,8 @@ function buildInfinityKnot(): Float32Array {
   return pos
 }
 
-function buildHypercube(): Float32Array {
-  const pos = new Float32Array(COUNT * 3)
+function buildHypercube(count: number): Float32Array {
+  const pos = new Float32Array(count * 3)
   const verts4D: number[][] = []
   for (let b = 0; b < 16; b++) {
     verts4D.push([b&1?1:-1, b&2?1:-1, b&4?1:-1, b&8?1:-1])
@@ -263,7 +238,7 @@ function buildHypercube(): Float32Array {
       for (let d = 0; d < 4; d++) if (verts4D[a][d] !== verts4D[b][d]) diff++
       if (diff === 1) edges.push([a, b])
     }
-  const perEdge = Math.floor(COUNT / edges.length)
+  const perEdge = Math.floor(count / edges.length)
   let idx = 0
   const w = 2.5
   for (const [a, b] of edges) {
@@ -278,7 +253,7 @@ function buildHypercube(): Float32Array {
       idx++
     }
   }
-  while (idx < COUNT) {
+  while (idx < count) {
     const i3 = idx * 3
     pos[i3] = (Math.random()-0.5)*3; pos[i3+1] = (Math.random()-0.5)*3; pos[i3+2] = (Math.random()-0.5)*3
     idx++
@@ -286,12 +261,12 @@ function buildHypercube(): Float32Array {
   return pos
 }
 
-function buildStrangeAttractor(): Float32Array {
-  const pos = new Float32Array(COUNT * 3)
+function buildStrangeAttractor(count: number): Float32Array {
+  const pos = new Float32Array(count * 3)
   let x = 0.1, y = 0, z = 0
   const sigma = 10, rho = 28, beta = 8/3, dt = 0.005
   const scale = 0.08
-  for (let i = 0; i < COUNT; i++) {
+  for (let i = 0; i < count; i++) {
     const dx = sigma * (y - x)
     const dy = x * (rho - z) - y
     const dz = x * y - beta * z
@@ -304,8 +279,8 @@ function buildStrangeAttractor(): Float32Array {
   return pos
 }
 
-function buildIcosphere(): Float32Array {
-  const pos = new Float32Array(COUNT * 3)
+function buildIcosphere(count: number): Float32Array {
+  const pos = new Float32Array(count * 3)
   const phi = (1 + Math.sqrt(5)) / 2
   const raw = [
     [-1,phi,0],[1,phi,0],[-1,-phi,0],[1,-phi,0],
@@ -314,7 +289,7 @@ function buildIcosphere(): Float32Array {
   ]
   const norm = raw.map(v => { const l = Math.hypot(v[0],v[1],v[2]); return [v[0]/l,v[1]/l,v[2]/l] })
   const radii = [2.5, 1.8, 3.1]
-  for (let i = 0; i < COUNT; i++) {
+  for (let i = 0; i < count; i++) {
     const i3 = i * 3
     const base = norm[Math.floor(Math.random() * norm.length)]
     const theta = Math.random() * Math.PI * 2
@@ -327,8 +302,8 @@ function buildIcosphere(): Float32Array {
   return pos
 }
 
-function buildS3D(): Float32Array {
-  const pos = new Float32Array(COUNT * 3)
+function buildS3D(count: number): Float32Array {
+  const pos = new Float32Array(count * 3)
   const W = 900, H = 280
   const cvs = document.createElement('canvas')
   cvs.width = W; cvs.height = H
@@ -353,12 +328,26 @@ function buildS3D(): Float32Array {
   const offX  = -W / 2
   const offY  = -H / 2
 
-  for (let i = 0; i < COUNT; i++) {
+  for (let i = 0; i < count; i++) {
     const i3 = i * 3
     const [px, py] = litPixels[Math.floor(Math.random() * litPixels.length)]
     pos[i3]     = (px + offX) * scale      + (Math.random() - 0.5) * 0.015
     pos[i3 + 1] = -(py + offY) * scale * (H / W) + (Math.random() - 0.5) * 0.015
     pos[i3 + 2] = (Math.random() - 0.5) * 0.18
+  }
+  return pos
+}
+
+function buildScatter(count: number): Float32Array {
+  const pos = new Float32Array(count * 3)
+  for (let i = 0; i < count; i++) {
+    const i3 = i * 3
+    const theta = Math.random() * Math.PI * 2
+    const phi = Math.acos(2 * Math.random() - 1)
+    const r = 4.5 + Math.random() * 3.5
+    pos[i3]     = r * Math.sin(phi) * Math.cos(theta)
+    pos[i3 + 1] = r * Math.sin(phi) * Math.sin(theta)
+    pos[i3 + 2] = r * Math.cos(phi)
   }
   return pos
 }
@@ -389,6 +378,7 @@ const ROTATIONS: ((e: number, p: THREE.Points) => void)[] = [
 ]
 
 function computeTransition(
+  count: number,
   from: Float32Array,
   to: Float32Array,
   scatter: Float32Array,
@@ -397,7 +387,7 @@ function computeTransition(
 ) {
   if (t < 0.4) {
     const s = easeInOutCubic(t / 0.4)
-    for (let i = 0; i < COUNT; i++) {
+    for (let i = 0; i < count; i++) {
       const i3 = i * 3
       out[i3]     = from[i3]     + (scatter[i3]     - from[i3])     * s
       out[i3 + 1] = from[i3 + 1] + (scatter[i3 + 1] - from[i3 + 1]) * s
@@ -405,27 +395,13 @@ function computeTransition(
     }
   } else {
     const s = easeInOutCubic((t - 0.4) / 0.6)
-    for (let i = 0; i < COUNT; i++) {
+    for (let i = 0; i < count; i++) {
       const i3 = i * 3
       out[i3]     = scatter[i3]     + (to[i3]     - scatter[i3])     * s
       out[i3 + 1] = scatter[i3 + 1] + (to[i3 + 1] - scatter[i3 + 1]) * s
       out[i3 + 2] = scatter[i3 + 2] + (to[i3 + 2] - scatter[i3 + 2]) * s
     }
   }
-}
-
-function buildScatter(): Float32Array {
-  const pos = new Float32Array(COUNT * 3)
-  for (let i = 0; i < COUNT; i++) {
-    const i3 = i * 3
-    const theta = Math.random() * Math.PI * 2
-    const phi = Math.acos(2 * Math.random() - 1)
-    const r = 4.5 + Math.random() * 3.5
-    pos[i3]     = r * Math.sin(phi) * Math.cos(theta)
-    pos[i3 + 1] = r * Math.sin(phi) * Math.sin(theta)
-    pos[i3 + 2] = r * Math.cos(phi)
-  }
-  return pos
 }
 
 // ───────────────────────────────────────────────────────────────────────────
@@ -436,15 +412,19 @@ export default function GalaxyBackground() {
   useEffect(() => {
     if (!mountRef.current) return
 
+    // CHANGED: Determine mobile dynamic state
+    const isMobile = window.innerWidth < 768
+    const currentCount = isMobile ? 35000 : 90000 // Decreased counting safely on mobile
+
     const isDark  = resolvedTheme === 'dark'
-    const palette = isDark ? LIGHT_COLORS :  DARK_COLORS
+    const palette = isDark ? LIGHT_COLORS : DARK_COLORS
     const sprite  = makeCircleTexture(64)
 
     const scene  = new THREE.Scene()
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
     
-    // CHANGED: Camera moved backward from 3.5 to 4.0 to stop particles from getting too big when close
-    camera.position.z = 4.0
+    // CHANGED: Pushed camera further back on mobile (5.5) vs desktop (4.0) to dynamically scale shapes smaller
+    camera.position.z = isMobile ? 5.0 : 4.0
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
     renderer.setSize(window.innerWidth, window.innerHeight)
@@ -452,12 +432,13 @@ export default function GalaxyBackground() {
     renderer.setClearColor(0x000000, 0)
     mountRef.current.appendChild(renderer.domElement)
 
-    const shapes = SHAPE_BUILDERS.map(fn => fn())
-    const scatter = buildScatter()
+    // Pass the calculated loop total down inside instantiation block
+    const shapes = SHAPE_BUILDERS.map(fn => fn(currentCount))
+    const scatter = buildScatter(currentCount)
     const N = shapes.length
 
-    const colorsBuf = new Float32Array(COUNT * 3)
-    for (let i = 0; i < COUNT; i++) {
+    const colorsBuf = new Float32Array(currentCount * 3)
+    for (let i = 0; i < currentCount; i++) {
       const col = new THREE.Color(palette[Math.floor(Math.random() * palette.length)])
       colorsBuf[i*3]     = col.r
       colorsBuf[i*3 + 1] = col.g
@@ -469,9 +450,9 @@ export default function GalaxyBackground() {
     geo.setAttribute('position', new THREE.BufferAttribute(livePos, 3))
     geo.setAttribute('color',    new THREE.BufferAttribute(colorsBuf, 3))
 
-    // CHANGED: Base size decreased from 0.018 to 0.012 to make close particles smaller & crisper
+    // CHANGED: Mobile gets even smaller base particle sizes (0.008) to look super crisp on retina phones
     const mat = new THREE.PointsMaterial({
-      size: 0.012,
+      size: isMobile ? 0.008 : 0.012,
       map: sprite,
       vertexColors: true,
       transparent: true,
@@ -497,8 +478,6 @@ export default function GalaxyBackground() {
       const elapsed = clock.getElapsedTime()
 
       const vh      = window.innerHeight
-      
-      // CHANGED: Added vh * 1.6 factor to slow down form transitions significantly while scrolling
       const section = rawScroll / (vh * 1.6)
       const fromIdx = Math.floor(section) % N
       const toIdx   = (fromIdx + 1) % N
@@ -508,7 +487,7 @@ export default function GalaxyBackground() {
       const to   = shapes[toIdx]
       const pos  = geo.attributes.position.array as Float32Array
 
-      computeTransition(from, to, scatter, t, pos)
+      computeTransition(currentCount, from, to, scatter, t, pos)
       geo.attributes.position.needsUpdate = true
 
       const rotFrom = ROTATIONS[fromIdx]
@@ -525,6 +504,11 @@ export default function GalaxyBackground() {
     animate()
 
     const onResize = () => {
+      // Dynamic scaling refresh on client-side viewport changes
+      const currentMobileState = window.innerWidth < 768
+      camera.position.z = currentMobileState ? 5.5 : 4.0
+      mat.size = currentMobileState ? 0.008 : 0.012
+      
       camera.aspect = window.innerWidth / window.innerHeight
       camera.updateProjectionMatrix()
       renderer.setSize(window.innerWidth, window.innerHeight)

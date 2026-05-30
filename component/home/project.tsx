@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import React, { useRef, useState } from "react";
+import { motion, useScroll, useTransform, useAnimationFrame, useMotionValue } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -27,7 +27,6 @@ const track2 = [
 function ProjectCard({ item }: { item: typeof track1[0] }) {
   return (
     <div className="shrink-0 w-50 sm:w-60 md:w-67.5 flex flex-col gap-2 group">
-      {/* Dynamic Border & Background changes on light/dark mode */}
       <Link 
         href={item.link} 
         className="block w-full h-27.5 sm:h-32.5 md:h-37.5 relative rounded-xl overflow-hidden bg-zinc-100 dark:bg-[#121214] border border-black/10 dark:border-white/15 group-hover:border-black/40 dark:group-hover:border-white/60 transition-all duration-300 shadow-md dark:shadow-xl cursor-pointer"
@@ -40,10 +39,9 @@ function ProjectCard({ item }: { item: typeof track1[0] }) {
           priority
           className="object-cover brightness-105 dark:brightness-110 transition-transform duration-500 group-hover:scale-[1.03]"
         />
-        <div className="absolute inset-0 bg-black/[0.02] dark:bg-black/5 group-hover:bg-transparent transition-colors duration-300" />
+        <div className="absolute inset-0 bg-black/2 dark:bg-black/5 group-hover:bg-transparent transition-colors duration-300" />
       </Link>
       
-      {/* Meta Text Details */}
       <div className="px-1 flex flex-col gap-0.5 pointer-events-none select-none text-left">
         <h4 className="text-zinc-800 dark:text-zinc-100 text-xs sm:text-sm font-medium tracking-tight truncate group-hover:text-black dark:group-hover:text-white transition-colors">
           {item.title}
@@ -56,27 +54,52 @@ function ProjectCard({ item }: { item: typeof track1[0] }) {
   );
 }
 
-/* ─────────────── HORIZONTAL OPPOSITE MARQUEE ROW ─────────────── */
+/* ─────────────── FIXED HIGH-PERFORMANCE MARQUEE ROW ─────────────── */
 interface MarqueeRowProps {
   items: typeof track1;
   direction: "left" | "right";
 }
 
 function MarqueeRow({ items, direction }: MarqueeRowProps) {
-  // -50% ensures smooth structural wrapping regardless of standard dynamic layout changes
-  const translationValues = direction === "left" ? [0, "-50%"] : ["-50%", 0];
+  const containerRef = useRef<HTMLDivElement>(null);
+  const xPos = useMotionValue(0);
+  const isHovered = useRef(false);
+
+  // Frame-by-frame mathematical animation control (Lag-free approach)
+  useAnimationFrame((_, delta) => {
+    if (!containerRef.current) return;
+
+    // Total scrollable width ka aadha (Kyunki double data rendered hai)
+    const totalWidth = containerRef.current.scrollWidth / 2;
+    if (totalWidth === 0) return;
+
+    // Step calculation logic based on frame delta time
+    const baseSpeed = 45; // Base normal speed
+    const slowSpeed = 15; // Slow down speed when cursor enters
+    const currentSpeed = isHovered.current ? slowSpeed : baseSpeed;
+    
+    let moveBy = (currentSpeed * delta) / 1000; // Pixels per frame delta
+    let currentX = xPos.get();
+
+    if (direction === "left") {
+      currentX -= moveBy;
+      if (currentX <= -totalWidth) currentX += totalWidth; // Loop reset smoothly
+    } else {
+      currentX += moveBy;
+      if (currentX >= 0) currentX -= totalWidth; // Loop reset smoothly
+    }
+
+    xPos.set(currentX);
+  });
 
   return (
     <div className="w-full flex mask-edge-fade overflow-hidden py-1">
       <motion.div
-        animate={{ x: translationValues }}
-        transition={{
-          ease: "linear",
-          duration: 22, // High performance smooth speed
-          repeat: Infinity,
-        }}
-        // Double rendering items dynamically ensures absolute seamless loop without empty snaps
-        className="flex gap-4 md:gap-5 pr-4 md:pr-5 shrink-0 w-max"
+        ref={containerRef}
+        style={{ x: xPos }}
+        onMouseEnter={() => { isHovered.current = true; }}
+        onMouseLeave={() => { isHovered.current = false; }}
+        className="flex gap-4 md:gap-5 pr-4 md:pr-5 shrink-0 w-max cursor-pointer"
       >
         {/* First Set */}
         {items.map((item, idx) => (
@@ -105,9 +128,9 @@ export default function SplineShowcaseSection() {
   return (
     <section
       ref={sectionRef}
-      className="relative w-full h-[130vh]  bg-linear-to-b from-transparent via-zinc-100/70 dark:via-zinc-800/70 to-transparent text-zinc-900 dark:text-white flex flex-col justify-center items-center overflow-hidden transition-colors duration-300"
+      className="relative w-full h-[130vh] bg-linear-to-b from-transparent via-zinc-100/70 dark:via-zinc-800/70 to-transparent text-zinc-900 dark:text-white flex flex-col justify-center items-center overflow-hidden transition-colors duration-300"
     >
-      {/* ── CENTRAL HEADING HEADER (Adapts perfectly to light/dark themes) ── */}
+      {/* ── CENTRAL HEADING HEADER ── */}
       <div className="w-full max-w-3xl text-center px-4 mb-10 md:mb-12 z-20 pointer-events-none select-none flex flex-col items-center">
         <h2 className="text-2xl sm:text-4xl md:text-5xl font-black tracking-tight text-zinc-900 dark:text-white max-w-3xl leading-[1.15]">
           Take A look For Our Completed

@@ -135,7 +135,7 @@ function Headbutton() {
         from-zinc-800 to-zinc-900 hover:from-orange-500 hover:to-red-500 shadow-zinc-200/30 text-zinc-100 bg-linear-to-r
         
         /* Dark Mode Styling Classes */
-        dark:from-violet-600 dark:via-blue-600 dark:hover:from-rose-500 dark:hover:to-indigo-500  dark:to-purple-600 dark:shadow-violet-500/30 dark:text-white
+        dark:from-violet-600 dark:via-blue-600 dark:hover:from-indigo-900 dark:hover:to-violet-900  dark:to-purple-600 dark:shadow-violet-500/30 dark:text-white
       "
     >
       {/* Shimmer animation */}

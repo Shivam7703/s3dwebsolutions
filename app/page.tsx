@@ -1,5 +1,7 @@
 // app/page.tsx
 import AboutSection from "@/component/home/about";
+import WhyChooseUs from "@/component/home/choose";
+import FAQSection from "@/component/home/Faq";
 import HeroBanner from "@/component/home/homebanner";
 import ProcessSection from "@/component/home/process";
 import DarkRoomProjectsSection from "@/component/home/project";
@@ -25,9 +27,11 @@ export default function Home() {
 <div className="h-[50vh]"/>
 
 <DarkRoomProjectsSection/>
+<div className="h-[50vh]"/>
 
-      {/* About */}
- 
+<FAQSection/>
+<div className="h-[50vh]"/>
+ <WhyChooseUs/>
       {/* more sections below */}
     </main>
   );
