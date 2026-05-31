@@ -251,7 +251,7 @@ export default function Interactive3DSection() {
                 <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-5 text-zinc-950 dark:text-zinc-50 leading-tight">
                   {servicesData[activeIndex].title}
                 </h2>
-                <p className="text-base md:text-lg text-zinc-800 dark:text-zinc-300 max-w-md leading-relaxed">
+                <p className=" text-zinc-800 dark:text-zinc-300 max-w-md leading-relaxed">
                   {servicesData[activeIndex].desc}
                 </p>
               </motion.div>
