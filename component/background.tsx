@@ -414,7 +414,7 @@ export default function GalaxyBackground() {
 
     // CHANGED: Determine mobile dynamic state
     const isMobile = window.innerWidth < 768
-    const currentCount = isMobile ? 35000 : 90000 // Decreased counting safely on mobile
+    const currentCount = isMobile ? 75000 : 90000 // Decreased counting safely on mobile
 
     const isDark  = resolvedTheme === 'dark'
     const palette = isDark ? LIGHT_COLORS : DARK_COLORS
@@ -456,7 +456,7 @@ export default function GalaxyBackground() {
       map: sprite,
       vertexColors: true,
       transparent: true,
-      opacity: 0.9,
+      opacity: 1,
       depthWrite: false,
       sizeAttenuation: true,
       alphaTest: 0.001,
