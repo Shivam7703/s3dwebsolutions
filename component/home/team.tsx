@@ -70,7 +70,7 @@ const members: TeamMember[] = [
   },
   {
     id: 5,
-    name: "Vaibhav Baranwal",
+    name: "Vijay Kapoor",
     role: "Growth & SEO Strategist",
     bio: "Data-driven marketer who builds content systems that compound over time. Combines technical SEO with storytelling to attract, educate, and convert high-value audiences.",
     skills: ["SEO", "Content", "Analytics", "CRO"],

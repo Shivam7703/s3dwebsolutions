@@ -414,7 +414,7 @@ export default function GalaxyBackground() {
 
     // CHANGED: Determine mobile dynamic state
     const isMobile = window.innerWidth < 768
-    const currentCount = isMobile ? 75000 : 90000 // Decreased counting safely on mobile
+    const currentCount = isMobile ? 85000 : 90000 // Decreased counting safely on mobile
 
     const isDark  = resolvedTheme === 'dark'
     const palette = isDark ? LIGHT_COLORS : DARK_COLORS
