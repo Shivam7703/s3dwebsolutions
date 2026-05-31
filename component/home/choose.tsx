@@ -117,7 +117,7 @@ function MobileScreen({ activeIndex }: { activeIndex: number }) {
             >
               {/* App header */}
               <div className="flex items-center justify-between">
-                <span className="text-[14px] font-black tracking-tight
+                <span className="text-[14px] font-bold tracking-tight
                                  text-zinc-900 dark:text-white">
                   S3D Web Solutions
                 </span>
@@ -239,11 +239,11 @@ export default function WhyChooseUs() {
         {/* ── LEFT: Accordion ── */}
         <div className="lg:col-span-6 flex flex-col w-full text-left">
           <div className="mb-10">
-            <span className="text-xs font-extrabold tracking-[0.3em] uppercase
+            <span className="text-xs font-extrabold tracking-widest uppercase
                              text-orange-500 dark:text-violet-500">
               SEEDHI BAAT, NO BAKWAS
             </span>
-            <h2 className="text-4xl sm:text-5xl font-black tracking-tight leading-[1.1] mt-2
+            <h2 className="text-3xl sm:text-5xl font-bold tracking-tight leading-[1.1] mt-2
                            text-zinc-900 dark:text-white">
               Why You Should <br />
               <span className="bg-linear-to-r from-orange-500 to-red-500

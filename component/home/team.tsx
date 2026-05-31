@@ -321,11 +321,11 @@ function MemberDetail({ member }: { member: TeamMember }) {
             )}
           </div>
           <div>
-            <h3 className="text-[22px] font-bold tracking-tight text-zinc-900 mb-1 dark:text-zinc-100 leading-tight">
+            <h3 className="text-lg sm:text-xl font-bold tracking-tight text-zinc-900 mb-1 dark:text-zinc-100 leading-tight">
               {member.name}
             </h3>
-            <span className={`text-sm font-bold tracking-widest uppercase
-                              bg-gradient-to-r ${member.accent} bg-clip-text text-transparent`}>
+            <span className={`sm:text-sm text-xs font-bold tracking-widest uppercase
+                              bg-linear-to-r ${member.accent} bg-clip-text text-transparent`}>
               {member.role}
             </span>
           </div>
@@ -402,15 +402,14 @@ function SectionHeader() {
         initial={{ opacity: 0, y: 20 }}
         animate={inView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.7, delay: 0.1 }}
-        className="font-display text-[clamp(28px,5vw,52px)] font-bold leading-[1.08]
-                   tracking-[-0.03em] text-zinc-900 dark:text-zinc-100"
+        className="text-3xl sm:text-5xl font-bold tracking-tight text-zinc-900 dark:text-white  leading-tight"
       >
         Meet our Expert{" "}
-        <em className="not-italic bg-gradient-to-r from-orange-500 to-red-500
+        <span className=" bg-linear-to-r from-orange-500 to-red-500
                        dark:from-violet-500 dark:via-blue-500 dark:to-purple-500
                        bg-clip-text text-transparent">
           Gen Z's
-        </em>
+        </span>
       </motion.h2>
       <motion.p
         initial={{ opacity: 0, y: 12 }}
@@ -452,7 +451,7 @@ export default function TeamSection() {
   };
 
   return (
-    <section ref={sectionRef} className="w-full py-24 px-6 md:px-12 lg:px-20 overflow-x-clip bg-zinc-50/30 dark:bg-zinc-950/20">
+    <section ref={sectionRef} className="w-full py-24 px-6 md:px-12 lg:px-20 overflow-x-clip">
       <div className="max-w-6xl mx-auto">
 
         <SectionHeader />

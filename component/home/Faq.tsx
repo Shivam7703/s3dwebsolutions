@@ -193,7 +193,7 @@ function FAQItem({
             className={`flex-1 text-sm font-semibold tracking-tight transition-colors duration-300 pr-2
               ${isOpen
                 ? "text-zinc-900 dark:text-zinc-100"
-                : "text-zinc-700 dark:text-zinc-300 group-hover:text-zinc-800 dark:group-hover:text-zinc-100"
+                : "text-zinc-700 dark:text-zinc-400 group-hover:text-zinc-800 dark:group-hover:text-zinc-200"
               }`}
           >
             {item.question}
@@ -227,7 +227,7 @@ function FAQItem({
               <div className="px-5 pb-5 pt-1">
                 {/* divider */}
                 <div className="w-full h-px bg-zinc-400/40 dark:bg-zinc-300/50 mb-4" />
-                <p className="text-[13px] text-zinc-600 dark:text-zinc-300 leading-[1.78] font-normal pl-[52px]">
+                <p className="text-[13px] text-zinc-600 dark:text-zinc-300 leading-[1.78] font-normal pl-13">
                   {item.answer}
                 </p>
               </div>
@@ -263,7 +263,7 @@ export default function FAQSection() {
             initial={{ opacity: 0, y: 18 }}
             animate={headerInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.7, delay: 0.1 }}
-            className="text-4xl md:text-5xl leading-tight font-black tracking-tight text-zinc-800 dark:text-white"
+            className="text-3xl sm:text-5xl leading-tight font-bold tracking-tight text-zinc-800 dark:text-white"
           >
             Frequently asked{" "}
             <span className="bg-linear-to-r from-orange-500 to-red-600 dark:from-violet-600 dark:via-indigo-500 dark:to-purple-600 bg-clip-text text-transparent">
@@ -276,7 +276,7 @@ export default function FAQSection() {
           initial={{ opacity: 0, y: 12 }}
           animate={headerInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className=" text-zinc-700 dark:text-zinc-100 max-w-xl leading-relaxed font-medium"
+          className=" text-zinc-700 dark:text-zinc-300 max-w-xl leading-relaxed"
         >
           Everything you need to know about our 3D design workflow and collaboration process.           Everything you need to know about our 3D design workflow and collaboration process.
 

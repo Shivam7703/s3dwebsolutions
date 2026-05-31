@@ -227,7 +227,7 @@ export default function Interactive3DSection() {
           {/* FLOATING TOP BRANDING HEADER */}
           <div className="mb-6 lg:mb-10">
             
-            <h3 className="text-2xl md:text-3xl font-black tracking-tight text-zinc-700 dark:text-zinc-300 uppercase">
+            <h3 className="text-xl md:text-3xl font-black tracking-tight text-zinc-700 dark:text-zinc-300 uppercase">
               Our Services
             </h3>
           </div>
@@ -248,10 +248,10 @@ export default function Interactive3DSection() {
                   {servicesData[activeIndex].tag} Hub
                 </div>
                 
-                <h2 className="text-3xl md:text-4xl lg:text-5xl font-black tracking-tight mb-5 text-zinc-950 dark:text-zinc-50 leading-tight">
+                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-5 text-zinc-950 dark:text-zinc-50 leading-tight">
                   {servicesData[activeIndex].title}
                 </h2>
-                <p className="text-base md:text-lg text-zinc-800 dark:text-zinc-100 max-w-md leading-relaxed font-medium">
+                <p className="text-base md:text-lg text-zinc-800 dark:text-zinc-300 max-w-md leading-relaxed">
                   {servicesData[activeIndex].desc}
                 </p>
               </motion.div>
@@ -259,10 +259,10 @@ export default function Interactive3DSection() {
           </div>
 
           <div className="mt-5 flex items-center gap-6">
-            <button className="px-6 py-3 rounded-full border border-zinc-950 dark:border-zinc-200 text-sm font-bold tracking-wide text-zinc-950 dark:text-zinc-50 hover:bg-zinc-950 hover:text-white dark:hover:bg-white dark:hover:text-black transition-all duration-300 shadow-sm">
+            <button className="px-6 py-3 rounded-full border border-zinc-950 dark:border-zinc-200 text-sm font-bold tracking-wide text-zinc-950 dark:text-zinc-200 hover:bg-zinc-950 hover:text-white dark:hover:bg-white dark:hover:text-black transition-all duration-300 shadow-sm">
               Book a consultation
             </button>
-            <button className="text-sm font-bold tracking-wide text-zinc-950 dark:text-zinc-50 hover:text-orange-500 dark:hover:text-orange-400 transition-colors group flex items-center gap-1.5">
+            <button className="text-sm font-bold tracking-wide text-zinc-950 dark:text-zinc-200 hover:text-orange-500 dark:hover:text-orange-400 transition-colors group flex items-center gap-1.5">
               View Strategy Deck 
               <span className="group-hover:translate-x-1 transition-transform duration-200">›</span>
             </button>

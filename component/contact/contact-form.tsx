@@ -202,18 +202,19 @@ function LeftPanel() {
         animate={inView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
       >
-        <span className="block text-[10px] font-extrabold tracking-[0.25em] uppercase mb-3
+        <span className="block text-xs font-extrabold tracking-widest uppercase mb-3
                          text-orange-500 dark:text-violet-500">
           get in touch
         </span>
-        <h2 className="font-display text-[clamp(28px,4vw,48px)] font-bold leading-[1.1]
-                       tracking-[-0.02em] text-zinc-900 dark:text-zinc-100">
+        <h2 className="font-bold leading-tight
+                       sm:text-5xl text-3xl text-zinc-900 dark:text-zinc-100">
           Let's build{" "}
-          <em className="not-italic bg-gradient-to-r from-orange-500 to-red-500
-                         dark:from-violet-400 dark:to-purple-400
+          <span className=" bg-linear-to-r from-orange-500 to-red-500
+                         dark:from-violet-500
+                         via-blue-500 dark:to-purple-500
                          bg-clip-text text-transparent">
             something
-          </em>
+          </span>
           <br />great together
         </h2>
         <p className="mt-4  text-zinc-600 dark:text-zinc-300 leading-relaxed font-normal">

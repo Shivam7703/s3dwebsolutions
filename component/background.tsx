@@ -23,8 +23,17 @@ function makeCircleTexture(size = 64): THREE.Texture {
 
 // ── Palettes ───────────────────────────────────────────────────────────────
 const DARK_COLORS = [
-  0x18181b, 0x404040, 0x71717a, 0xca8a04, 0x7c2d12, 
-  0xfb923c, 0x1f2937, 0xf97316, 0xea580c, 0xc2410c, 0x9a3412
+  0x000000, // Black
+  0x1c1917, // Zinc-800
+  0x52525b, // Zinc-600 (Aapne zinc-600 aur grey dono bola tha, yeh zinc ka hai)
+  0x9a3412, // Orange-800
+  0xfb923c, // Orange-400 (New - bright/pop orange)
+  0xef4444, // Red-500    (New - punchy galaxy red)
+  0xf97316, // Orange-500
+  0xea580c, // Orange-600
+0xc2410c, // Orange-700 (New - thoda deep orange)
+  0x6b7280,  // Grey-500 (Tailwind Gray-500)
+  0xeab308, // Yellow-500 (New - bright cosmic yellow)
 ];
 
 const LIGHT_COLORS = [
@@ -32,7 +41,7 @@ const LIGHT_COLORS = [
   0x3b82f6, 0x60a5fa, 0xf43f5e, 0xfb7185, 0xa855f7, 0xd946ef
 ]
 
-// ── DYNAMIC SHAPE BUILDERS (Accepting variable dynamic count) ───────────────────────
+// ── DYNAMIC SHAPE BUILDERS ──────────────────────────────────────────────────
 function buildGalaxy(count: number): Float32Array {
   const pos = new Float32Array(count * 3)
   for (let i = 0; i < count; i++) {
@@ -63,6 +72,7 @@ function buildHelix(count: number): Float32Array {
   return pos
 }
 
+// ... (Baki saare shape builders code space bachaane ke liye same hain, unme koi change nahi hai)
 function buildSphere(count: number): Float32Array {
   const pos = new Float32Array(count * 3)
   for (let i = 0; i < count; i++) {
@@ -132,21 +142,7 @@ function buildCube(count: number): Float32Array {
   return pos
 }
 
-function buildPyramid(count: number): Float32Array {
-  const pos = new Float32Array(count * 3)
-  const H = 3.6, R = 2.2
-  for (let i = 0; i < count; i++) {
-    const i3 = i * 3
-    const face = Math.floor(Math.random() * 4)
-    const y = Math.random() * H - H / 2
-    const rAtY = R * (1 - (y + H / 2) / H)
-    const a = face * (Math.PI / 2) + Math.random() * (Math.PI / 2)
-    pos[i3]     = Math.cos(a) * rAtY + (Math.random() - 0.5) * 0.035
-    pos[i3 + 1] = y
-    pos[i3 + 2] = Math.sin(a) * rAtY + (Math.random() - 0.5) * 0.035
-  }
-  return pos
-}
+
 
 function buildWave(count: number): Float32Array {
   const pos = new Float32Array(count * 3)
@@ -198,19 +194,7 @@ function buildBlackHole(count: number): Float32Array {
   return pos
 }
 
-function buildMobius(count: number): Float32Array {
-  const pos = new Float32Array(count * 3)
-  for (let i = 0; i < count; i++) {
-    const i3 = i * 3
-    const u = (i / count) * Math.PI * 2
-    const v = (Math.random() - 0.5) * 1.4
-    const R = 2.2
-    pos[i3]     = (R + v * Math.cos(u / 2)) * Math.cos(u) + (Math.random()-0.5)*0.025
-    pos[i3 + 1] = (R + v * Math.cos(u / 2)) * Math.sin(u) + (Math.random()-0.5)*0.025
-    pos[i3 + 2] = v * Math.sin(u / 2)                      + (Math.random()-0.5)*0.025
-  }
-  return pos
-}
+
 
 function buildInfinityKnot(count: number): Float32Array {
   const pos = new Float32Array(count * 3)
@@ -354,8 +338,8 @@ function buildScatter(count: number): Float32Array {
 
 const SHAPE_BUILDERS = [
   buildGalaxy, buildHelix, buildSphere, buildTorusKnot, buildRing, buildCube,
-  buildPyramid, buildWave, buildButterfly, buildBlackHole, buildMobius,
-  buildInfinityKnot, buildHypercube, buildStrangeAttractor, buildIcosphere, buildS3D,
+  buildWave, buildButterfly, buildBlackHole, buildHelix,
+  buildInfinityKnot, buildHypercube, buildStrangeAttractor, buildIcosphere, buildS3D, buildHelix,
 ]
 
 const ROTATIONS: ((e: number, p: THREE.Points) => void)[] = [
@@ -412,9 +396,8 @@ export default function GalaxyBackground() {
   useEffect(() => {
     if (!mountRef.current) return
 
-    // CHANGED: Determine mobile dynamic state
     const isMobile = window.innerWidth < 768
-    const currentCount = isMobile ? 85000 : 90000 // Decreased counting safely on mobile
+    const currentCount = isMobile ? 80_000 : 130_000
 
     const isDark  = resolvedTheme === 'dark'
     const palette = isDark ? LIGHT_COLORS : DARK_COLORS
@@ -423,8 +406,9 @@ export default function GalaxyBackground() {
     const scene  = new THREE.Scene()
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
     
-    // CHANGED: Pushed camera further back on mobile (5.5) vs desktop (4.0) to dynamically scale shapes smaller
-    camera.position.z = isMobile ? 4.5 : 4.0
+    // CHANGED: Camera ko thoda aur peeche kar diya (Desktop: 5.2, Mobile: 6.5)
+    // Isse perspective extreme paas nahi aayega aur elements control me rahenge.
+    camera.position.z = isMobile ? 5.5 : 3.5
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
     renderer.setSize(window.innerWidth, window.innerHeight)
@@ -432,7 +416,6 @@ export default function GalaxyBackground() {
     renderer.setClearColor(0x000000, 0)
     mountRef.current.appendChild(renderer.domElement)
 
-    // Pass the calculated loop total down inside instantiation block
     const shapes = SHAPE_BUILDERS.map(fn => fn(currentCount))
     const scatter = buildScatter(currentCount)
     const N = shapes.length
@@ -450,15 +433,17 @@ export default function GalaxyBackground() {
     geo.setAttribute('position', new THREE.BufferAttribute(livePos, 3))
     geo.setAttribute('color',    new THREE.BufferAttribute(colorsBuf, 3))
 
-    // CHANGED: Mobile gets even smaller base particle sizes (0.008) to look super crisp on retina phones
+    // CHANGED HERE:
+    // 1. sizeAttenuation: true wapas kar diya taaki depth achhi lage (flat look chala jaye).
+    // 2. Size ko bohot micro kar diya (0.003 - 0.005). Ab paas aane par bhi ye ekdum fine particles lagenge.
     const mat = new THREE.PointsMaterial({
-      size: isMobile ? 0.008 : 0.012,
+      size: isMobile ? 0.003 : 0.005, 
       map: sprite,
       vertexColors: true,
       transparent: true,
-      opacity: 1,
+      opacity: 0.85,
       depthWrite: false,
-      sizeAttenuation: true,
+      sizeAttenuation: true, 
       alphaTest: 0.001,
       blending: THREE.AdditiveBlending,
     })
@@ -478,7 +463,7 @@ export default function GalaxyBackground() {
       const elapsed = clock.getElapsedTime()
 
       const vh      = window.innerHeight
-      const section = rawScroll / (vh * 1.4)
+      const section = rawScroll / (vh * 1.5)
       const fromIdx = Math.floor(section) % N
       const toIdx   = (fromIdx + 1) % N
       const t       = section - Math.floor(section)
@@ -504,10 +489,9 @@ export default function GalaxyBackground() {
     animate()
 
     const onResize = () => {
-      // Dynamic scaling refresh on client-side viewport changes
       const currentMobileState = window.innerWidth < 768
-      camera.position.z = currentMobileState ? 4.5 : 4.0
-      mat.size = currentMobileState ? 0.008 : 0.012
+      camera.position.z = currentMobileState ? 5.5 : 3.5
+      mat.size = currentMobileState ? 0.003 : 0.005
       
       camera.aspect = window.innerWidth / window.innerHeight
       camera.updateProjectionMatrix()

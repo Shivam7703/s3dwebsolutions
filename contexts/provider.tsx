@@ -4,6 +4,7 @@ import Header from '@/component/header'
 import { ThemeProvider } from 'next-themes'
 import React from 'react'
 import GalaxyBackground from '@/component/background'  // adjust path as needed
+import Footer from '@/component/footer'
 
 function Provider({ children }: { children: React.ReactNode }) {
   return (
@@ -22,6 +23,7 @@ function Provider({ children }: { children: React.ReactNode }) {
       >
         <Header />
         {children}
+        <Footer/>
       </div>
     </ThemeProvider>
   )

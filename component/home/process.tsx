@@ -117,7 +117,7 @@ export default function ProcessSection() {
           <span className="text-xs font-extrabold tracking-widest uppercase text-orange-500 dark:text-violet-500">
             How We Execute
           </span>
-          <h2 className="mt-2 mb-5 text-4xl md:text-5xl font-black leading-tight tracking-tight text-zinc-800 dark:text-white">
+          <h2 className="mt-2 mb-5 text-3xl sm:text-5xl font-bold leading-tight tracking-tight text-zinc-800 dark:text-white">
             Our Work Process
           </h2>
           <div className="h-12">

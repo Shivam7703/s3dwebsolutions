@@ -15,30 +15,30 @@ export default function Home() {
     <main className="">
       {/* Hero */}
      <HeroBanner />
-<div className="h-[50vh]"/>
+<div className="h-[30vh]"/>
 
       {/* transition gap — galaxy morphs during this space */}
 
       <AboutSection />
-      <div className="h-[50vh]"/>
+      <div className="h-[30vh]"/>
 
       <ServicesSection/>
-      <div className="h-[50vh]"/>
+      <div className="h-[30vh]"/>
 
       <ProcessSection/>
-<div className="h-[50vh]"/>
+<div className="h-[30vh]"/>
 
 <DarkRoomProjectsSection/>
-<div className="h-[50vh]"/>
+<div className="h-[30vh]"/>
 
 <FAQSection/>
-<div className="h-[50vh]"/>
+<div className="h-[30vh]"/>
  <WhyChooseUs/>
 
-<div className="h-[50vh]"/>
+<div className="h-[30vh]"/>
 
 <TeamSection/>
-<div className="h-[50vh]"/>
+<div className="h-[30vh]"/>
       <ContactSection/>
     </main>
   );
