@@ -414,7 +414,7 @@ export default function GalaxyBackground() {
 
     // CHANGED: Determine mobile dynamic state
     const isMobile = window.innerWidth < 768
-    const currentCount = isMobile ? 70000 : 90000 // Decreased counting safely on mobile
+    const currentCount = isMobile ? 75000 : 90000 // Decreased counting safely on mobile
 
     const isDark  = resolvedTheme === 'dark'
     const palette = isDark ? LIGHT_COLORS : DARK_COLORS
@@ -452,7 +452,7 @@ export default function GalaxyBackground() {
 
     // CHANGED: Mobile gets even smaller base particle sizes (0.008) to look super crisp on retina phones
     const mat = new THREE.PointsMaterial({
-      size: isMobile ? 0.009 : 0.012,
+      size: isMobile ? 0.008 : 0.012,
       map: sprite,
       vertexColors: true,
       transparent: true,
@@ -506,8 +506,8 @@ export default function GalaxyBackground() {
     const onResize = () => {
       // Dynamic scaling refresh on client-side viewport changes
       const currentMobileState = window.innerWidth < 768
-      camera.position.z = currentMobileState ? 5.0 : 4.0
-      mat.size = currentMobileState ? 0.009 : 0.012
+      camera.position.z = currentMobileState ? 4.5 : 4.0
+      mat.size = currentMobileState ? 0.008 : 0.012
       
       camera.aspect = window.innerWidth / window.innerHeight
       camera.updateProjectionMatrix()

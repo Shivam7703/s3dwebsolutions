@@ -132,7 +132,7 @@ export default function SplineShowcaseSection() {
     >
       {/* ── CENTRAL HEADING HEADER ── */}
       <div className="w-full max-w-3xl text-center px-4 mb-10 md:mb-12 z-20 pointer-events-none select-none flex flex-col items-center">
-        <h2 className="text-2xl sm:text-4xl md:text-5xl font-black tracking-tight text-zinc-900 dark:text-white max-w-3xl leading-[1.15]">
+        <h2 className="text-4xl md:text-5xl font-black tracking-tight text-zinc-900 dark:text-white max-w-3xl leading-[1.15]">
           Take A look For Our Completed
           <span className="bg-linear-to-r from-orange-500 to-red-600 dark:from-violet-600 dark:via-indigo-500 dark:to-purple-600 bg-clip-text text-transparent"> Work Samples</span>
         </h2>

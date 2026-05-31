@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
 import {
   RiRocketLine,
   RiPaletteLine,
@@ -60,7 +61,6 @@ const reasons = [
 function MobileScreen({ activeIndex }: { activeIndex: number }) {
   const item = reasons[activeIndex];
   const Icon = item.icon;
-
   const [time, setTime] = useState("");
 
   useEffect(() => {
@@ -78,29 +78,29 @@ function MobileScreen({ activeIndex }: { activeIndex: number }) {
   }, []);
 
   return (
-    /* Phone shell — wider + taller */
-    <div className="relative w-[280px] h-[560px] rounded-[44px] p-[3px]
+    /* Phone shell — wider: 320px */
+    <div className="relative w-[320px] h-[600px] rounded-[48px] p-[3px]
                     bg-gradient-to-b from-zinc-300 to-zinc-400
                     dark:from-zinc-700 dark:to-zinc-800
                     shadow-2xl shadow-black/30 dark:shadow-black/60 shrink-0">
 
       {/* Inner body */}
-      <div className="relative w-full h-full rounded-[41px] overflow-hidden
+      <div className="relative w-full h-full rounded-[45px] overflow-hidden
                       bg-white dark:bg-zinc-950 flex flex-col">
 
         {/* Dynamic Island */}
-        <div className="absolute top-3.5 left-1/2 -translate-x-1/2 z-20
-                        w-[90px] h-[26px] rounded-full bg-black" />
+        <div className="absolute top-4 left-1/2 -translate-x-1/2 z-20
+                        w-[100px] h-[28px] rounded-full bg-black" />
 
         {/* Status bar */}
-        <div className="flex items-center justify-between px-6 pt-3.5 pb-1 shrink-0 z-10">
-          <span className="text-[10px] font-bold text-zinc-900 dark:text-white mt-3">
+        <div className="flex items-center justify-between px-7 pt-4 pb-1 shrink-0 z-10">
+          <span className="text-[12px] font-bold text-zinc-900 dark:text-white mt-3">
             {time}
           </span>
-          <div className="flex items-center gap-1 mt-3">
-            <RiSignalWifi3Fill className="text-[10px] text-zinc-900 dark:text-white" />
-            <RiWifiFill className="text-[10px] text-zinc-900 dark:text-white" />
-            <RiBatteryFill className="text-[11px] text-zinc-900 dark:text-white" />
+          <div className="flex items-center gap-1.5 mt-3">
+            <RiSignalWifi3Fill className="text-[12px] text-zinc-900 dark:text-white" />
+            <RiWifiFill className="text-[12px] text-zinc-900 dark:text-white" />
+            <RiBatteryFill className="text-[13px] text-zinc-900 dark:text-white" />
           </div>
         </div>
 
@@ -113,61 +113,59 @@ function MobileScreen({ activeIndex }: { activeIndex: number }) {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-              className="flex flex-col h-full px-5 pt-3 pb-6 gap-3.5"
+              className="flex flex-col h-full px-6 pt-3 pb-6 gap-4"
             >
               {/* App header */}
-              <div className="flex items-center justify-between mb-1">
-                <span className="text-[12px] font-black tracking-tight
+              <div className="flex items-center justify-between">
+                <span className="text-[14px] font-black tracking-tight
                                  text-zinc-900 dark:text-white">
                   S3D Web Solutions
                 </span>
-                <div className={`w-7 h-7 rounded-xl flex items-center justify-center
-                                 bg-gradient-to-br ${item.accent} text-white text-[12px]`}>
+                <div className={`w-8 h-8 rounded-xl flex items-center justify-center
+                                 bg-gradient-to-br ${item.accent} text-white text-[14px]`}>
                   <Icon />
                 </div>
               </div>
 
               {/* Hero card */}
-              <div className={`rounded-2xl p-4 bg-gradient-to-br ${item.accent} text-white`}>
-                <span className="text-[9px] font-bold tracking-widest opacity-80 block mb-1.5">
+              <div className={`rounded-2xl p-5 bg-gradient-to-br ${item.accent} text-white`}>
+                <span className="text-[10px] font-bold tracking-widest opacity-80 block mb-2">
                   {item.short}
                 </span>
-                <h4 className="text-[15px] font-black leading-tight">{item.title}</h4>
-                <p className="text-[10px] mt-2 opacity-80 leading-relaxed line-clamp-2">
+                <h4 className="text-base font-bold leading-tight">{item.title}</h4>
+                <p className="text-sm mt-2  leading-relaxed ">
                   {item.desc}
                 </p>
               </div>
 
-              {/* Mini stat cards */}
-              <div className="grid grid-cols-2 gap-2.5">
+              {/* 2 stat cards only */}
+              <div className="grid grid-cols-2 gap-3">
                 {[
-                  { label: "Speed", val: "2–4 wks" },
-                  { label: "Quality", val: "100%" },
-                  { label: "Stack", val: "Next.js" },
+                  { label: "Delivery", val: "2–4 wks" },
                   { label: "Scale", val: "10×" },
                 ].map((s) => (
                   <div key={s.label}
-                    className="rounded-xl p-3
+                    className="rounded-xl p-3.5
                                bg-zinc-50 dark:bg-zinc-900
                                border border-zinc-100 dark:border-zinc-800">
-                    <span className="text-[9px] text-zinc-400 dark:text-zinc-500 block">
+                    <span className="text-[10px] text-zinc-400 dark:text-zinc-500 block mb-0.5">
                       {s.label}
                     </span>
-                    <span className="text-[13px] font-bold text-zinc-900 dark:text-white">
+                    <span className="text-[16px] font-bold text-zinc-900 dark:text-white">
                       {s.val}
                     </span>
                   </div>
                 ))}
               </div>
 
-              {/* Progress bars */}
-              <div className="flex flex-col gap-2 mt-auto">
+              {/* Progress bars — pushed to bottom */}
+              <div className="flex flex-col gap-2.5 mt-auto">
                 {["Design", "Development", "Delivery"].map((label, li) => (
-                  <div key={label} className="flex items-center gap-2.5">
-                    <span className="text-[9px] text-zinc-400 dark:text-zinc-500 w-[68px] shrink-0">
+                  <div key={label} className="flex items-center gap-3">
+                    <span className="text-[11px] text-zinc-400 dark:text-zinc-500 w-[76px] shrink-0">
                       {label}
                     </span>
-                    <div className="flex-1 h-[3px] rounded-full bg-zinc-100 dark:bg-zinc-800 overflow-hidden">
+                    <div className="flex-1 h-[4px] rounded-full bg-zinc-100 dark:bg-zinc-800 overflow-hidden">
                       <motion.div
                         initial={{ width: 0 }}
                         animate={{ width: `${[90, 75, 60][li]}%` }}
@@ -175,7 +173,7 @@ function MobileScreen({ activeIndex }: { activeIndex: number }) {
                         className={`h-full rounded-full ${item.bar}`}
                       />
                     </div>
-                    <span className="text-[9px] font-bold text-zinc-400 dark:text-zinc-500">
+                    <span className="text-[11px] font-bold text-zinc-400 dark:text-zinc-500 w-8 text-right">
                       {[90, 75, 60][li]}%
                     </span>
                   </div>
@@ -183,29 +181,29 @@ function MobileScreen({ activeIndex }: { activeIndex: number }) {
               </div>
 
               {/* CTA */}
-              
-              <a  href="/contact"
-                className={`w-full py-2.5 rounded-xl text-[11px] font-bold text-center
+              <Link
+                href="/contact"
+                className={`w-full py-3 rounded-xl text-[13px] font-bold text-center
                              text-white bg-gradient-to-r ${item.accent}`}
               >
                 Let's Deploy →
-              </a>
+              </Link>
 
               {/* Home indicator */}
               <div className="flex justify-center -mb-2">
-                <div className="w-[80px] h-[4px] rounded-full bg-zinc-200 dark:bg-zinc-700" />
+                <div className="w-[90px] h-[4px] rounded-full bg-zinc-200 dark:bg-zinc-700" />
               </div>
             </motion.div>
           </AnimatePresence>
         </div>
       </div>
 
-      {/* Side buttons */}
-      <div className="absolute -left-[3px] top-[100px] w-[3px] h-9 rounded-l-sm
+      {/* Side buttons — moved lower */}
+      <div className="absolute -left-[3px] top-[160px] w-[3px] h-9 rounded-l-sm
                       bg-zinc-400 dark:bg-zinc-700" />
-      <div className="absolute -left-[3px] top-[148px] w-[3px] h-9 rounded-l-sm
+      <div className="absolute -left-[3px] top-[208px] w-[3px] h-9 rounded-l-sm
                       bg-zinc-400 dark:bg-zinc-700" />
-      <div className="absolute -right-[3px] top-[120px] w-[3px] h-14 rounded-r-sm
+      <div className="absolute -right-[3px] top-45 w-0.75 h-14 rounded-r-sm
                       bg-zinc-400 dark:bg-zinc-700" />
     </div>
   );
@@ -227,9 +225,9 @@ export default function WhyChooseUs() {
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.9 }}
-          className={`absolute top-1/2 -translate-y-1/2 right-[5%]
-                      w-[260px] h-[260px] rounded-full blur-[100px]
-                      bg-gradient-to-br ${reasons[activeIndex].accent}
+          className={`absolute top-[60%] dark:top-1/2 -translate-y-1/2 right-[5%]
+                      w-70 h-70 rounded-full blur-[100px]
+                      bg-linear-to-br ${reasons[activeIndex].accent}
                       pointer-events-none z-0`}
           style={{ opacity: 0.08 }}
         />
@@ -270,7 +268,7 @@ export default function WhyChooseUs() {
                     flex items-center justify-between overflow-hidden group
                     ${isActive
                       ? "border-zinc-200 dark:border-zinc-800 bg-white/80 dark:bg-zinc-900/60 shadow-md dark:shadow-black/30 backdrop-blur-md"
-                      : "border-transparent bg-transparent opacity-50 hover:opacity-80"
+                      : "border-transparent bg-transparent opacity-70 hover:opacity-90"
                     }
                   `}
                 >
@@ -280,18 +278,18 @@ export default function WhyChooseUs() {
                       transition-all duration-500
                       ${isActive
                         ? `bg-gradient-to-br ${item.accent} text-white shadow-lg`
-                        : "bg-zinc-100 dark:bg-zinc-900 text-zinc-400 dark:text-zinc-500 group-hover:text-zinc-700 dark:group-hover:text-zinc-200"
+                        : "bg-zinc-300 dark:bg-zinc-900 text-zinc-700 dark:text-zinc-500 group-hover:text-zinc-700 dark:group-hover:text-zinc-200"
                       }
                     `}>
                       <Icon />
                     </div>
                     <div>
                       <span className="block text-[10px] font-mono tracking-widest font-bold
-                                       text-zinc-400 dark:text-zinc-500">
+                                       text-zinc-600 dark:text-zinc-500">
                         POINT {item.id}
                       </span>
                       <h4 className={`text-[15px] font-bold transition-colors
-                        ${isActive ? "text-zinc-900 dark:text-white" : "text-zinc-500 dark:text-zinc-400"}`}>
+                        ${isActive ? "text-zinc-900 dark:text-white" : "text-zinc-900 dark:text-zinc-200"}`}>
                         {item.title}
                       </h4>
                     </div>
@@ -313,10 +311,13 @@ export default function WhyChooseUs() {
         </div>
 
         {/* ── RIGHT: Mobile mockup ── */}
-        <div className="lg:col-span-6 w-full h-[600px] flex items-center justify-center relative">
-          <div className="absolute w-[380px] aspect-square rounded-full -z-10
-                          border border-dashed border-zinc-200 dark:border-zinc-900
-                          animate-spin [animation-duration:50s] hidden lg:block" />
+        <div className="lg:col-span-6 w-full h-[640px] flex items-center justify-center relative">
+
+          {/* Dashed ring — smaller: 300px, moved down */}
+          {/* <div className="absolute w-[300px] aspect-square rounded-full -z-10
+                          border border-dashed border-zinc-200 bg-white dark:border-zinc-900
+                          animate-spin [animation-duration:50s] hidden lg:block
+                          top-[55%] left-1/2 -translate-x-1/2 -translate-y-1/2" /> */}
 
           <motion.div
             animate={{ y: [0, -10, 0] }}
