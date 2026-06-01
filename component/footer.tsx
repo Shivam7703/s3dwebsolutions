@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useTheme } from "next-themes";
 import Logo from "./logo";
 import {
-  FaHome, FaUser, FaServicestack, FaFolderOpen, FaEnvelope,
   FaTwitter, FaLinkedin, FaGithub, FaInstagram,
   FaHeart, FaArrowUp,
 } from "react-icons/fa";
@@ -48,8 +47,11 @@ const contact = [
 export default function Footer() {
   const { resolvedTheme } = useTheme();
   const [showScroll, setShowScroll] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
+  // Handle mount state to prevent hydration mismatch for theme-dependent elements
   useEffect(() => {
+    setMounted(true);
     const handleScroll = () => setShowScroll(window.scrollY > 300);
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
@@ -58,7 +60,6 @@ export default function Footer() {
   return (
     <footer className="relative w-full overflow-x-clip border-t border-zinc-200/60 dark:border-zinc-800/60 bg-zinc-50/10 dark:bg-black/20 backdrop-blur-md">
       
-
       <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-20 pt-16 pb-8">
         
         {/* Main 4-Column Grid */}
@@ -67,7 +68,12 @@ export default function Footer() {
           {/* Col 1: Brand Logo & Description */}
           <div className="flex flex-col gap-5 sm:col-span-2 lg:col-span-1">
             <Link href="/" aria-label="S3D Web Solutions" className="w-fit">
-<Logo isDark={resolvedTheme === "dark"} size="sm" />
+              {/* FIXED: mounted check add kiya hai taaki correct theme resolve hone ke baad hi render ho */}
+              {mounted ? (
+                <Logo isDark={resolvedTheme === "dark"} size="sm" />
+              ) : (
+                <div className="h-8 w-24 animate-pulse bg-zinc-200 dark:bg-zinc-800 rounded" /> // Skeleton loading state
+              )}
             </Link>
             <p className="text-[13px] leading-[1.75] text-zinc-500 dark:text-zinc-400 font-light max-w-[240px]">
               We craft blazing-fast websites, apps, and brand identities that convert visitors into loyal customers.

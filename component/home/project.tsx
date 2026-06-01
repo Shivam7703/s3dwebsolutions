@@ -128,7 +128,7 @@ export default function SplineShowcaseSection() {
   return (
     <section
       ref={sectionRef}
-      className="relative w-full h-[130vh] bg-linear-to-b from-transparent via-zinc-100/70 dark:via-zinc-800/70 to-transparent text-zinc-900 dark:text-white flex flex-col justify-center items-center overflow-hidden transition-colors duration-300"
+      className="relative w-full h-[130vh] text-zinc-900 dark:text-white flex flex-col justify-center items-center overflow-hidden transition-colors duration-300"
     >
       {/* ── CENTRAL HEADING HEADER ── */}
       <div className="w-full max-w-3xl text-center px-4 mb-10 md:mb-12 z-20 pointer-events-none select-none flex flex-col items-center">
@@ -155,25 +155,7 @@ export default function SplineShowcaseSection() {
         </motion.div>
       </div>
 
-      {/* ── SCREEN EDGE FADE MASKS ── */}
-      <style jsx global>{`
-        .mask-edge-fade {
-          mask-image: linear-gradient(
-            to right,
-            transparent 0%,
-            rgba(0, 0, 0, 1) 15%,
-            rgba(0, 0, 0, 1) 85%,
-            transparent 100%
-          );
-          -webkit-mask-image: linear-gradient(
-            to right,
-            transparent 0%,
-            rgba(0, 0, 0, 1) 15%,
-            rgba(0, 0, 0, 1) 85%,
-            transparent 100%
-          );
-        }
-      `}</style>
+   
     </section>
   );
 }

@@ -25,15 +25,15 @@ function makeCircleTexture(size = 64): THREE.Texture {
 const DARK_COLORS = [
   0x000000, // Black
   0x1c1917, // Zinc-800
-  0x52525b, // Zinc-600
+  0x52525b, // Zinc-600 (Aapne zinc-600 aur grey dono bola tha, yeh zinc ka hai)
   0x9a3412, // Orange-800
-  0xfb923c, // Orange-400
-  0xef4444, // Red-500
+  0xfb923c, // Orange-400 (New - bright/pop orange)
+  0xef4444, // Red-500    (New - punchy galaxy red)
   0xf97316, // Orange-500
   0xea580c, // Orange-600
-  0xc2410c, // Orange-700
-  0x6b7280, // Grey-500
-  0xeab308, // Yellow-500
+0xc2410c, // Orange-700 (New - thoda deep orange)
+  0x6b7280,  // Grey-500 (Tailwind Gray-500)
+  0xeab308, // Yellow-500 (New - bright cosmic yellow)
 ];
 
 const LIGHT_COLORS = [
@@ -72,6 +72,7 @@ function buildHelix(count: number): Float32Array {
   return pos
 }
 
+// ... (Baki saare shape builders code space bachaane ke liye same hain, unme koi change nahi hai)
 function buildSphere(count: number): Float32Array {
   const pos = new Float32Array(count * 3)
   for (let i = 0; i < count; i++) {
@@ -141,6 +142,8 @@ function buildCube(count: number): Float32Array {
   return pos
 }
 
+
+
 function buildWave(count: number): Float32Array {
   const pos = new Float32Array(count * 3)
   const W = 6, D = 6
@@ -190,6 +193,8 @@ function buildBlackHole(count: number): Float32Array {
   }
   return pos
 }
+
+
 
 function buildInfinityKnot(count: number): Float32Array {
   const pos = new Float32Array(count * 3)
@@ -401,8 +406,9 @@ export default function GalaxyBackground() {
     const scene  = new THREE.Scene()
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
     
-    // Mobile par camera position update kiya taaki particles paas rahein
-    camera.position.z = isMobile ? 4.8 : 3.5
+    // CHANGED: Camera ko thoda aur peeche kar diya (Desktop: 5.2, Mobile: 6.5)
+    // Isse perspective extreme paas nahi aayega aur elements control me rahenge.
+    camera.position.z = isMobile ? 5.5 : 3.5
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
     renderer.setSize(window.innerWidth, window.innerHeight)
@@ -427,15 +433,15 @@ export default function GalaxyBackground() {
     geo.setAttribute('position', new THREE.BufferAttribute(livePos, 3))
     geo.setAttribute('color',    new THREE.BufferAttribute(colorsBuf, 3))
 
-    // CHANGED HERE FOR MOBILE VISIBILITY:
-    // 1. Mobile size ko badha kar 0.007 kiya (Desktop fine 0.005 hi hai).
-    // 2. Mobile opacity ko 0.98 kiya (Desktop 0.85).
+    // CHANGED HERE:
+    // 1. sizeAttenuation: true wapas kar diya taaki depth achhi lage (flat look chala jaye).
+    // 2. Size ko bohot micro kar diya (0.003 - 0.005). Ab paas aane par bhi ye ekdum fine particles lagenge.
     const mat = new THREE.PointsMaterial({
-      size: isMobile ? 0.007 : 0.005, 
+      size: isMobile ? 0.004 : 0.007, 
       map: sprite,
       vertexColors: true,
       transparent: true,
-      opacity: isMobile ? 0.98 : 0.85, 
+      opacity: 0.85,
       depthWrite: false,
       sizeAttenuation: true, 
       alphaTest: 0.001,
@@ -484,9 +490,8 @@ export default function GalaxyBackground() {
 
     const onResize = () => {
       const currentMobileState = window.innerWidth < 768
-      camera.position.z = currentMobileState ? 4.8 : 3.5
-      mat.size = currentMobileState ? 0.007 : 0.005
-      mat.opacity = currentMobileState ? 0.98 : 0.85
+      camera.position.z = currentMobileState ? 5.5 : 3.5
+      mat.size = currentMobileState ? 0.003 : 0.005
       
       camera.aspect = window.innerWidth / window.innerHeight
       camera.updateProjectionMatrix()
