@@ -83,7 +83,7 @@ function InfoCard({
             w-10 h-10 rounded-xl flex items-center justify-center text-base shrink-0
             transition-all duration-300
             ${hovered
-              ? "bg-gradient-to-br from-orange-500 to-red-500 dark:from-violet-600 dark:to-blue-600 text-white shadow-sm"
+              ? "bg-linear-to-br from-orange-500 to-red-500 dark:from-violet-600 dark:to-blue-600 text-white shadow-sm"
               : "bg-zinc-200 dark:bg-zinc-100/80 text-zinc-500 dark:text-zinc-900"
             }
           `}
@@ -211,7 +211,7 @@ function LeftPanel() {
           Let's build{" "}
           <span className=" bg-linear-to-r from-orange-500 to-red-500
                          dark:from-violet-500
-                         via-blue-500 dark:to-purple-500
+                         dark:via-blue-500 dark:to-purple-500
                          bg-clip-text text-transparent">
             something
           </span>
@@ -374,6 +374,7 @@ function ContactForm() {
                 name="phone"
                 value={fields.phone}
                 onChange={handleChange}
+                required
               />
 
               <FormField
@@ -395,7 +396,7 @@ function ContactForm() {
                 className="
                   w-full py-3 rounded-xl text-[13px] font-bold mt-2
                   flex items-center justify-center gap-2
-                  bg-gradient-to-r from-orange-500 to-red-500 text-white
+                  bg-linear-to-r from-orange-500 to-red-500 text-white
                   dark:from-violet-600 dark:to-indigo-600
                   shadow-sm hover:brightness-105 transition-all duration-200
                   disabled:opacity-60 relative overflow-hidden

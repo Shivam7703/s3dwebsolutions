@@ -397,7 +397,7 @@ export default function GalaxyBackground() {
     if (!mountRef.current) return
 
     const isMobile = window.innerWidth < 768
-    const currentCount = isMobile ? 80_000 : 130_000
+    const currentCount = isMobile ? 100_000 : 130_000
 
     const isDark  = resolvedTheme === 'dark'
     const palette = isDark ? LIGHT_COLORS : DARK_COLORS
