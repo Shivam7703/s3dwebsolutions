@@ -126,7 +126,7 @@ export default function ProcessSection() {
         </motion.div>
 
         {/* Moving Slider Zone Container */}
-        <div className="relative mt-auto mb-12 md:mb-16 w-full overflow-visible">
+        <div className="relative my-12 md:my-16 w-full overflow-visible">
           
           {/* FIXED: Canvas element style track mapping matched with 100% width of sliding zone */}
           <motion.div 
