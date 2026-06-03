@@ -66,7 +66,7 @@ export default function Header() {
         }}
         className="fixed top-0 left-0 right-0 z-50 pt-3"
       >
-        <div className="max-w-7xl mx-auto p-5 sm:px-8 h-20 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto p-3 sm:px-8 h-20 flex items-center justify-between">
           {/* Logo */}
           <Link 
             href="/" 

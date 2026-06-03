@@ -1,5 +1,6 @@
 // app/page.tsx
 import ContactSection from "@/component/contact/contact-form";
+import AIChatbot from "@/component/global/chatboox";
 import AboutSection from "@/component/home/about";
 import WhyChooseUs from "@/component/home/choose";
 import FAQSection from "@/component/home/Faq";
@@ -40,6 +41,7 @@ export default function Home() {
 <TeamSection/>
 <div className="h-[30vh]"/>
       <ContactSection/>
+      <AIChatbot/>
     </main>
   );
 }

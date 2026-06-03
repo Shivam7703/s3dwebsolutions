@@ -11,7 +11,7 @@ const sizes = {
   lg: { mark: 150, s3d: 50, wm: 40, divH: 90, divMx: 16,  },
 };
 
-export default function Logo({ isDark, size = "md" }: LogoProps) {
+export default function Logo({ isDark, size = "sm" }: LogoProps) {
   const s = sizes[size];
 
   return (

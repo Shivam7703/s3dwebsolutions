@@ -447,7 +447,7 @@ export default function TeamSection() {
 
   const handleMemberSelect = (id: number) => {
     setActiveId(id);
-    // setUserInteracted(true); 
+    setUserInteracted(true); 
   };
 
   return (
@@ -480,7 +480,7 @@ export default function TeamSection() {
         <motion.div
           initial={{ opacity: 0 }}
           animate={inView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.5, delay: 0.6 }}
+          transition={{ duration: 0.5, delay: 0.8 }}
           className="mt-16 flex flex-wrap items-center justify-center gap-x-6 gap-y-4"
         >
           {members.map(m => (
