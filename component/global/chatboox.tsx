@@ -26,7 +26,7 @@ const PHONE_NUMBER    = "+918218885483";
 const EMAIL_ADDRESS   = "info@s3dwebsolutions.com";
 
 // ⬇️ Apna Express server ka URL yahan daalein
-const BACKEND_URL = process.env.NEXT_PUBLIC_CHAT_API_URL || "http://localhost:4000";
+const BACKEND_URL = process.env.NEXT_PUBLIC_CHAT_API_URL || "http://localhost:5000";
 
 interface Message {
   role: "user" | "assistant";
@@ -108,7 +108,7 @@ function ChatBox({ onBack, isMobile }: { onBack: () => void; isMobile: boolean }
         >
           <RiArrowLeftLine />
         </button>
-        <div className="w-8 h-8 rounded-full flex items-center justify-center text-white shrink-0 bg-gradient-to-br from-violet-600 to-blue-600">
+        <div className="w-8 h-8 rounded-full flex items-center justify-center text-white shrink-0 bg-gradient-to-br dark:from-violet-500 dark:to-blue-500 from-orange-500 to-red-500">
           <RiRobot2Line className="text-base" />
         </div>
         <div className="flex-1">
@@ -127,7 +127,7 @@ function ChatBox({ onBack, isMobile }: { onBack: () => void; isMobile: boolean }
             <div
               className={`max-w-[80%] px-4 py-2.5 rounded-2xl text-sm leading-relaxed ${
                 msg.role === "user"
-                  ? "bg-gradient-to-br from-violet-600 to-blue-600 text-white rounded-br-sm"
+                  ? "bg-linear-to-br dark:from-violet-500 dark:to-blue-500 from-orange-500 to-red-500 text-white rounded-br-sm"
                   : "bg-white dark:bg-zinc-800 text-zinc-800 dark:text-zinc-100 border border-zinc-200 dark:border-zinc-700 rounded-bl-sm shadow-sm"
               }`}
             >
@@ -157,12 +157,12 @@ function ChatBox({ onBack, isMobile }: { onBack: () => void; isMobile: boolean }
           onChange={e => setInput(e.target.value)}
           onKeyDown={handleKeyDown}
           placeholder="Type a message..."
-          className="flex-1 px-4 py-2.5 bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-xl text-sm text-zinc-800 dark:text-zinc-100 placeholder:text-zinc-400 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-violet-500/40 transition"
+          className="flex-1 px-4 py-2.5 bg-zinc-100 dark:bg-zinc-800 border border-zinc-400 dark:border-zinc-600 rounded-xl text-sm text-zinc-800 dark:text-zinc-100 placeholder:text-zinc-600 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-violet-500/40 transition"
         />
         <button
           onClick={sendMessage}
           disabled={!input.trim() || loading}
-          className="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-600 to-blue-600 text-white flex items-center justify-center disabled:opacity-40 hover:opacity-90 transition active:scale-95 shrink-0"
+          className="w-10 h-10 rounded-xl bg-gradient-to-br dark:from-violet-500 dark:to-blue-500 from-orange-500 to-red-500 text-white flex items-center justify-center disabled:opacity-40 hover:opacity-90 transition active:scale-95 shrink-0"
         >
           <RiSendPlaneFill />
         </button>
@@ -179,7 +179,7 @@ function DockIcon({ item }: { item: DockItem }) {
         {item.title}
       </span>
       <div
-        className={`w-9 h-9 rounded-full flex items-center justify-center text-white text-lg shadow-md border border-white/10 transition-all duration-200 transform group-hover:scale-110 active:scale-95 ${item.gradient}`}
+        className={`sm:w-10 sm:h-10 w-12 h-12 rounded-full flex items-center justify-center text-white text-2xl sm:text-lg shadow-md border border-white/10 transition-all duration-200 transform group-hover:scale-110 active:scale-95 ${item.gradient}`}
       >
         {item.icon}
       </div>
@@ -238,7 +238,7 @@ export default function ChatWidget() {
       title: isChatOpen ? "Close Chat" : "Live Chat",
       // ✅ Chat open ho to Cross icon, band ho to Chat icon
       icon: isChatOpen ? <RiCloseLine className="text-xl" /> : <RiChat3Line />,
-      gradient: `bg-gradient-to-br from-violet-500 to-purple-600 shadow-purple-500/10 scale-130 ml-1.25 mr-1 !-mt-2 ${
+      gradient: `bg-gradient-to-br from-violet-500 to-purple-600 shadow-purple-500/10 scale-125 !-mt-2 mr-1 ml-1.25 ${
         !isChatOpen ? "animate-pulse" : ""
       }`,
       onClick: () => {
@@ -286,7 +286,7 @@ export default function ChatWidget() {
         </AnimatePresence>
 
         {/* Dock */}
-        <div className="flex items-center gap-3 px-2.5 py-1.5 rounded-full border border-zinc-200/40 dark:border-zinc-800/50 bg-white/70 dark:bg-zinc-900/70 backdrop-blur-md shadow-lg">
+        <div className="flex items-center gap-4 sm:gap-3 px-2.5 py-1.5 rounded-full border border-zinc-200/40 dark:border-zinc-800/50 bg-white/70 dark:bg-zinc-900/70 backdrop-blur-md shadow-lg">
           {dockItems.map((item) => (
             <DockIcon key={item.id} item={item} />
           ))}
