@@ -107,7 +107,7 @@ export default function ProcessSection() {
 
   return (
     <section ref={targetRef} className="relative h-[510vh] bg-transparent">
-      <div className="sticky top-14 h-screen flex flex-col justify-between overflow-hidden py-14 md:py-20">
+      <div className="sticky top-12 h-screen flex flex-col  overflow-hidden py-14 ">
         
         {/* Brand Block */}
         <motion.div 
@@ -126,14 +126,14 @@ export default function ProcessSection() {
         </motion.div>
 
         {/* Moving Slider Zone Container */}
-        <div className="relative my-12 md:my-16 w-full overflow-visible">
+        <div className="relative my-10  md:my-12 w-full overflow-visible">
           
           {/* FIXED: Canvas element style track mapping matched with 100% width of sliding zone */}
           <motion.div 
             style={{ x }} 
             className="max-sm:hidden absolute top-1/2 -translate-y-1/2 left-0 pointer-events-none z-0"
           >
-            <canvas ref={canvasRef} className="h-[360px] block" />
+            <canvas ref={canvasRef} className="h-90 block" />
           </motion.div>
 
           {/* Cards Track Array Grid */}
@@ -145,7 +145,7 @@ export default function ProcessSection() {
             {steps.map((step, index) => (
               <div 
                 key={index} 
-                className="w-[85vw] md:w-[480px] h-auto md:h-[320px] flex flex-col justify-between shrink-0 p-10 rounded-[32px] border backdrop-blur-sm relative group transition-all duration-500
+                className="w-[85vw] md:w-[480px] h-auto md:h-[290px] flex flex-col justify-between shrink-0 p-10 rounded-[32px] border backdrop-blur-sm relative group transition-all duration-500
                   bg-white/40 border-zinc-200/90 hover:border-orange-400/40 shadow-[0_25px_50px_rgba(0,0,0,0.03)]
                   dark:bg-zinc-950/40 dark:border-zinc-800/80 dark:hover:border-violet-500/40 dark:shadow-[0_25px_60px_rgba(0,0,0,0.5)]"
               >

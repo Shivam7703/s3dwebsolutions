@@ -29,7 +29,7 @@ export function FloatingNavDock({ items, isDark }: FloatingNavDockProps) {
     <motion.div
       onMouseMove={(e) => mouseX.set(e.pageX)}
       onMouseLeave={() => mouseX.set(Infinity)}
-      className="flex items-center gap-5 max-w-max px-4 py-2 backdrop-blur-md rounded-full"
+      className="flex items-center gap-3 sm:gap-5 max-w-max px-4 py-2 backdrop-blur-md rounded-full"
       style={{ height: 64 }}
     >
       {items.map((item) => (

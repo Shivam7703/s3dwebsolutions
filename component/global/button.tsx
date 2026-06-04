@@ -55,7 +55,7 @@ function Button({ text11 }: { text11: string }) {
         from-orange-500 to-red-600 bg-linear-to-r text-zinc-100 hover:from-zinc-800 hover:to-zinc-900 shadow-zinc-200/30
         
         /* Dark Mode Styles */
-        dark:from-violet-600 dark:via-blue-600 dark:to-purple-600 dark:text-white dark:shadow-violet-500/30
+        dark:from-violet-600 dark:via-blue-600 dark:to-purple-800 dark:hover:from-indigo-800 dark:hover:to-purple-700  dark:text-white dark:shadow-violet-500/30
       "
     >
       {/* Shimmer animation */}

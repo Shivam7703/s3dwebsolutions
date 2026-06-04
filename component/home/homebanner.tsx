@@ -17,7 +17,7 @@ export default function HeroBanner() {
       </h1>
 
       {/* Paragraph — Direct Tailwind classes for theme */}
-      <p className="mt-6 text-center max-w-2xl text-base font-semibold dark:text-white">
+      <p className="mt-6 text-center max-w-2xl text-base font-normal dark:text-white">
         From concept to code — we craft blazing-fast websites, apps, and brand
         identities that convert visitors into loyal customers.
       </p>

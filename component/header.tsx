@@ -64,14 +64,14 @@ export default function Header() {
           transform: visible ? "translateY(0)" : "translateY(-110%)",
           transition: "transform 0.4s cubic-bezier(0.4,0,0.2,1)",
         }}
-        className="fixed top-0 left-0 right-0 z-50 pt-3"
+        className="fixed top-0 left-0 right-0 z-50 sm:pt-3 pt-1 max-sm:backdrop-blur-md"
       >
-        <div className="max-w-7xl mx-auto p-3 sm:px-8 h-20 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-3 sm:px-8 h-20 flex items-center justify-between">
           {/* Logo */}
           <Link 
             href="/" 
             aria-label="S3D Web Solutions" 
-            className={`transition-all duration-300 ${visible ? "backdrop-blur-sm p-2 pb-5" : ""}`}
+            className={`transition-all duration-300 ${visible ? "sm:backdrop-blur-sm p-1 sm:p-2 sm:pb-5" : ""}`}
             style={{
               clipPath: "polygon(0% 0%, 100% 0%, 100% 80%, 50% 100%, 0% 80%)"
             }}
@@ -80,12 +80,12 @@ export default function Header() {
           </Link>
 
           {/* Desktop Nav: Mobile screen par hidden (`hidden md:block`) */}
-          <nav className="hidden md:block">
+          <nav className="">
             <FloatingNavDock items={dockItems} isDark={isDark} />
           </nav>
 
           {/* Right Controls */}
-          <div className="flex items-center gap-3">
+          <div className="max-md:hidden flex items-center gap-3">
             {/* Theme Toggle */}
             <button
               onClick={() => setTheme(isDark ? "light" : "dark")}
@@ -106,15 +106,6 @@ export default function Header() {
         </div>
       </header>
 
-      {/* Mobile Sticky Dock: Sirf mobile screens par bottom center mein dikhega */}
-      <div 
-        className="fixed bottom-6 left-0 w-full md:hidden z-50"
-      
-      >
-        <nav className="mx-auto w-max shadow-xl rounded-full">
-          <FloatingNavDock items={dockItems} isDark={isDark} />
-        </nav>
-      </div>
     </>
   );
 }
