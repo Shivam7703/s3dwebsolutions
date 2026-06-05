@@ -26,7 +26,7 @@ const PHONE_NUMBER    = "+918218885483";
 const EMAIL_ADDRESS   = "info@s3dwebsolutions.com";
 
 // ⬇️ Apna Express server ka URL yahan daalein
-const BACKEND_URL = process.env.NEXT_PUBLIC_CHAT_API_URL || "http://localhost:5000";
+const BACKEND_URL = "https://s3d-backend.onrender.com";
 
 interface Message {
   role: "user" | "assistant";

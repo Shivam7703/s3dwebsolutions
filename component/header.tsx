@@ -71,7 +71,7 @@ export default function Header() {
           <Link 
             href="/" 
             aria-label="S3D Web Solutions" 
-            className={`transition-all duration-300 ${visible ? "sm:backdrop-blur-sm p-1 sm:p-2 sm:pb-5" : ""}`}
+            className={`transition-all duration-300 ${visible ? "sm:backdrop-blur-sm py-4 px-2 sm:p-2 sm:pb-5" : ""}`}
             style={{
               clipPath: "polygon(0% 0%, 100% 0%, 100% 80%, 50% 100%, 0% 80%)"
             }}

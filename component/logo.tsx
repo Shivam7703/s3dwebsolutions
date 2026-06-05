@@ -1,143 +1,205 @@
 "use client";
 
+import React, { useEffect, useRef } from "react";
+import Image from "next/image";
+import { logo, logoWhite, icon, iconWhite } from "@/assets/index";
+
 interface LogoProps {
   isDark: boolean;
   size: "sm" | "md";
 }
 
 const sizes = {
-  sm: { mark: 80, s3d: 26, wm: 21, divH: 48, divMx: 10, },
-  md: { mark: 100, s3d: 32, wm: 24, divH: 60, divMx: 12, },
+  sm: { markW: 165, markH: 112, divH: 40, divMx: 12 },
+  md: { markW: 190, markH: 100, divH: 90, divMx: 28 },
 };
 
 export default function Logo({ isDark, size }: LogoProps) {
-  
   const s = sizes[size];
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+
+  // Light/Dark Mode colors
+  const neonColor = isDark ? "rgba(167, 139, 250, " : "rgba(249, 115, 22, ";
+  const shadowColor = isDark ? "#A78BFA" : "#F97316";
+  const nodeColor = isDark ? "#FFF" : "#F97316";
   
-  // sm size होने पर मोबाइल पर छिपाने के लिए कंडीशनल क्लास
-  const hideOnMobile = size === "sm" ? "hidden md:flex" : "flex";
+  // Adaptive Assets
+  const logoSrc = isDark ? logoWhite : logo;
+  const iconSrc = isDark ? iconWhite : icon;
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    let animationFrameId: number;
+    
+    // Mobile par icon ke hisab se canvas width/height handle karne ke liye responsive check
+    const isMobile = window.innerWidth < 768;
+    const currentW = (size === "sm" && isMobile) ? 48 : s.markW;
+    const currentH = (size === "sm" && isMobile) ? 48 : s.markH;
+
+    canvas.width = currentW + 40;
+    canvas.height = currentH + 40;
+
+    const lines: Array<{
+      x: number;
+      y: number;
+      len: number;
+      speed: number;
+      opacity: number;
+      isVert: boolean;
+    }> = [];
+
+    const maxLines = 10;
+
+    for (let i = 0; i < maxLines; i++) {
+      lines.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        len: Math.random() * 40 + 20,
+        speed: Math.random() * 0.8 + 0.3,
+        opacity: Math.random() * 0.5 + 0.2,
+        isVert: Math.random() > 0.5,
+      });
+    }
+
+    function renderMatrix() {
+      if (!ctx || !canvas) return;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      lines.forEach((line) => {
+        ctx.beginPath();
+        ctx.strokeStyle = `${neonColor}${line.opacity})`;
+        ctx.lineWidth = 1.2;
+        ctx.shadowBlur = 6;
+        ctx.shadowColor = shadowColor;
+
+        if (line.isVert) {
+          ctx.moveTo(line.x, line.y);
+          ctx.lineTo(line.x, line.y + line.len);
+          line.y += line.speed;
+          if (line.y > canvas.height) line.y = -line.len;
+        } else {
+          ctx.moveTo(line.x, line.y);
+          ctx.lineTo(line.x + line.len, line.y);
+          line.x += line.speed;
+          if (line.x > canvas.width) line.x = -line.len;
+        }
+        ctx.stroke();
+
+        if (Math.random() > 0.94) {
+          ctx.fillStyle = nodeColor;
+          ctx.beginPath();
+          ctx.arc(line.x, line.y, 1.5, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      });
+
+      ctx.shadowBlur = 0;
+      animationFrameId = requestAnimationFrame(renderMatrix);
+    }
+
+    renderMatrix();
+
+    return () => {
+      cancelAnimationFrame(animationFrameId);
+    };
+  }, [isDark, size, s.markW, s.markH, neonColor, shadowColor, nodeColor]);
 
   return (
     <>
-      <div className="flex items-center group">
-        {/* Orbit mark (यह हमेशा दिखेगा) */}
-        <div
-          className="relative flex items-center justify-center shrink-0 transition-transform duration-500 group-hover:scale-105"
-          style={{ width: s.mark, height: s.mark }}
+      <style jsx global>{`
+        @keyframes imageFloat {
+          0%, 100% { transform: translateY(0px) rotateX(4deg) rotateY(-4deg); }
+          50% { transform: translateY(-4px) rotateX(6deg) rotateY(-2deg); }
+        }
+        .matrix-image-wrapper {
+          transform-style: preserve-3d;
+          animation: imageFloat 5s ease-in-out infinite;
+          transition: transform 0.3s ease;
+        }
+        .group:hover .matrix-image-wrapper {
+          transform: scale(1.05) rotateX(8deg) rotateY(0deg);
+        }
+      `}</style>
+
+      <div className="flex items-center group select-none bg-transparent">
+        
+        {/* LOGO / ICON CONTAINER */}
+        <div 
+          className = {`relative flex items-center justify-center shrink-0 ${
+            size === "sm" ? "w-12 h-12 md:w-[165px] md:h-[112px]" : "w-[190px] h-[100px]"
+          }`}
+          style={{ perspective: "1000px" }}
         >
-          {/* Glow effect */}
-          <div
-            className="absolute s3d-glow rounded-full blur-xl"
-            style={{
-              width: s.mark * 0.6,
-              height: s.mark * 0.6,
-              background: isDark
-                ? "radial-gradient(circle, rgba(139,111,255,0.2) 0%, rgba(139,111,255,0) 80%)"
-                : "radial-gradient(circle, rgba(124,92,252,0.15) 0%, rgba(124,92,252,0) 90%)",
+          {/* Cybernetic Neon Wave Layer */}
+          <canvas 
+            ref={canvasRef} 
+            className="absolute pointer-events-none z-0"
+            style={{ 
+              top: "-20px",
+              left: "-20px",
+              width: "calc(100% + 40px)",
+              height: "calc(100% + 40px)"
             }}
           />
 
-          {/* Orbit 1 */}
-          <div className="absolute s3d-o1" style={{ width: s.mark, height: s.mark }}>
-            <svg width={s.mark} height={s.mark} viewBox={`0 0 ${s.mark} ${s.mark}`} className="overflow-visible absolute inset-0">
-              <ellipse
-                cx={s.mark / 2}
-                cy={s.mark / 2}
-                rx={s.mark / 2 - 2}
-                ry={s.mark / 2 - 2}
-                fill="none"
-                stroke={isDark ? "#C4B5FF" : "#B09BFF"}
-                strokeWidth="1"
-                opacity="1"
-                strokeDasharray="3 3"
-              />
-            </svg>
-          </div>
+          {/* Wrapper for Images */}
+          <div className="matrix-image-wrapper z-10 w-full h-full relative flex items-center justify-center">
+            
+            {size === "sm" ? (
+              <>
+                {/* Mobile: Shows ONLY Icon */}
+                <div className="block md:hidden w-14 h-14 relative">
+                  <Image 
+                    src={iconSrc} 
+                    alt="S3D Icon" 
+                    fill
+                    sizes="48px"
+                    className="object-contain"
+                    priority
+                  />
+                </div>
 
-          {/* Orbit 2 */}
-          <div className="absolute s3d-o2" style={{ width: s.mark, height: s.mark }}>
-            <svg width={s.mark} height={s.mark} viewBox={`0 0 ${s.mark} ${s.mark}`} className="overflow-visible absolute inset-0">
-              <ellipse
-                cx={s.mark / 2}
-                cy={s.mark / 2}
-                rx={s.mark / 2 - 2}
-                ry={s.mark / 2 - 2}
-                fill="none"
-                stroke={isDark ? "#C4B5FF" : "#B09BFF"}
-                strokeWidth="1"
-                opacity="1"
-              />
-            </svg>
-          </div>
+                {/* PC/Tablet: Shows Full Logo */}
+                <div className="hidden md:block w-full h-full relative">
+                  <Image 
+                    src={logoSrc} 
+                    alt="S3D Logomark" 
+                    fill
+                    sizes="165px"
+                    className="object-contain"
+                    priority
+                  />
+                </div>
+              </>
+            ) : (
+              // If size is 'md', always show full logo
+              <div className="w-full h-full relative">
+                <Image 
+                  src={logoSrc} 
+                  alt="S3D Logomark" 
+                  fill
+                  sizes="190px"
+                  className="object-contain"
+                  priority
+                />
+              </div>
+            )}
 
-          {/* Orbit 3 */}
-          <div className="absolute s3d-o3" style={{ width: s.mark, height: s.mark }}>
-            <svg width={s.mark} height={s.mark} viewBox={`0 0 ${s.mark} ${s.mark}`} className="overflow-visible absolute inset-0">
-              <ellipse
-                cx={s.mark / 2}
-                cy={s.mark / 2}
-                rx={s.mark / 2 - 2}
-                ry={s.mark / 2 - 2}
-                fill="none"
-                stroke={isDark ? "#C4B5FF" : "#B09BFF"}
-                strokeWidth="1.5"
-                opacity="1"
-              />
-            </svg>
           </div>
-
-          {/* S3D text */}
-          <span
-            className={`absolute font-black z-10 select-none float-animation p-0.5  ${isDark
-                ? "bg-white"
-                : "bg-orange-500"
-              } bg-clip-text text-transparent`}
-            style={{
-              fontSize: s.s3d,
-              fontFamily: "Georgia, serif",
-              letterSpacing: "-2px",
-              lineHeight: 1,
-              filter: isDark ? "drop-shadow(0 0 12px rgba(139,111,255,0.3))" : "none",
-            }}
-          >
-            S3D
-          </span>
         </div>
 
-        {/* Divider - size sm होने पर मोबाइल पर हाइड हो जाएगा */}
-        <div
-          className={`w-px bg-linear-to-b from-transparent via-purple-500 to-transparent ${hideOnMobile}`}
+        {/* CHROME-FINISHED DIVIDER BAR */}
+        {/* <div
+          className={`w-[2px] bg-gradient-to-b from-transparent via-purple-400 to-transparent self-center ${
+            size === "sm" ? "hidden md:block" : "block"
+          }`}
           style={{ height: s.divH, marginLeft: s.divMx, marginRight: s.divMx }}
-        />
+        /> */}
 
-        {/* Wordmark - size sm होने पर मोबाइल पर हाइड हो जाएगा */}
-        <div className={`flex-col justify-center shrink-0 ${hideOnMobile}`}>
-          <span
-            className={`font-bold uppercase tracking-tight transition-all duration-300 ${isDark ? "text-white/90 " : "text-zinc-900 group-hover:text-gray-900"
-              }`}
-            style={{
-              fontFamily: "var(--font-sans), sans-serif",
-              fontSize: s.wm,
-              letterSpacing: "-1px",
-              lineHeight: 1.05,
-            }}
-          >
-            WEB
-          </span>
-          <span
-            className="font-bold uppercase bg-linear-to-r from-violet-800 via-blue-500 to-purple-600 bg-clip-text text-transparent group-hover:scale-105 transition-all duration-300"
-            style={{
-              fontFamily: "var(--font-sans), sans-serif",
-              fontSize: s.wm,
-              letterSpacing: "-1px",
-              lineHeight: 1.05,
-              backgroundSize: '200% auto',
-              animation: 'gradientShift 3s ease infinite',
-            }}
-          >
-            SOLUTIONS
-          </span>
-        </div>
       </div>
     </>
   );

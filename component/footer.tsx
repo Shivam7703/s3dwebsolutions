@@ -58,7 +58,7 @@ export default function Footer() {
   }, []);
 
   return (
-    <footer className="relative w-full overflow-x-clip border-t border-zinc-200/60 dark:border-zinc-800/60 bg-zinc-50/10 dark:bg-black/20 backdrop-blur-md">
+    <footer className="relative w-full overflow-x-clip border-t border-zinc-200/60 dark:border-zinc-800/60 bg-zinc-50/50 dark:bg-black/50 backdrop-blur-md">
       
       <div className="max-w-screen-2xl mx-auto px-6 md:px-12 lg:px-20 pt-16 pb-8">
         
@@ -75,7 +75,7 @@ export default function Footer() {
                 <div className="h-8 w-24 animate-pulse bg-zinc-200 dark:bg-zinc-800 rounded" /> // Skeleton loading state
               )}
             </Link>
-            <p className="text-sm leading-[1.75] text-zinc-700 dark:text-zinc-300 font-light max-w-sm">
+            <p className="text-sm leading-[1.75] text-zinc-700 dark:text-zinc-300 font-light mt-6 max-w-sm">
               We craft blazing-fast websites, apps, and brand identities that convert visitors into loyal customers.
             </p>
             {/* Social Icons */}
@@ -85,7 +85,7 @@ export default function Footer() {
                   key={s.label}
                   href={s.href}
                   aria-label={s.label}
-                  className="w-8 h-8 rounded-lg border border-zinc-200/60 dark:border-zinc-800/60 bg-white/40 dark:bg-zinc-900/40 backdrop-blur-xs flex items-center justify-center text-zinc-300 dark:text-zinc-700 hover:border-orange-400/60 dark:hover:border-violet-500/50 hover:text-orange-500 dark:hover:text-violet-400 transition-all duration-200 hover:scale-105"
+                  className="w-8 h-8 rounded-lg border border-zinc-300/60 dark:border-zinc-700/60 bg-white/40 dark:bg-zinc-900/40 backdrop-blur-xs flex items-center justify-center text-zinc-400 dark:text-zinc-600 hover:border-orange-400/70 dark:hover:border-violet-500/70 hover:text-orange-500 dark:hover:text-violet-500 transition-all duration-200 hover:scale-105"
                 >
                   <s.icon size={13} />
                 </a>
