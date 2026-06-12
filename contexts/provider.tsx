@@ -5,11 +5,13 @@ import { ThemeProvider } from 'next-themes'
 import React from 'react'
 import GalaxyBackground from '@/component/background'  // adjust path as needed
 import Footer from '@/component/footer'
+import PageLoader from '@/component/loader'
 
 function Provider({ children }: { children: React.ReactNode }) {
   return (
     <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
       {/* Fixed galaxy/helix background */}
+      <PageLoader />
       <GalaxyBackground />
 
       {/* Body wrapper — transparent so Three.js shows through */}

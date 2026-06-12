@@ -179,7 +179,7 @@ function DockIcon({ item }: { item: DockItem }) {
         {item.title}
       </span>
       <div
-        className={`sm:w-10 sm:h-10 w-12 h-12 rounded-full flex items-center justify-center text-white text-2xl sm:text-lg shadow-md border border-white/10 transition-all duration-200 transform group-hover:scale-110 active:scale-95 ${item.gradient}`}
+        className={`sm:w-10 sm:h-10 w-11 h-11 rounded-full flex items-center justify-center text-white text-2xl sm:text-lg shadow-md border border-white/10 transition-all duration-200 transform group-hover:scale-110 active:scale-95 ${item.gradient}`}
       >
         {item.icon}
       </div>
