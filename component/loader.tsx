@@ -8,6 +8,7 @@ export default function PageLoader() {
   const [loading, setLoading] = useState(true);
   const [progress, setProgress] = useState(0);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const doneRef = useRef(false);
 
   useEffect(() => {
     let progressInterval: ReturnType<typeof setInterval>;
@@ -20,33 +21,88 @@ export default function PageLoader() {
       });
     }, 80);
 
-    // ── 1. Minimum wait ────────────────────────────────────────
-    const minWait = new Promise<void>((resolve) => setTimeout(resolve, 5000));
+    // Fill to 100% and hide
+    function completLoader() {
+      if (doneRef.current) return;
+      doneRef.current = true;
+      clearInterval(progressInterval);
+
+      let current = 0;
+      setProgress((prev) => { current = prev; return prev; });
+
+      const fillInterval = setInterval(() => {
+        setProgress((prev) => {
+          const next = Math.min(prev + 3, 100);
+          if (next >= 100) {
+            clearInterval(fillInterval);
+            setTimeout(() => setLoading(false), 400);
+          }
+          return next;
+        });
+      }, 16);
+    }
+
+    // ── 1. Minimum wait (3s, reduced from 5s) ─────────────────
+    const minWait = new Promise<void>((resolve) => setTimeout(resolve, 3000));
 
     // ── 2. Window load ─────────────────────────────────────────
     const pageLoad = new Promise<void>((resolve) => {
-      if (document.readyState === "complete") resolve();
-      else window.addEventListener("load", () => resolve(), { once: true });
+      if (document.readyState === "complete") {
+        resolve();
+      } else {
+        window.addEventListener("load", () => resolve(), { once: true });
+        // Fallback: 8s max wait
+        setTimeout(resolve, 8000);
+      }
     });
 
-    // ── 3. DOM images load ─────────────────────────────────────
+    // ── 3. Images load — Next.js safe version ─────────────────
     const imagesLoad = new Promise<void>((resolve) => {
+      // Next.js mein images async load hoti hain
+      // Sirf visible/priority images ka wait karo, timeout ke saath
+      const timeout = setTimeout(resolve, 6000); // max 6s wait
+
       const checkImages = () => {
         const imgs = Array.from(document.querySelectorAll("img"));
-        if (imgs.length === 0) { resolve(); return; }
-        const allLoaded = imgs.every((img) => img.complete && img.naturalHeight !== 0);
-        if (allLoaded) { resolve(); return; }
+        if (imgs.length === 0) {
+          clearTimeout(timeout);
+          resolve();
+          return;
+        }
+
+        // Sirf un images ka wait karo jo viewport mein hain
+        const visibleImgs = imgs.filter((img) => {
+          const rect = img.getBoundingClientRect();
+          return rect.top < window.innerHeight;
+        });
+
+        if (visibleImgs.length === 0) {
+          clearTimeout(timeout);
+          resolve();
+          return;
+        }
+
         let loaded = 0;
-        imgs.forEach((img) => {
-          if (img.complete) {
-            loaded++;
-            if (loaded === imgs.length) resolve();
-            return;
+        const total = visibleImgs.length;
+
+        const onLoad = () => {
+          loaded++;
+          if (loaded >= total) {
+            clearTimeout(timeout);
+            resolve();
           }
-          img.addEventListener("load", () => { loaded++; if (loaded === imgs.length) resolve(); }, { once: true });
-          img.addEventListener("error", () => { loaded++; if (loaded === imgs.length) resolve(); }, { once: true });
+        };
+
+        visibleImgs.forEach((img) => {
+          if (img.complete && img.naturalWidth > 0) {
+            onLoad();
+          } else {
+            img.addEventListener("load", onLoad, { once: true });
+            img.addEventListener("error", onLoad, { once: true });
+          }
         });
       };
+
       if (document.readyState === "loading") {
         document.addEventListener("DOMContentLoaded", checkImages, { once: true });
       } else {
@@ -54,23 +110,13 @@ export default function PageLoader() {
       }
     });
 
-    // ── Jab sab load ho jaye ───────────────────────────────────
-    Promise.all([minWait, pageLoad, imagesLoad]).then(() => {
-      clearInterval(progressInterval);
-      const fillInterval = setInterval(() => {
-        setProgress((prev) => {
-          const next = prev + 2;
-          if (next >= 100) {
-            clearInterval(fillInterval);
-            setTimeout(() => setLoading(false), 4000);
-            return 100;
-          }
-          return next;
-        });
-      }, 20);
-    });
+    // ── Sab complete hone par ──────────────────────────────────
+    Promise.all([minWait, pageLoad, imagesLoad]).then(completLoader);
 
-    // ── Canvas beam animation ──────────────────────────────────
+    // ── Safety net: 10s baad force complete ───────────────────
+    const safetyTimeout = setTimeout(completLoader, 10000);
+
+    // ── Canvas animation ───────────────────────────────────────
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
@@ -88,7 +134,7 @@ export default function PageLoader() {
       y: Math.random() * canvas.height,
       len: Math.random() * 250 + 100,
       speed: Math.random() * 5 + 3,
-      opacity: Math.random() * 0.06 + 0.10, // kam opacity: 0.04 to 0.07
+      opacity: Math.random() * 0.03 + 0.04,
       isVert: Math.random() > 0.5,
     }));
 
@@ -142,6 +188,7 @@ export default function PageLoader() {
 
     return () => {
       clearInterval(progressInterval);
+      clearTimeout(safetyTimeout);
       cancelAnimationFrame(animationFrameId);
       window.removeEventListener("resize", handleResize);
     };
@@ -150,11 +197,10 @@ export default function PageLoader() {
   if (!loading) return null;
 
   return (
-    <div className="fixed inset-0 z-999 flex items-center justify-center overflow-hidden bg-zinc-900">
+    <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black">
       <canvas ref={canvasRef} className="absolute inset-0 pointer-events-none" />
 
       <div className="relative z-10 flex flex-col items-center gap-6">
-        {/* Logo */}
         <div
           className="max-w-80 w-[60vw] h-40 relative"
           style={{ animation: "imageFloat 5s ease-in-out infinite" }}
@@ -162,7 +208,6 @@ export default function PageLoader() {
           <Image src={logoWhite} alt="Logo" fill className="object-contain" priority />
         </div>
 
-        {/* Percentage number */}
         <div
           className="text-violet-300 text-sm font-mono tracking-widest"
           style={{ textShadow: "0 0 10px #7c3aed" }}
@@ -170,21 +215,13 @@ export default function PageLoader() {
           {Math.floor(progress)}%
         </div>
 
-        {/* Progress bar */}
         <div className="max-w-80 w-[60vw] h-2 bg-white/20 rounded-full overflow-hidden">
           <div
-            className="h-full bg-gradient-to-r from-violet-700 via-blue-700 to-purple-600 shadow-[0_0_10px_#DDD6FE] rounded-full transition-all duration-100 ease-out"
+            className="h-full bg-linear-to-r from-violet-700 via-blue-700 to-purple-600 shadow-[0_0_10px_#DDD6FE] rounded-full transition-all duration-100 ease-out"
             style={{ width: `${progress}%` }}
           />
         </div>
       </div>
-
-      <style>{`
-        @keyframes imageFloat {
-          0%, 100% { transform: translateY(0px) rotateX(4deg) rotateY(-4deg); }
-          50% { transform: translateY(-10px) rotateX(6deg) rotateY(-2deg); }
-        }
-      `}</style>
     </div>
   );
 }
