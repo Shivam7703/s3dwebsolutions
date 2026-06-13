@@ -26,7 +26,7 @@ export default function Home() {
       <ServicesSection/>
       <div className="h-[30vh]"/>
 
-      <ProcessSection/>
+      {/* <ProcessSection/>
 <div className="h-[30vh]"/>
 
 <DarkRoomProjectsSection/>
@@ -40,7 +40,7 @@ export default function Home() {
 
 <TeamSection/>
 <div className="h-[30vh]"/>
-      <ContactSection/>
+      <ContactSection/> */}
       <AIChatbot/>
     </main>
   );

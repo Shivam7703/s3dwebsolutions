@@ -45,11 +45,11 @@ canvas {
   animation: shimmer 3.5s infinite;
 }
 
-
 @keyframes imageFloat {
-  0%, 100% { transform: translateY(0px) rotateX(4deg) rotateY(-4deg); }
-  50%       { transform: translateY(-4px) rotateX(6deg) rotateY(-2deg); }
-}
+          0%, 100% { transform: translateY(0px) rotateX(4deg) rotateY(-4deg); }
+          50% { transform: translateY(-10px) rotateX(6deg) rotateY(-2deg); }
+        }
+
 
 @keyframes progress {
   from { width: 0%; }

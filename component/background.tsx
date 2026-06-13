@@ -397,7 +397,7 @@ export default function GalaxyBackground() {
     if (!mountRef.current) return
 
     const isMobile = window.innerWidth < 768
-    const currentCount = isMobile ? 90_000 : 100_000
+    const currentCount = isMobile ? 90_000 : 120_000
 
     const isDark  = resolvedTheme === 'dark'
     const palette = isDark ? LIGHT_COLORS : DARK_COLORS
@@ -437,11 +437,11 @@ export default function GalaxyBackground() {
     // 1. sizeAttenuation: true wapas kar diya taaki depth achhi lage (flat look chala jaye).
     // 2. Size ko bohot micro kar diya (0.003 - 0.005). Ab paas aane par bhi ye ekdum fine particles lagenge.
     const mat = new THREE.PointsMaterial({
-      size: isMobile ? 0.004 : 0.007, 
+      size: isMobile ? 0.004 : 0.004, 
       map: sprite,
       vertexColors: true,
       transparent: true,
-      opacity: 0.85,
+      opacity: isMobile ? 0.004 : 0.004, 
       depthWrite: false,
       sizeAttenuation: true, 
       alphaTest: 0.001,
