@@ -62,7 +62,7 @@ export default function PageLoader() {
           const next = prev + 2;
           if (next >= 100) {
             clearInterval(fillInterval);
-            setTimeout(() => setLoading(false), 5000);
+            setTimeout(() => setLoading(false), 4000);
             return 100;
           }
           return next;
@@ -150,7 +150,7 @@ export default function PageLoader() {
   if (!loading) return null;
 
   return (
-    <div className="fixed inset-0 z-[999] flex items-center justify-center overflow-hidden bg-black">
+    <div className="fixed inset-0 z-999 flex items-center justify-center overflow-hidden bg-zinc-900">
       <canvas ref={canvasRef} className="absolute inset-0 pointer-events-none" />
 
       <div className="relative z-10 flex flex-col items-center gap-6">

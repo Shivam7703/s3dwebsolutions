@@ -22,18 +22,16 @@ function makeCircleTexture(size = 64): THREE.Texture {
 }
 
 // ── Palettes ───────────────────────────────────────────────────────────────
+
 const DARK_COLORS = [
-  0x000000, // Black
-  0x1c1917, // Zinc-800
-  0x52525b, // Zinc-600 (Aapne zinc-600 aur grey dono bola tha, yeh zinc ka hai)
-  0x9a3412, // Orange-800
-  0xfb923c, // Orange-400 (New - bright/pop orange)
-  0xef4444, // Red-500    (New - punchy galaxy red)
-  0xf97316, // Orange-500
-  0xea580c, // Orange-600
-0xc2410c, // Orange-700 (New - thoda deep orange)
-  0x6b7280,  // Grey-500 (Tailwind Gray-500)
-  0xeab308, // Yellow-500 (New - bright cosmic yellow)
+  0xFB923C, // orange-400
+  0xF97316, // orange-500
+  0xea580c, // orange-600
+  0x9a3412, // orange-800
+  0xef4444, // red-500
+  0x27272a, // zinc-800
+  0x52525b, // zinc-600
+  0xca8a04, // yellow-600
 ];
 
 const LIGHT_COLORS = [
@@ -397,7 +395,7 @@ export default function GalaxyBackground() {
     if (!mountRef.current) return
 
     const isMobile = window.innerWidth < 768
-    const currentCount = isMobile ? 90_000 : 120_000
+    const currentCount = isMobile ? 90000 : 140000
 
     const isDark  = resolvedTheme === 'dark'
     const palette = isDark ? LIGHT_COLORS : DARK_COLORS
@@ -408,7 +406,7 @@ export default function GalaxyBackground() {
     
     // CHANGED: Camera ko thoda aur peeche kar diya (Desktop: 5.2, Mobile: 6.5)
     // Isse perspective extreme paas nahi aayega aur elements control me rahenge.
-    camera.position.z = isMobile ? 5.5 : 3.9
+    camera.position.z = isMobile ? 5.5 : 4.0
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
     renderer.setSize(window.innerWidth, window.innerHeight)
@@ -437,11 +435,11 @@ export default function GalaxyBackground() {
     // 1. sizeAttenuation: true wapas kar diya taaki depth achhi lage (flat look chala jaye).
     // 2. Size ko bohot micro kar diya (0.003 - 0.005). Ab paas aane par bhi ye ekdum fine particles lagenge.
     const mat = new THREE.PointsMaterial({
-      size: isMobile ? 0.004 : 0.004, 
+      size: isMobile ? 0.004 : 0.006, 
       map: sprite,
       vertexColors: true,
       transparent: true,
-      opacity: isMobile ? 0.004 : 0.004, 
+      opacity: isMobile ? 0.64 : 0.57, 
       depthWrite: false,
       sizeAttenuation: true, 
       alphaTest: 0.001,
