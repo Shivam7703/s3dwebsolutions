@@ -47,7 +47,7 @@ function Button({ text11 }: { text11: string }) {
   return (
     <span
       className="
-        inline-flex items-center gap-2.5 px-7 py-4 rounded-xl
+        inline-flex items-center gap-2.5 px-7 py-3.25 rounded-xl
         text-sm font-semibold tracking-wide transition-all duration-300 group
         relative overflow-hidden shadow-sm hover:shadow-lg
         
@@ -85,7 +85,7 @@ function ButtonSecondary({
   href: string;
 }) {
   const classes = `
-    inline-flex items-center gap-2.5 px-7 py-4 rounded-xl
+    inline-flex items-center gap-2.5 px-7 py-3 rounded-xl
     text-sm font-semibold tracking-wide transition-all duration-300 group
     relative overflow-hidden border-2 backdrop-blur-sm shadow-sm hover:shadow-lg 
         border-zinc-800 text-zinc-800 hover:text-white
@@ -107,11 +107,11 @@ function ButtonSecondary({
       />
 
 
-      <span className="relative z-10">{text11}</span>
+      <span className="relative capitalize z-10">{text11}</span>
 
       <FaArrowRight
         size={12}
-        className="relative z-10 transition-all duration-300 group-hover:translate-x-1 group-hover:-translate-y-0.5"
+        className="relative z-10 transition-all mt-0.5 duration-300 group-hover:translate-x-1 "
       />
     </>
   );

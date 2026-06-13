@@ -261,28 +261,6 @@ function buildStrangeAttractor(count: number): Float32Array {
   return pos
 }
 
-function buildIcosphere(count: number): Float32Array {
-  const pos = new Float32Array(count * 3)
-  const phi = (1 + Math.sqrt(5)) / 2
-  const raw = [
-    [-1,phi,0],[1,phi,0],[-1,-phi,0],[1,-phi,0],
-    [0,-1,phi],[0,1,phi],[0,-1,-phi],[0,1,-phi],
-    [phi,0,-1],[phi,0,1],[-phi,0,-1],[-phi,0,1]
-  ]
-  const norm = raw.map(v => { const l = Math.hypot(v[0],v[1],v[2]); return [v[0]/l,v[1]/l,v[2]/l] })
-  const radii = [2.5, 1.8, 3.1]
-  for (let i = 0; i < count; i++) {
-    const i3 = i * 3
-    const base = norm[Math.floor(Math.random() * norm.length)]
-    const theta = Math.random() * Math.PI * 2
-    const phi2 = Math.acos(2 * Math.random() - 1)
-    const r = radii[Math.floor(Math.random() * radii.length)] + (Math.random() - 0.5) * 0.08
-    pos[i3]     = r * Math.sin(phi2) * Math.cos(theta)
-    pos[i3 + 1] = r * Math.sin(phi2) * Math.sin(theta)
-    pos[i3 + 2] = r * Math.cos(phi2)
-  }
-  return pos
-}
 
 function buildS3D(count: number): Float32Array {
   const pos = new Float32Array(count * 3)
@@ -335,9 +313,9 @@ function buildScatter(count: number): Float32Array {
 }
 
 const SHAPE_BUILDERS = [
-  buildGalaxy, buildHelix, buildSphere, buildTorusKnot, buildRing, buildCube,
+  buildGalaxy, buildHelix, buildSphere, buildTorusKnot, buildS3D, buildRing, buildCube,
   buildWave, buildButterfly, buildBlackHole, buildHelix,
-  buildInfinityKnot, buildHypercube, buildStrangeAttractor, buildIcosphere, buildS3D, buildHelix,
+  buildInfinityKnot, buildHypercube, buildStrangeAttractor, buildS3D,
 ]
 
 const ROTATIONS: ((e: number, p: THREE.Points) => void)[] = [

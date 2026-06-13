@@ -41,7 +41,7 @@ export default function Home() {
 <TeamSection/>
 <div className="h-[30vh]"/>
       <ContactSection/>
-      <AIChatbot/>
+      {/* <AIChatbot/> */}
     </main>
   );
 }

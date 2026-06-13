@@ -5,6 +5,7 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { Text, Billboard } from "@react-three/drei";
 import { useTheme } from "next-themes";
 import * as THREE from "three";
+import Buttonmain from "../global/button";
 
 /* ─────────────── EXTENDED SERVICES DATA ─────────────── */
 const servicesData = [
@@ -259,9 +260,7 @@ export default function Interactive3DSection() {
           </div>
 
           <div className="mt-5 flex items-center gap-6">
-            <button className="px-6 py-3 rounded-full border border-zinc-950 dark:border-zinc-200 text-sm font-bold tracking-wide text-zinc-950 dark:text-zinc-200 hover:bg-zinc-950 hover:text-white dark:hover:bg-white backdrop-blur-md dark:hover:text-black transition-all duration-300 shadow-sm">
-              Book a consultation
-            </button>
+                    <Buttonmain href={"tel:+918218885483"} text={"book a consultation"} variant={"secondary"}/>
             <button className="text-sm font-bold tracking-wide text-zinc-950 dark:text-zinc-200 hover:text-orange-500 dark:hover:text-orange-400 transition-colors group flex items-center gap-1.5">
               View Strategy Deck 
               <span className="group-hover:translate-x-1 transition-transform duration-200">›</span>
