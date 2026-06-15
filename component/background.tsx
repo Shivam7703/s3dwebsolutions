@@ -373,7 +373,7 @@ export default function GalaxyBackground() {
     if (!mountRef.current) return
 
     const isMobile = window.innerWidth < 768
-    const currentCount = isMobile ? 100000 : 140000
+    const currentCount = isMobile ? 80000 : 120000
 
     const isDark  = resolvedTheme === 'dark'
     const palette = isDark ? LIGHT_COLORS : DARK_COLORS
@@ -384,7 +384,7 @@ export default function GalaxyBackground() {
     
     // CHANGED: Camera ko thoda aur peeche kar diya (Desktop: 5.2, Mobile: 6.5)
     // Isse perspective extreme paas nahi aayega aur elements control me rahenge.
-    camera.position.z = isMobile ? 5.2 : 4.0
+    camera.position.z = isMobile ? 5.1 : 4.0
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
     renderer.setSize(window.innerWidth, window.innerHeight)
@@ -413,11 +413,11 @@ export default function GalaxyBackground() {
     // 1. sizeAttenuation: true wapas kar diya taaki depth achhi lage (flat look chala jaye).
     // 2. Size ko bohot micro kar diya (0.003 - 0.005). Ab paas aane par bhi ye ekdum fine particles lagenge.
     const mat = new THREE.PointsMaterial({
-      size: isMobile ? 0.004 : 0.006, 
+      size: isMobile ? 0.005 : 0.007, 
       map: sprite,
       vertexColors: true,
       transparent: true,
-      opacity: isMobile ? 0.71 : 0.59, 
+      opacity: isMobile ? 0.91 : 0.65, 
       depthWrite: false,
       sizeAttenuation: true, 
       alphaTest: 0.001,
