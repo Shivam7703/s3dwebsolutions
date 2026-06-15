@@ -22,11 +22,11 @@ export default function AboutSection() {
   const paraY = useTransform(scrollYProgress, [0.1, 0.23, 0.5, 0.65], [60, 0, 0, -60]);
 
   // --- Cards staggered exit custom ranges ---
-  const card1Opacity = useTransform(scrollYProgress, [0.12, 0.3, 0.6, 0.7], [0, 1, 1, 0]);
-  const card1Y = useTransform(scrollYProgress, [0.12, 0.3, 0.6, 0.7], [80, 0, 0, -80]);
+  const card1Opacity = useTransform(scrollYProgress, [0.15, 0.3, 0.6, 0.75], [0, 1, 1, 0]);
+  const card1Y = useTransform(scrollYProgress, [0.15, 0.3, 0.6, 0.75], [80, 0, 0, -80]);
 
-  const card2Opacity = useTransform(scrollYProgress, [0.15, 0.33, 0.65, 0.8], [0, 1, 1, 0]);
-  const card2Y = useTransform(scrollYProgress, [0.15, 0.33, 0.65, 0.8], [80, 0, 0, -80]);
+  const card2Opacity = useTransform(scrollYProgress, [0.16, 0.33, 0.65, 0.8], [0, 1, 1, 0]);
+  const card2Y = useTransform(scrollYProgress, [0.16, 0.33, 0.65, 0.8], [80, 0, 0, -80]);
 
   const card3Opacity = useTransform(scrollYProgress, [0.18, 0.38, 0.7, 0.85], [0, 1, 1, 0]);
   const card3Y = useTransform(scrollYProgress, [0.18, 0.38, 0.7, 0.8], [80, 0, 0, -80]);
@@ -95,7 +95,7 @@ export default function AboutSection() {
             <motion.div
               key={index}
               style={{ opacity: card.opacity, y: card.y }}
-              className="group relative p-8 rounded-3xl border transition-all duration-300 backdrop-blur-sm 
+              className="group relative p-8 rounded-3xl border transition-all duration-300 backdrop-blur-lg  
                 bg-white/40 border-zinc-200/80 hover:border-orange-400/50 hover:bg-white/90 shadow-[0_10px_30px_rgba(0,0,0,0.04)]
                 dark:bg-zinc-900/40 dark:border-zinc-800/80 dark:hover:border-violet-500/50 dark:hover:bg-zinc-900/60 dark:shadow-[0_0_30px_rgba(0,0,0,0.3)]"
             >

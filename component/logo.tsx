@@ -110,21 +110,7 @@ export default function Logo({ isDark, size }: LogoProps) {
 
   return (
     <>
-      <style jsx global>{`
-        @keyframes imageFloat {
-          0%, 100% { transform: translateY(0px) rotateX(4deg) rotateY(-4deg); }
-          50% { transform: translateY(-4px) rotateX(6deg) rotateY(-2deg); }
-        }
-        .matrix-image-wrapper {
-          transform-style: preserve-3d;
-          animation: imageFloat 5s ease-in-out infinite;
-          transition: transform 0.3s ease;
-        }
-        .group:hover .matrix-image-wrapper {
-          transform: scale(1.05) rotateX(8deg) rotateY(0deg);
-        }
-      `}</style>
-
+      
       <div className="flex items-center group select-none bg-transparent">
         
         {/* LOGO / ICON CONTAINER */}
@@ -191,14 +177,6 @@ export default function Logo({ isDark, size }: LogoProps) {
 
           </div>
         </div>
-
-        {/* CHROME-FINISHED DIVIDER BAR */}
-        {/* <div
-          className={`w-[2px] bg-gradient-to-b from-transparent via-purple-400 to-transparent self-center ${
-            size === "sm" ? "hidden md:block" : "block"
-          }`}
-          style={{ height: s.divH, marginLeft: s.divMx, marginRight: s.divMx }}
-        /> */}
 
       </div>
     </>

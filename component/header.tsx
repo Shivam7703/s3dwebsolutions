@@ -14,7 +14,7 @@ import { FloatingNavDock } from "./header/floatingdoc";
 
 const navLinks = [
   { label: "Home", href: "/", icon: FaHome },
-  { label: "About", href: "/about", icon: FaUser },
+  { label: "About", href: "/about-us", icon: FaUser },
   { label: "Services", href: "/services", icon: FaServicestack },
   { label: "Projects", href: "/projects", icon: FaFolderOpen },
   { label: "Contact Us", href: "/contact", icon: FaEnvelope },

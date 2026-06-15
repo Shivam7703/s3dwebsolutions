@@ -87,7 +87,7 @@ function ButtonSecondary({
   const classes = `
     inline-flex items-center gap-2.5 px-7 py-3 rounded-xl
     text-sm font-semibold tracking-wide transition-all duration-300 group
-    relative overflow-hidden border-2 backdrop-blur-sm shadow-sm hover:shadow-lg 
+    relative overflow-hidden border backdrop-blur-sm shadow-sm hover:shadow-lg 
         border-zinc-800 text-zinc-800 hover:text-white
     dark:border-zinc-50 dark:text-zinc-50 dark:hover:text-zinc-900
   `;

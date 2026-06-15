@@ -1,10 +1,12 @@
 'use client'
 
+
 import Header from '@/component/header'
 import { ThemeProvider } from 'next-themes'
 import React from 'react'
 import GalaxyBackground from '@/component/background'  // adjust path as needed
 import Footer from '@/component/footer'
+import AIChatbot from '@/component/global/chatboox'
 import PageLoader from '@/component/loader'
 
 function Provider({ children }: { children: React.ReactNode }) {
@@ -25,6 +27,8 @@ function Provider({ children }: { children: React.ReactNode }) {
       >
         <Header />
         {children}
+
+              <AIChatbot/>
         <Footer/>
       </div>
     </ThemeProvider>
