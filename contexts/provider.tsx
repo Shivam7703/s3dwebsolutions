@@ -14,7 +14,7 @@ function Provider({ children }: { children: React.ReactNode }) {
     <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
       {/* Fixed galaxy/helix background */}
       <PageLoader />
-      <GalaxyBackground />
+      {/* <GalaxyBackground /> */}
 
       {/* Body wrapper — transparent so Three.js shows through */}
       <div

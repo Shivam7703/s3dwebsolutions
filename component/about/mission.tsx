@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, useEffect } from "react";
+import  { useRef, useEffect } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import * as THREE from "three";
 
@@ -11,9 +11,8 @@ function ThreeShape({ shape }: { shape: "triangle" | "eye" | "diamond" }) {
 
     const isMobile = window.innerWidth < 768;
 
-// Mobile par dimensions kam rakhein
-  const W = isMobile ? mountRef.current.clientWidth * 0.7 : mountRef.current.clientWidth;
-  const H = isMobile ? 160 : mountRef.current.clientHeight;
+    const W = isMobile ? mountRef.current.clientWidth * 0.7 : mountRef.current.clientWidth;
+    const H = isMobile ? 160 : mountRef.current.clientHeight;
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(W, H);
@@ -51,108 +50,21 @@ function ThreeShape({ shape }: { shape: "triangle" | "eye" | "diamond" }) {
     let mainEdges!: THREE.LineSegments;
     let reflMesh!: THREE.Mesh;
     let reflEdges!: THREE.LineSegments;
-    let eyeGroup: THREE.Group | null = null;
-    let diamondGroup: THREE.Group | null = null;
 
-    if (shape === "triangle") {
-      const geo = new THREE.ConeGeometry(0.7, 1.6, 4, 1);
-      mainMesh = new THREE.Mesh(geo, glassMat(0xf97316));
-      mainEdges = new THREE.LineSegments(new THREE.EdgesGeometry(geo), edgeMat(0xfb923c));
-      scene.add(mainMesh, mainEdges);
+    // Only triangle shape is used now
+    const geo = new THREE.ConeGeometry(0.7, 1.6, 4, 1);
+    mainMesh = new THREE.Mesh(geo, glassMat(0xf97316));
+    mainEdges = new THREE.LineSegments(new THREE.EdgesGeometry(geo), edgeMat(0xfb923c));
+    scene.add(mainMesh, mainEdges);
 
-      const rGeo = new THREE.ConeGeometry(0.7, 1.6, 4, 1);
-      reflMesh = new THREE.Mesh(rGeo, glassMat(0xf97316, 0.22));
-      reflMesh.rotation.x = Math.PI;
-      reflMesh.position.y = -1.65;
-      reflEdges = new THREE.LineSegments(new THREE.EdgesGeometry(rGeo), edgeMat(0xfb923c, 0.18));
-      reflEdges.rotation.x = Math.PI;
-      reflEdges.position.y = -1.65;
-      scene.add(reflMesh, reflEdges);
-
-    } else if (shape === "eye") {
-      eyeGroup = new THREE.Group();
-      scene.add(eyeGroup);
-
-      const curve1 = new THREE.QuadraticBezierCurve3(
-        new THREE.Vector3(-1.1, 0, 0),
-        new THREE.Vector3(0, 0.75, 0),
-        new THREE.Vector3(1.1, 0, 0)
-      );
-      const curve2 = new THREE.QuadraticBezierCurve3(
-        new THREE.Vector3(-1.1, 0, 0),
-        new THREE.Vector3(0, -0.75, 0),
-        new THREE.Vector3(1.1, 0, 0)
-      );
-      const pts1 = curve1.getPoints(60);
-      const pts2 = curve2.getPoints(60);
-      const allPts = [...pts1, ...pts2.slice().reverse()];
-      const shape2D = new THREE.Shape(allPts.map((p) => new THREE.Vector2(p.x, p.y)));
-
-      const extrudeGeo = new THREE.ExtrudeGeometry(shape2D, {
-        depth: 0.22, bevelEnabled: true,
-        bevelThickness: 0.06, bevelSize: 0.04, bevelSegments: 6,
-      });
-      extrudeGeo.center();
-
-      mainMesh = new THREE.Mesh(extrudeGeo, glassMat(0xf97316, 0.75));
-      mainMesh.rotation.z = Math.PI / 2 + Math.PI / 2; // = Math.PI
-      mainEdges = new THREE.LineSegments(new THREE.EdgesGeometry(extrudeGeo), edgeMat(0xfb923c, 0.9));
-      mainEdges.rotation.z = Math.PI / 2 + Math.PI / 2;
-      eyeGroup.add(mainMesh, mainEdges);
-
-      const irisGeo = new THREE.SphereGeometry(0.32, 24, 24);
-      const irisMesh = new THREE.Mesh(irisGeo, glassMat(0xea580c, 0.9));
-      eyeGroup.add(irisMesh);
-
-      const pupilGeo = new THREE.SphereGeometry(0.13, 16, 16);
-      const pupil = new THREE.Mesh(pupilGeo, new THREE.MeshPhysicalMaterial({
-        color: 0x1a0500, metalness: 0.1, roughness: 0.1, transparent: true, opacity: 0.92,
-      }));
-      pupil.position.z = 0.05;
-      eyeGroup.add(pupil);
-
-      const reflGeo = new THREE.ExtrudeGeometry(shape2D, {
-        depth: 0.22, bevelEnabled: true,
-        bevelThickness: 0.06, bevelSize: 0.04, bevelSegments: 6,
-      });
-      reflGeo.center();
-      reflMesh = new THREE.Mesh(reflGeo, glassMat(0xf97316, 0.18));
-      reflMesh.position.y = -1.2;
-      reflMesh.scale.y = -0.3;
-      reflEdges = new THREE.LineSegments(new THREE.EdgesGeometry(reflGeo), edgeMat(0xfb923c, 0.12));
-      reflEdges.position.y = -1.2;
-      reflEdges.scale.y = -0.3;
-      scene.add(reflMesh, reflEdges);
-
-    } else {
-      // Diamond
-      diamondGroup = new THREE.Group();
-      scene.add(diamondGroup);
-
-      const dGeo = new THREE.OctahedronGeometry(0.85, 0);
-      dGeo.scale(1, 1.3, 1);
-      mainMesh = new THREE.Mesh(dGeo, glassMat(0xf97316, 0.78));
-      mainEdges = new THREE.LineSegments(new THREE.EdgesGeometry(dGeo), edgeMat(0xfb923c, 0.95));
-      diamondGroup.add(mainMesh, mainEdges);
-
-      const innerGeo = new THREE.OctahedronGeometry(0.45, 0);
-      innerGeo.scale(1, 1.3, 1);
-      diamondGroup.add(new THREE.Mesh(innerGeo, new THREE.MeshPhysicalMaterial({
-        color: 0xfbbf24, transmission: 0.88, thickness: 1.0, ior: 1.9,
-        roughness: 0.0, transparent: true, opacity: 0.65, clearcoat: 1.0,
-        emissive: 0xf97316, emissiveIntensity: 0.3,
-      })));
-
-      const rGeo = new THREE.OctahedronGeometry(0.85, 0);
-      rGeo.scale(1, 1.3, 1);
-      reflMesh = new THREE.Mesh(rGeo, glassMat(0xf97316, 0.15));
-      reflMesh.position.y = -1.5;
-      reflMesh.scale.y = -0.28;
-      reflEdges = new THREE.LineSegments(new THREE.EdgesGeometry(rGeo), edgeMat(0xfb923c, 0.12));
-      reflEdges.position.y = -1.5;
-      reflEdges.scale.y = -0.28;
-      scene.add(reflMesh, reflEdges);
-    }
+    const rGeo = new THREE.ConeGeometry(0.7, 1.6, 4, 1);
+    reflMesh = new THREE.Mesh(rGeo, glassMat(0xf97316, 0.22));
+    reflMesh.rotation.x = Math.PI;
+    reflMesh.position.y = -1.65;
+    reflEdges = new THREE.LineSegments(new THREE.EdgesGeometry(rGeo), edgeMat(0xfb923c, 0.18));
+    reflEdges.rotation.x = Math.PI;
+    reflEdges.position.y = -1.65;
+    scene.add(reflMesh, reflEdges);
 
     let mx = 0, my = 0;
     const onMouse = (e: MouseEvent) => {
@@ -167,14 +79,12 @@ function ThreeShape({ shape }: { shape: "triangle" | "eye" | "diamond" }) {
     const clock = new THREE.Clock();
     const edgesMat = mainEdges.material as THREE.LineBasicMaterial;
 
-    // Scroll-based zoom — camera Z position
     let targetZ = 5;
     const onScroll = () => {
       const el = mountRef.current?.closest("section");
       if (!el) return;
       const rect = el.getBoundingClientRect();
       const progress = Math.max(0, Math.min(1, 1 - rect.top / window.innerHeight));
-      // zoom in as section scrolls into view: 8 → 4
       targetZ = 8 - progress * 4;
     };
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -183,38 +93,20 @@ function ThreeShape({ shape }: { shape: "triangle" | "eye" | "diamond" }) {
       fid = requestAnimationFrame(animate);
       const t = clock.getElapsedTime();
 
-      // Smooth zoom
-      camera.position.z += (targetZ - camera.position.z) * 0.06;
+      // Smooth zoom with easing
+      camera.position.z += (targetZ - camera.position.z) * 0.04;
 
-      if (shape === "triangle") {
-        mainMesh.rotation.y = t * 0.8;
-        mainEdges.rotation.y = t * 0.8;
-        mainMesh.rotation.x = my * 0.18;
-        mainEdges.rotation.x = my * 0.18;
-        mainMesh.rotation.z = -mx * 0.1;
-        mainEdges.rotation.z = -mx * 0.1;
-        reflMesh.rotation.y = t * 0.8;
-        reflEdges.rotation.y = t * 0.8;
-        const floatY = Math.sin(t * 0.9) * 0.08;
-        mainMesh.position.y = floatY;
-        mainEdges.position.y = floatY;
-
-      } else if (shape === "eye" && eyeGroup) {
-        eyeGroup.rotation.y = t * 0.55;
-        eyeGroup.rotation.x = my * 0.1;
-        eyeGroup.rotation.z = 0;
-        reflMesh.rotation.y = t * 0.55;
-        reflEdges.rotation.y = t * 0.55;
-        eyeGroup.position.y = Math.sin(t * 0.9) * 0.06;
-
-      } else if (shape === "diamond" && diamondGroup) {
-        diamondGroup.rotation.y = t * 0.6;
-        diamondGroup.rotation.x = my * 0.12 + Math.sin(t * 0.4) * 0.1;
-        diamondGroup.rotation.z = mx * 0.08;
-        reflMesh.rotation.y = t * 0.6;
-        reflEdges.rotation.y = t * 0.6;
-        diamondGroup.position.y = Math.sin(t * 0.8) * 0.07;
-      }
+      mainMesh.rotation.y = t * 0.8;
+      mainEdges.rotation.y = t * 0.8;
+      mainMesh.rotation.x = my * 0.18;
+      mainEdges.rotation.x = my * 0.18;
+      mainMesh.rotation.z = -mx * 0.1;
+      mainEdges.rotation.z = -mx * 0.1;
+      reflMesh.rotation.y = t * 0.8;
+      reflEdges.rotation.y = t * 0.8;
+      const floatY = Math.sin(t * 0.9) * 0.08;
+      mainMesh.position.y = floatY;
+      mainEdges.position.y = floatY;
 
       l1.color.setHSL(0.06 + Math.sin(t * 0.3) * 0.04, 1.0, 0.55);
       l2.color.setHSL(0.10 + Math.sin(t * 0.4) * 0.03, 1.0, 0.6);
@@ -260,11 +152,12 @@ function ThreeShape({ shape }: { shape: "triangle" | "eye" | "diamond" }) {
 }
 
 function MissionVisionSection({
-  shape, label, quote,
+  shape, label, quote, showShape = false,
 }: {
   shape: "triangle" | "eye" | "diamond";
   label: string;
   quote: string;
+  showShape?: boolean;
 }) {
   const sectionRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -272,9 +165,12 @@ function MissionVisionSection({
     offset: ["start end", "center center"],
   });
 
-  const scale    = useTransform(scrollYProgress, [0, 1], [0.35, 1]);
-  // const opacity  = useTransform(scrollYProgress, [0, 0.5, 1], [0, 0.3, 1]);
-  const y        = useTransform(scrollYProgress, [0, 1], [100, 0]);
+  const scale = useTransform(scrollYProgress, [0, 1], [0.35, 1], {
+    clamp: true,
+  });
+  const y = useTransform(scrollYProgress, [0, 1], [100, 0], {
+    clamp: true,
+  });
   const filterId = `water-${label.replace(/\s+/g, "-")}`;
 
   return (
@@ -282,7 +178,7 @@ function MissionVisionSection({
       ref={sectionRef}
       className="relative min-h-screen flex flex-col items-center justify-center backdrop-blur-xs p-10 md:p-28 bg-white/20 dark:bg-black/40 transition-colors duration-500 overflow-hidden"
     >
-      <ThreeShape shape={shape} />
+      {showShape && <ThreeShape shape={shape} />}
 
       <motion.p
         initial={{ opacity: 0, y: 20 }}
@@ -295,7 +191,6 @@ function MissionVisionSection({
         <span className="text-orange-400 text-3xl align-bottom leading-none ml-1">"</span>
       </motion.p>
 
-      {/* Heading + shadow — both zoom with scroll */}
       <div className="relative z-0 select-none cursor-default">
         <svg width="0" height="0" className="absolute">
           <defs>
@@ -308,7 +203,6 @@ function MissionVisionSection({
           </defs>
         </svg>
 
-        {/* Main heading — zooms in */}
         <motion.h1
           style={{ scale, y }}
           className="text-[clamp(5.5rem,12vw,10rem)] bg-linear-to-b dark:from-zinc-600 dark:via-zinc-400 dark:to-zinc-200 from-zinc-900 via-zinc-700 to-zinc-500 bg-clip-text text-transparent font-extrabold uppercase tracking-tight leading-none"
@@ -316,11 +210,9 @@ function MissionVisionSection({
           {label}
         </motion.h1>
 
-        {/* Water shadow — also zooms, slightly less */}
         <motion.div
           style={{
             scale,
-            // opacity: useTransform(scrollYProgress, [0, 0.5, 1], [0, 0.15, 0.55]),
             y,
             maskImage: "linear-gradient(to bottom, rgba(0,0,0,0.58) 0%, transparent 95%)",
             WebkitMaskImage: "linear-gradient(to bottom, rgba(0,0,0,0.78) 0%, transparent 95%)",
@@ -349,20 +241,23 @@ export default function Mission() {
           shape="triangle"
           label="OUR MISSION"
           quote="To provide superior quality products and services that customers recommend to family and friends, partners select S3D for their customers and our employees are proud of the product they deliver."
+          showShape={true}
         />
       </div>
-      <div className="sticky top-0 z-20  bg-zinc-50/90 dark:bg-black/90">
+      <div className="sticky top-0 z-20 bg-zinc-50/90 dark:bg-black/90">
         <MissionVisionSection
           shape="eye"
           label="OUR VISION"
           quote="To be the global leader in shaping the future of web-based interactive experiences — where every digital journey is immersive, intuitive, and unforgettable."
+          showShape={false}
         />
       </div>
-      <div className="sticky top-0 z-30  bg-zinc-50/90 dark:bg-black/90">
+      <div className="sticky top-0 z-30 bg-zinc-50/90 dark:bg-black/90">
         <MissionVisionSection
           shape="diamond"
           label="OUR VALUES"
           quote="Innovation, Transparency, and User-Centric Design are not just principles — they are the foundation of every pixel, every line of code, and every solution we deliver."
+          showShape={false}
         />
       </div>
     </div>
