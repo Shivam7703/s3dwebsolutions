@@ -1,6 +1,6 @@
 "use client";
 import  { useRef, useEffect } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import * as THREE from "three";
 
 function ThreeShape({ shape }: { shape: "triangle" | "eye" | "diamond" }) {
@@ -165,12 +165,16 @@ function MissionVisionSection({
     offset: ["start end", "center center"],
   });
 
-  const scale = useTransform(scrollYProgress, [0, 1], [0.35, 1], {
-    clamp: true,
+const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 100, // Kam value = zada smooth/slow
+    damping: 30,    // Higher value = less bounce
+    mass: 1         // Weight feel
   });
-  const y = useTransform(scrollYProgress, [0, 1], [100, 0], {
-    clamp: true,
-  });
+
+  
+  const scale = useTransform(smoothProgress, [0, 1], [0.35, 1], { clamp: true });
+  const y = useTransform(smoothProgress, [0, 1], [100, 0], { clamp: true });
+  
   const filterId = `water-${label.replace(/\s+/g, "-")}`;
 
   return (
