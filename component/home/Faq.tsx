@@ -2,8 +2,6 @@
 
 import React, { useState, useRef } from "react";
 import { motion, AnimatePresence, useInView, useMotionValue, useTransform, useSpring } from "framer-motion";
-import Image from "next/image";
-import { faq } from "@/assets";
 import {
   RiQuestionLine,
   RiAddLine,
@@ -13,6 +11,7 @@ import {
   RiSmartphoneLine,
   RiPaletteLine,
 } from "react-icons/ri";
+import Link from "next/link";
 
 /* ─────────────── DATA ─────────────── */
 const faqData = [
@@ -46,13 +45,109 @@ const faqData = [
   },
 ];
 
-/* ─────────────── 3D TILT IMAGE ─────────────── */
+/* ─────────────── CIRCULAR PROGRESS RING ─────────────── */
+function CircleProgress({
+  percentage,
+  label,
+  size = 132,
+  strokeWidth = 10,
+  delay = 0,
+}: {
+  percentage: number;
+  label: string;
+  size?: number;
+  strokeWidth?: number;
+  delay?: number;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true });
+  const radius = (size - strokeWidth) / 2;
+  const circumference = 2 * Math.PI * radius;
+
+  return (
+    <div ref={ref} className="relative flex items-center justify-center">
+      <svg width={size} height={size} className="-rotate-90">
+        {/* track */}
+        <circle
+          cx={size / 2}
+          cy={size / 2}
+          r={radius}
+          strokeWidth={strokeWidth}
+          fill="none"
+          className="stroke-zinc-200 dark:stroke-zinc-800"
+        />
+        {/* progress */}
+        <motion.circle
+          cx={size / 2}
+          cy={size / 2}
+          r={radius}
+          strokeWidth={strokeWidth}
+          fill="none"
+          strokeLinecap="round"
+          className="stroke-orange-500 dark:stroke-violet-500"
+          strokeDasharray={circumference}
+          initial={{ strokeDashoffset: circumference }}
+          animate={
+            inView
+              ? { strokeDashoffset: circumference - (percentage / 100) * circumference }
+              : {}
+          }
+          transition={{ duration: 1.4, delay, ease: [0.22, 1, 0.36, 1] }}
+        />
+      </svg>
+
+      <div className="absolute flex flex-col items-center">
+        <span className="text-xl sm:text-2xl font-bold text-zinc-800 dark:text-white">
+          {percentage}%
+        </span>
+        <span className="text-[10px] sm:text-[11px] text-zinc-500 dark:text-zinc-400 text-center px-2">
+          {label}
+        </span>
+      </div>
+    </div>
+  );
+}
+
+/* ─────────────── LINEAR PROGRESS BAR ─────────────── */
+function ProgressBar({
+  label,
+  percentage,
+  delay = 0,
+}: {
+  label: string;
+  percentage: number;
+  delay?: number;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true });
+
+  return (
+    <div ref={ref} className="w-full">
+      <div className="flex items-center justify-between mb-2">
+        <span className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">{label}</span>
+        <span className="text-xs font-semibold text-orange-500 dark:text-violet-400">
+          {percentage}%
+        </span>
+      </div>
+      <div className="w-full h-2.5 rounded-full bg-zinc-200 dark:bg-zinc-800 overflow-hidden">
+        <motion.div
+          className="h-full rounded-full bg-linear-to-r from-orange-500 to-red-500 dark:from-violet-600 dark:to-blue-600"
+          initial={{ width: 0 }}
+          animate={inView ? { width: `${percentage}%` } : {}}
+          transition={{ duration: 1.2, delay, ease: [0.22, 1, 0.36, 1] }}
+        />
+      </div>
+    </div>
+  );
+}
+
+/* ─────────────── 3D TILT STATS PANEL (replaces image) ─────────────── */
 function TiltImage() {
   const ref = useRef<HTMLDivElement>(null);
   const x = useMotionValue(0);
   const y = useMotionValue(0);
-  const rotateX = useTransform(y, [-0.5, 0.5], [12, -12]);
-  const rotateY = useTransform(x, [-0.5, 0.5], [-12, 12]);
+  const rotateX = useTransform(y, [-0.5, 0.5], [8, -8]);
+  const rotateY = useTransform(x, [-0.5, 0.5], [-8, 8]);
   const sRotX = useSpring(rotateX, { stiffness: 150, damping: 20 });
   const sRotY = useSpring(rotateY, { stiffness: 150, damping: 20 });
 
@@ -77,33 +172,21 @@ function TiltImage() {
     >
       <motion.div
         style={{ rotateX: sRotX, rotateY: sRotY, transformStyle: "preserve-3d" }}
-        className="relative w-85 h-90 sm:w-100 sm:h-120 p-4"
+        className="relative w-85 sm:w-100 p-6 rounded-3xl border border-zinc-500/30 dark:border-zinc-700/40
+                   bg-white/60 dark:bg-zinc-900/50 backdrop-blur-xl shadow-xl shadow-black/5 dark:shadow-black/30"
       >
- 
-
-
-        {/* Main image */}
-        <div
-          className="absolute z-30 inset-0 rounded-3xl"
-          style={{ transform: "translateZ(0px)" }}
-        >
-          <motion.div
-            animate={{ y: [0, -10, 0] }}
-            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-            className="relative w-full h-full"
-          >
-            <Image
-              src={faq}
-              alt="3D FAQ Visual"
-              fill
-              priority
-              sizes="(max-width: 1024px) 100vw, 50vw"
-              className="object-contain drop-shadow-2xl"
-            />
-          </motion.div>
+        {/* Circular progress rings */}
+        <div className="flex items-center justify-center gap-6 mb-8" style={{ transform: "translateZ(20px)" }}>
+          <CircleProgress percentage={92} label="Satisfaction" delay={0.1} />
+          <CircleProgress percentage={78} label="Performance" delay={0.3} />
         </div>
 
-       
+        {/* Linear progress bars */}
+        <div className="flex flex-col gap-5" style={{ transform: "translateZ(12px)" }}>
+          <ProgressBar label="Project Completion" percentage={85} delay={0.2} />
+          <ProgressBar label="Client Response Rate" percentage={96} delay={0.4} />
+        </div>
+
         {/* Floating badge */}
         <motion.div
           animate={{ y: [0, -6, 0] }}
@@ -117,7 +200,7 @@ function TiltImage() {
           FAQ
         </motion.div>
 
-        {/* Floating stat chips */}
+        {/* Floating stat chip */}
         <motion.div
           animate={{ y: [0, 5, 0] }}
           transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1 }}
@@ -174,7 +257,6 @@ function FAQItem({
           className="w-full flex items-center gap-4 px-5 py-5 text-left group focus:outline-none"
           aria-expanded={isOpen}
         >
-          {/* Icon box */}
           <div
             className={`
               shrink-0 w-9 h-9 rounded-xl flex items-center justify-center text-base
@@ -188,7 +270,6 @@ function FAQItem({
             {item.icon}
           </div>
 
-          {/* Question */}
           <span
             className={`flex-1 text-sm font-semibold tracking-tight transition-colors duration-300 pr-2
               ${isOpen
@@ -199,7 +280,6 @@ function FAQItem({
             {item.question}
           </span>
 
-          {/* Toggle */}
           <motion.div
             animate={{ rotate: isOpen ? 180 : 0, scale: isOpen ? 1.05 : 1 }}
             transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
@@ -225,7 +305,6 @@ function FAQItem({
               transition={{ duration: 0.38, ease: [0.16, 1, 0.3, 1] }}
             >
               <div className="px-5 pb-5 pt-1">
-                {/* divider */}
                 <div className="w-full h-px bg-zinc-400/40 dark:bg-zinc-300/50 mb-4" />
                 <p className="text-[13px] text-zinc-600 dark:text-zinc-300 leading-[1.78] font-normal pl-13">
                   {item.answer}
@@ -247,8 +326,6 @@ export default function FAQSection() {
 
   return (
     <section className="w-full py-24 px-6 md:px-12 lg:px-20 overflow-x-clip">
-
-      {/* ── Header ── */}
       <div ref={headerRef} className="max-w-7xl mx-auto mb-16 flex flex-col sm:flex-row sm:items-end justify-between gap-6">
         <div>
           <motion.span
@@ -278,15 +355,11 @@ export default function FAQSection() {
           transition={{ duration: 0.6, delay: 0.2 }}
           className=" text-zinc-700 dark:text-zinc-300 max-w-xl leading-relaxed"
         >
-          Everything you need to know about our 3D design workflow and collaboration process.           Everything you need to know about our 3D design workflow and collaboration process.
-
+          Everything you need to know about our 3D design workflow and collaboration process.
         </motion.p>
       </div>
 
-      {/* ── Two column grid ── */}
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-
-        {/* LEFT: FAQ list */}
         <div className="flex flex-col gap-3 order-2 lg:order-1">
           {faqData.map((item, i) => (
             <FAQItem
@@ -298,7 +371,6 @@ export default function FAQSection() {
             />
           ))}
 
-          {/* Still have questions CTA */}
           <motion.div
             initial={{ opacity: 0, y: 12 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -317,23 +389,21 @@ export default function FAQSection() {
               <p className="text-[13px] font-medium text-zinc-700 dark:text-zinc-300">Still have questions?</p>
               <p className="text-[12px] text-zinc-400 dark:text-zinc-500">We're happy to help.</p>
             </div>
-            <a
-              href="/contact"
+            
+             <Link href="/contact"
               className="shrink-0 text-[12px] font-semibold px-4 py-2 rounded-lg
                          bg-linear-to-r from-orange-500 to-red-500 text-white
                          dark:from-violet-600 dark:to-blue-600
                          shadow-sm hover:shadow-md hover:scale-105 transition-all duration-200"
             >
               Contact us
-            </a>
+            </Link>
           </motion.div>
         </div>
 
-        {/* RIGHT: 3D tilt image */}
         <div className="w-full h-80 sm:h-105 order-1 lg:order-2">
           <TiltImage />
         </div>
-
       </div>
     </section>
   );

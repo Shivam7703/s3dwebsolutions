@@ -23,15 +23,18 @@ function makeCircleTexture(size = 64): THREE.Texture {
 
 // ── Palettes ───────────────────────────────────────────────────────────────
 
-const DARK_COLORS = [
-  0xFB923C, // orange-400
-  0xF97316, // orange-500
-  0xea580c, // orange-600
-  0x9a3412, // orange-800
+export const DARK_COLORS = [
+  0xf97316, // orange-500
   0xef4444, // red-500
-  0x27272a, // zinc-800
-  0x52525b, // zinc-600
-  0xca8a04, // yellow-600
+  0xea580c, // orange-600
+  0xdc2626, // red-600
+  0xfb923c, // orange-400
+  0xf87171, // red-400
+  0xc2410c, // orange-700
+  0xb91c1c, // red-700
+  0xf4f4f5, // zinc-100
+  0xe4e4e7, // zinc-200
+  0xeab308, // yellow-500
 ];
 
 const LIGHT_COLORS = [
@@ -384,7 +387,7 @@ export default function GalaxyBackground() {
     
     // CHANGED: Camera ko thoda aur peeche kar diya (Desktop: 5.2, Mobile: 6.5)
     // Isse perspective extreme paas nahi aayega aur elements control me rahenge.
-    camera.position.z = isMobile ? 5.1 : 4.0
+    camera.position.z = isMobile ? 4.9 : 4.0
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
     renderer.setSize(window.innerWidth, window.innerHeight)
@@ -413,11 +416,11 @@ export default function GalaxyBackground() {
     // 1. sizeAttenuation: true wapas kar diya taaki depth achhi lage (flat look chala jaye).
     // 2. Size ko bohot micro kar diya (0.003 - 0.005). Ab paas aane par bhi ye ekdum fine particles lagenge.
     const mat = new THREE.PointsMaterial({
-      size: isMobile ? 0.005 : 0.007, 
+      size: isMobile ? 0.006 : 0.009, 
       map: sprite,
       vertexColors: true,
       transparent: true,
-      opacity: isMobile ? 0.91 : 0.65, 
+      opacity: isMobile ? 0.8 : 0.7, 
       depthWrite: false,
       sizeAttenuation: true, 
       alphaTest: 0.001,
@@ -467,7 +470,7 @@ export default function GalaxyBackground() {
     const onResize = () => {
       const currentMobileState = window.innerWidth < 768
       camera.position.z = currentMobileState ? 5.5 : 3.5
-      mat.size = currentMobileState ? 0.003 : 0.005
+      mat.size = currentMobileState ? 0.004 : 0.005
       
       camera.aspect = window.innerWidth / window.innerHeight
       camera.updateProjectionMatrix()

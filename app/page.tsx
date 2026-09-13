@@ -19,11 +19,11 @@ export default function Home() {
 
       {/* transition gap — galaxy morphs during this space */}
 
-      <AboutSection />
+      {/* <AboutSection />
       <div className="h-[30vh]"/>
 
       <ServicesSection/>
-      <div className="h-[30vh]"/>
+      <div className="h-[30vh]"/> */}
 
       <ProcessSection/>
 <div className="h-[30vh]"/>
