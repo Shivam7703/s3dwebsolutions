@@ -10,17 +10,17 @@ import { pro1, pro2, pro3, pro4, pro5, pro6, pro7, pro8 } from "@/assets/index";
 
 /* ─────────────── SHOWCASE DATA TRACKS ─────────────── */
 const track1 = [
-  { img: pro1, title: "Brand & Marketing", user: "@sanny.verkissen", link: "/p1" },
-  { img: pro2, title: "Gamified Experiences", user: "@rluzmotion", link: "/p2" },
-  { img: pro3, title: "3D Mockups", user: "@tanyadizone", link: "/p3" },
-  { img: pro4, title: "3D Logos", user: "@samborek", link: "/p4" },
+  { img: pro1, title: "Brand & Marketing", user: "@sanny.verkissen", link: "/projects" },
+  { img: pro2, title: "Gamified Experiences", user: "@rluzmotion", link: "/projects" },
+  { img: pro3, title: "3D Mockups", user: "@tanyadizone", link: "/projects" },
+  { img: pro4, title: "3D Logos", user: "@samborek", link: "/projects" },
 ];
 
 const track2 = [
-  { img: pro5, title: "Animated Characters", user: "@aximoris", link: "/p5" },
-  { img: pro6, title: "Speeder Game", user: "@vladkolokolnikov", link: "/p6" },
-  { img: pro7, title: "Industrial & Manufacturing", user: "@gleb124", link: "/p7" },
-  { img: pro8, title: "3D Icons", user: "@adriandaniluk", link: "/p8" },
+  { img: pro5, title: "Animated Characters", user: "@aximoris", link: "/projects" },
+  { img: pro6, title: "Speeder Game", user: "@vladkolokolnikov", link: "/projects" },
+  { img: pro7, title: "Industrial & Manufacturing", user: "@gleb124", link: "/projects" },
+  { img: pro8, title: "3D Icons", user: "@adriandaniluk", link: "/projects" },
 ];
 
 /* ─────────────── LIGHT/DARK ADAPTIVE PROJECT CARD ─────────────── */

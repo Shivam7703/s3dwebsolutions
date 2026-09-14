@@ -27,13 +27,13 @@ export const DARK_COLORS = [
   0xf97316, // orange-500
   0xef4444, // red-500
   0xea580c, // orange-600
-  0xdc2626, // red-600
-  0xfb923c, // orange-400
-  0xf87171, // red-400
+  0x52525b, // zinc-600
+  0xfb923c, // orange-600
+  0xfacc15, // yellow-600
   0xc2410c, // orange-700
   0xb91c1c, // red-700
-  0xf4f4f5, // zinc-100
-  0xe4e4e7, // zinc-200
+  0x18181b, // zinc-900
+  0x27272a, // zinc-800
   0xeab308, // yellow-500
 ];
 
@@ -164,19 +164,19 @@ function buildWave(count: number): Float32Array {
   return pos
 }
 
-function buildButterfly(count: number): Float32Array {
-  const pos = new Float32Array(count * 3)
-  for (let i = 0; i < count; i++) {
-    const i3 = i * 3
-    const t = (i / count) * Math.PI * 32
-    const r = Math.exp(Math.cos(t)) - 2.2 * Math.cos(4 * t) + Math.pow(Math.sin(t / 12), 5)
-    const scale = 1.05
-    pos[i3]     = r * Math.cos(t) * scale + (Math.random() - 0.5) * 0.035
-    pos[i3 + 1] = r * Math.sin(t) * scale * 0.65 + (Math.random() - 0.5) * 0.035
-    pos[i3 + 2] = Math.sin(t * 3) * 0.55 + Math.cos(t * 1.5) * 0.3 + (Math.random() - 0.5) * 0.035
-  }
-  return pos
-}
+// function buildButterfly(count: number): Float32Array {
+//   const pos = new Float32Array(count * 3)
+//   for (let i = 0; i < count; i++) {
+//     const i3 = i * 3
+//     const t = (i / count) * Math.PI * 32
+//     const r = Math.exp(Math.cos(t)) - 2.2 * Math.cos(4 * t) + Math.pow(Math.sin(t / 12), 5)
+//     const scale = 1.05
+//     pos[i3]     = r * Math.cos(t) * scale + (Math.random() - 0.5) * 0.035
+//     pos[i3 + 1] = r * Math.sin(t) * scale * 0.65 + (Math.random() - 0.5) * 0.035
+//     pos[i3 + 2] = Math.sin(t * 3) * 0.55 + Math.cos(t * 1.5) * 0.3 + (Math.random() - 0.5) * 0.035
+//   }
+//   return pos
+// }
 
 function buildBlackHole(count: number): Float32Array {
   const pos = new Float32Array(count * 3)
@@ -317,7 +317,7 @@ function buildScatter(count: number): Float32Array {
 
 const SHAPE_BUILDERS = [
   buildGalaxy, buildHelix, buildSphere, buildTorusKnot, buildS3D, buildRing, buildCube,
-  buildWave, buildButterfly, buildBlackHole, buildHelix,
+  buildWave,  buildBlackHole, buildHelix,
   buildInfinityKnot, buildHypercube, buildStrangeAttractor, buildS3D,
 ]
 
