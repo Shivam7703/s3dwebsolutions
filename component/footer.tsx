@@ -38,7 +38,7 @@ const socials = [
 ];
 
 const contact = [
-  { icon: RiMailLine,  value: "hello@s3dwebsolutions.com", href: "mailto:hello@s3dwebsolutions.com" },
+  { icon: RiMailLine,  value: "shivamg7703@gmail.com", href: "mailto:shivamg7703@gmail.com" },
   { icon: RiPhoneLine, value: "+91 82188 85483",             href: "tel:+918218885483" },
   { icon: RiMapPinLine,value: "Gurugram, Haryana, Bharat",       href: "#" },
 ];

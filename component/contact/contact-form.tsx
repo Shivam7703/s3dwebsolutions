@@ -229,8 +229,8 @@ function LeftPanel() {
         <InfoCard
           icon={<RiMailLine />}
           label="Email us"
-          value="hello@s3dwebsolutions.com"
-          href="mailto:hello@s3dwebsolutions.com"
+          value="shivamg7703@gmail.com"
+          href="mailto:shivamg7703@gmail.com"
           delay={0.1}
         />
         <InfoCard
