@@ -40,7 +40,7 @@ const socials = [
 const contact = [
   { icon: RiMailLine,  value: "hello@s3dwebsolutions.com", href: "mailto:hello@s3dwebsolutions.com" },
   { icon: RiPhoneLine, value: "+91 82188 85483",             href: "tel:+918218885483" },
-  { icon: RiMapPinLine,value: "Varanasi, U.P., India",       href: "#" },
+  { icon: RiMapPinLine,value: "Gurugram, Haryana, Bharat",       href: "#" },
 ];
 
 /* ─────────────── MAIN FOOTER ─────────────── */
@@ -143,9 +143,7 @@ export default function Footer() {
         {/* Bottom Bar Footer Details */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-[12px] text-zinc-300 dark:text-zinc-700 flex items-center gap-1.5 text-center sm:text-left">
-            © {new Date().getFullYear()} S3D Web Solutions. Made with
-            <FaHeart size={10} className="text-red-400 dark:text-red-500 animate-pulse" />
-            in Varanasi.
+            © {new Date().getFullYear()} S3D Web Solutions. All rights reserved.
           </p>
 
           {/* Privacy, Terms & Native Back to Top */}

@@ -243,7 +243,7 @@ function LeftPanel() {
         <InfoCard
           icon={<RiMapPinLine />}
           label="Location"
-          value="Varanasi, Uttar Pradesh, India"
+          value="Gurugram, Haryana, Bharat"
           delay={0.26}
         />
       </motion.div>
